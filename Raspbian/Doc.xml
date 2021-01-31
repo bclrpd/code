@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Data>
+  <Year ID="2021">
+    <Mes ID="01">
+      <Dia ID="31">
+        <MANANA>
+          <Hora/>
+          <Tardanza/>
+          <Excuza/>
+        </MANANA>
+        <TARDE>
+          <Hora>18:12:14</Hora>
+          <Tardanza>True</Tardanza>
+          <Excuza>g6yh6uj6uh</Excuza>
+        </TARDE>
+      </Dia>
+    </Mes>
+  </Year>
+</Data>
