@@ -43,7 +43,7 @@ while true ; do
 			
 			. Current.ini
 			
-			if [ $(date --date "$HoraAbrio" +%H%M) -gt 0835 ] ;then
+			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0840 ] ;then
 				TEXT="LA HORA DE ABRIR LA BANCA ES A LAS 8:30 am"
 				TEXT2="Vemos pertinente recordarle que debe cumplir el horario de trabajo\n estipulado por las normas de la empresa, ya  que, de no poseer una\n justificación correcta, podría ameritar la aplicación de sanciones."
 				convert -size 1080x200 xc:powderblue -font helvetica -fill blue -gravity north -pointsize 40 -annotate +0+20 "$TEXT" \
@@ -69,7 +69,7 @@ while true ; do
 				echo "TIEMPO=0" > Data.ini
 				echo "Banca=${Banca} Turno=1 Hora=$HoraAbrio Tardanza=True Razon=$Razon" | mutt -s "Banca ${Banca}" -- bancalarapidamail@gmail.com
 				
-			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 0835 ] ;then
+			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 0840 ] ;then
 				xmlstarlet ed -L \
 				-u /Data/Year[@ID=$Year]/Mes[@ID=$Mes]/Dia[@ID=$Dia]/MANANA/Hora -v "$HoraAbrio" \
 				-u /Data/Year[@ID=$Year]/Mes[@ID=$Mes]/Dia[@ID=$Dia]/MANANA/Tardanza -v "False" \
@@ -84,7 +84,7 @@ while true ; do
 		
 			. Current.ini
 		
-			if [ $(date --date "$HoraAbrio" +%H%M) -gt 1707 ] ;then
+			if [ $(date --date "$HoraAbrio" +%H%M) -ge 1710 ] ;then
 				TEXT="LA HORA DE ABRIR LA BANCA ES A LAS 5:00 p.m"
 				TEXT2="Vemos pertinente recordarle que debe cumplir el horario de trabajo\n estipulado por las normas de la empresa, ya  que, de no poseer una\n justificación correcta, podría ameritar la aplicación de sanciones."
 				convert -size 1080x200 xc:azure -font helvetica -fill blue -gravity north -pointsize 40 -annotate +0+20 "$TEXT" \
@@ -110,7 +110,7 @@ while true ; do
 				echo "TIEMPO=0" > Data.ini
 				echo "Banca=${Banca} Turno=2 Hora=$HoraAbrio Tardanza=True Razon=$Razon" | mutt -s "Banca ${Banca}" -- bancalarapidamail@gmail.com
 				
-			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 1707 ] ;then
+			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 1710 ] ;then
 				xmlstarlet ed -L \
 				-u /Data/Year[@ID=$Year]/Mes[@ID=$Mes]/Dia[@ID=$Dia]/TARDE/Hora -v "$HoraAbrio" \
 				-u /Data/Year[@ID=$Year]/Mes[@ID=$Mes]/Dia[@ID=$Dia]/TARDE/Tardanza -v "False" \
