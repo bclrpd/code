@@ -27,17 +27,18 @@ SERIAL="$Z0$Z1$Z2$Z3$Z4$Z5$Z6$Z7$Z8$Z9$Z10$Z11"
 . Current.ini
 [ $? -ne 0 ] && echo "Version=0" > Current.ini && . Current.ini
 VERSION=${Version}
-
-if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Current | grep $SERIAL)" ] ; then
+if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)" ] ; then
 	LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Current | grep $SERIAL)
 	NEW_VERSION=${LINE##*=}
 	BANCA=${LINE%%=*}
+	T_BANCA=${BANCA%%_*}
+	N_BANCA=${BANCA##*_}
+	
 	if [ $VERSION -lt $NEW_VERSION ] ; then
 		wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Update.sh -q -O- | tr -d '\r' >Update.sh
 		if [ $? -eq 0 ] ; then
-			bash Update.sh $NEW_VERSION $BANCA &
+			bash Update.sh $NEW_VERSION $N_BANCA $T_BANCA &
 		fi
 	fi
 fi
 exit
-
