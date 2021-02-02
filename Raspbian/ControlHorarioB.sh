@@ -43,7 +43,7 @@ while true ; do
 			. Current.ini
 			
 			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0810 ] ;then
-				TEXT="LA HORA DE ABRIR LA BANCA ES A LAS 8:30 am"
+				TEXT="LA HORA DE ABRIR LA BANCA ES A LAS 8:00 am"
 				TEXT2="Vemos pertinente recordarle que debe cumplir el horario de trabajo\n estipulado por las normas de la empresa, ya  que, de no poseer una\n justificación correcta, podría ameritar la aplicación de sanciones."
 				convert -size 1080x200 xc:powderblue -font helvetica -fill blue -gravity north -pointsize 40 -annotate +0+20 "$TEXT" \
 				-font arial -fill blue -pointsize 28 -gravity north -annotate +0+75 "$TEXT2" Imagen.jpg
