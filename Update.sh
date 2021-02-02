@@ -18,5 +18,5 @@ do
 		[ $? -eq 0 ] || X=1 
 	fi
 done
-[ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini #&& rm Update.sh
+[ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && rm Update.sh
 exit
