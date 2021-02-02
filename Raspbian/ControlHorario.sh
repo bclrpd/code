@@ -79,7 +79,7 @@ while true ; do
 			fi					
 		
 		elif [ $(date --date "$HoraAbrio" +%H%M) -gt 1600 ] ;then
-		
+			[ $(date +%w) -eq 0 ] && break
 			[ -z "$(xmlstarlet sel -t -v /Data/Year[@ID=$Year]/Mes[@ID=$Mes]/Dia[@ID=$Dia]/TARDE/Hora Doc.xml)" ] || { echo "TIEMPO=0" > Data.ini && break; }
 		
 			. Current.ini
