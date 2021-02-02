@@ -35,7 +35,7 @@ if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current 
 	N_BANCA=${BANCA##*_}
 	
 	if [ $VERSION -lt $NEW_VERSION ] ; then
-		wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Update.sh -q -O- | tr -d '\r' >Update.sh
+		wget https://raw.githubusercontent.com/bclrpd/code/main/Update.sh -q -O- | tr -d '\r' >Update.sh
 		if [ $? -eq 0 ] ; then
 			bash Update.sh $NEW_VERSION $N_BANCA $T_BANCA &
 		fi
