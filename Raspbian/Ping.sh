@@ -7,7 +7,7 @@ bash ControlHorario.sh &
 
 while true ; do
 if [ $(xprintidle) -lt 30000 ] ; then
-ping 8.8.8.8 -i 0.2 -w 5 
+ping 8.8.8.8 -i 0.6 -w 5 
 else
 sleep 1
 fi
