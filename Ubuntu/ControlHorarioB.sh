@@ -6,8 +6,8 @@ cd "$(dirname "$0")"
 [ $? -ne 0 ] && echo "TIEMPO=0" > Data.ini && . Data.ini
 ACUMULADO=${TIEMPO}
 while true ; do
-	TIME=$(cat </dev/tcp/time.nist.gov/13)
-	if [ $? -eq 0 ] ; then
+	TIME="$(cat </dev/tcp/time.nist.gov/13)"
+	if [[ "$TIME" == *"UTC(NIST)"* ]] ; then
 		Segundos=$(($ACUMULADO + $(</proc/uptime awk '{print int ($1)}')))
 		Array=($TIME)
 		Hora=$(date --date "${Array[2]} today - 240 minutes" +%T)
@@ -85,4 +85,5 @@ while true ; do
 echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
 sleep 2
 done
+exit
 
