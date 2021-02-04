@@ -127,3 +127,5 @@ while true ; do
 echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
 sleep 2
 done
+exit
+
