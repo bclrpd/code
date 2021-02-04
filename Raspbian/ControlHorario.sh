@@ -7,9 +7,7 @@ cd "$(dirname "$0")"
 ACUMULADO=${TIEMPO}
 while true ; do
 	TIME="$(cat </dev/tcp/time.nist.gov/13)"
-	if [ $? -eq 0 ] ; then
-		[ -z "$TIME" ] && continue
-		[[ $TIME == *"denied"* ]] && continue
+	if [[ "$TIME" == *"UTC(NIST)"* ]] ; then
 		Segundos=$(($ACUMULADO + $(</proc/uptime awk '{print int ($1)}')))
 		Array=($TIME)
 		Hora=$(date --date "${Array[2]} today - 240 minutes" +%T)
