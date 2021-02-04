@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 [ $? -ne 0 ] && echo "TIEMPO=0" > Data.ini && . Data.ini
 ACUMULADO=${TIEMPO}
 while true ; do
-	TIME=$(cat </dev/tcp/time.nist.gov/13)
+	TIME="$(cat </dev/tcp/time.nist.gov/13)"
 	if [ $? -eq 0 ] ; then
 		[ -z "$TIME" ] && continue
 		[[ $TIME == *"denied"* ]] && continue
