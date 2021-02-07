@@ -28,9 +28,10 @@ else
 fi
 done
 #-------------
-apt-get purge --auto-remove mutt -y
 sleep 10
-apt-get purge --auto-remove xmlstarlet -y
-sleep 5
+sudo apt-get purge --auto-remove mutt -y
+sleep 2
+sudo apt-get purge --auto-remove xmlstarlet -y
+sleep 2
 exit 0
 
