@@ -9,7 +9,7 @@ PUNTUAL=231354200 #(SI o NO)
 RAZON=430411897
 URL="https://docs.google.com/forms/d/e/1FAIpQLScaQs1b41h3mIVMsn6wNscjKLzeGVMXSc7xgD4W3VTh-mvtKw/formResponse"
 X=$(xdpyinfo | awk '/dimensions/{print $2}' | awk -F "x" '{print $1}')
-PX=$((($X-1078)/2))
+PX=$((($X-1024)/2))
 #[ -f Registro ] || echo "  Fecha    HORA    T       Razon" > Registro
 [ -f Registro ] || echo "02/08/2021_1=08:30:51|OK" > Registro
 [ -f Data.ini ] || echo "TIEMPO=0" > Data.ini
@@ -29,15 +29,15 @@ while true ; do
 			[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
 			
 			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0840 ] ;then
-				TEXT="<span font='32' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
+				TEXT="<span font='30' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
 <span bgcolor='aqua'>8:30 am</span></sub></big></big></big></b>  \n</span> \
 <span font='22' foreground='black' >Vemos pertinente recordarle que debe cumplir el horario \
 de trabajo estipulado por las normas de la empresa, ya que, de no poseer una justificación correcta, \
 podría ameritar la aplicación de sanciones.\n</span>"
 
-				convert  -font times -background white -size 1060 -define pango:justify=true pango:"$TEXT" Imagen.jpg
+				convert  -font times -background white -size 1024 -define pango:justify=true pango:"$TEXT" Imagen.jpg
 							
-				Mensage=$(yad --image="Imagen.jpg"  --geometry 1060x200+$PX+30 --image-on-top \
+				Mensage=$(yad --image="Imagen.jpg"  --geometry 1024x200+$PX+30 --image-on-top \
 				--skip-taskbar --undecorated --on-top \
 				--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
 				--button=gtk-ok  --buttons-layout=center )
@@ -73,15 +73,15 @@ podría ameritar la aplicación de sanciones.\n</span>"
 			[ -z "$(grep "$Fecha"_2 -w < Registro)" ] || break
 			
 			if [ $(date --date "$HoraAbrio" +%H%M) -ge 1710 ] ;then
-				TEXT="<span font='31.5' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
+				TEXT="<span font='30' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
 <span bgcolor='aqua'>5:00 pm</span></sub></big></big></big></b>  \n</span> \
 <span font='22' foreground='black' >Vemos pertinente recordarle que debe cumplir el horario \
 de trabajo estipulado por las normas de la empresa, ya que, de no poseer una justificación correcta, \
 podría ameritar la aplicación de sanciones.\n</span>"
 
-				convert  -font times -background white -size 1060 -define pango:justify=true pango:"$TEXT" Imagen.jpg
+				convert  -font times -background white -size 1024 -define pango:justify=true pango:"$TEXT" Imagen.jpg
 							
-				Mensage=$(yad --image="Imagen.jpg"  --geometry 1060x200+$PX+30 --image-on-top \
+				Mensage=$(yad --image="Imagen.jpg"  --geometry 1024x200+$PX+30 --image-on-top \
 				--skip-taskbar --undecorated --on-top \
 				--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
 				--button=gtk-ok  --buttons-layout=center )
