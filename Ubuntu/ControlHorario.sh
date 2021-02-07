@@ -35,9 +35,9 @@ while true ; do
 de trabajo estipulado por las normas de la empresa, ya que, de no poseer una justificación correcta, \
 podría ameritar la aplicación de sanciones.\n</span>"
 
-				convert  -font times -background white -size 1080 -define pango:justify=true pango:"$TEXT" Imagen.jpg
+				convert  -font times -background white -size 1060 -define pango:justify=true pango:"$TEXT" Imagen.jpg
 							
-				Mensage=$(yad --image="Imagen.jpg"  --geometry 1080x200+$PX+30 --image-on-top \
+				Mensage=$(yad --image="Imagen.jpg"  --geometry 1060x200+$PX+30 --image-on-top \
 				--skip-taskbar --undecorated --on-top \
 				--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
 				--button=gtk-ok  --buttons-layout=center )
@@ -79,9 +79,9 @@ podría ameritar la aplicación de sanciones.\n</span>"
 de trabajo estipulado por las normas de la empresa, ya que, de no poseer una justificación correcta, \
 podría ameritar la aplicación de sanciones.\n</span>"
 
-				convert  -font times -background white -size 1080 -define pango:justify=true pango:"$TEXT" Imagen.jpg
+				convert  -font times -background white -size 1060 -define pango:justify=true pango:"$TEXT" Imagen.jpg
 							
-				Mensage=$(yad --image="Imagen.jpg"  --geometry 1080x200+$PX+30 --image-on-top \
+				Mensage=$(yad --image="Imagen.jpg"  --geometry 1060x200+$PX+30 --image-on-top \
 				--skip-taskbar --undecorated --on-top \
 				--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
 				--button=gtk-ok  --buttons-layout=center )
