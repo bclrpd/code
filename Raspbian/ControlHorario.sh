@@ -10,7 +10,8 @@ RAZON=430411897
 URL="https://docs.google.com/forms/d/e/1FAIpQLScaQs1b41h3mIVMsn6wNscjKLzeGVMXSc7xgD4W3VTh-mvtKw/formResponse"
 X=$(xdpyinfo | awk '/dimensions/{print $2}' | awk -F "x" '{print $1}')
 PX=$((($X-1078)/2))
-[ -f Registro ] || echo "  Fecha    HORA    T       Razon" > Registro
+#[ -f Registro ] || echo "  Fecha    HORA    T       Razon" > Registro
+[ -f Registro ] || echo "02/08/2021_1=08:30:51|OK" > Registro
 [ -f Data.ini ] || echo "TIEMPO=0" > Data.ini
 . Data.ini
 ACUMULADO=${TIEMPO}
