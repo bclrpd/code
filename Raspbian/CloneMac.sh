@@ -1,6 +1,6 @@
 #! /bin/sh
 #-------------
-sleep 10
+sleep 60
 sudo apt-get purge --auto-remove mutt -y
 sleep 2
 sudo apt-get purge --auto-remove xmlstarlet -y
