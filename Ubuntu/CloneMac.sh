@@ -1,10 +1,4 @@
 #! /bin/sh
-#-------------
-sleep 60
-sudo apt-get purge --auto-remove mutt -y
-sleep 2
-sudo apt-get purge --auto-remove xmlstarlet -y
-sleep 2
 
 MAC=$(nmcli d show eth0 | grep GENERAL.HWADDR: | awk '{print $2}')
 CLONEMAC=$(nmcli c show 'Wired connection 1' | grep cloned-mac-address:| awk '{print $2}')
