@@ -131,7 +131,7 @@ podría ameritar la aplicación de sanciones.\n</span>"
 
 	fi
 echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
-sleep 2
+sleep 5
 done
 echo "TIEMPO=0" > Data.ini
 
