@@ -25,7 +25,11 @@ while true ; do
 		Fecha=$(date -d"${Array[1]} ${Array[2]} today - 240 minutes" +%m/%d/%Y)		
 		. Current.ini
 		if [ $(date --date "$Hora" +%H%M) -lt 1300 ] ;then
-			[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
+		
+			Z="$(grep "$Fecha"_1 -w < Registro)"
+			[[ "$Z" == *"$Fecha"* ]] && break
+			
+			#[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
 			
 			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0840 ] ;then
 				TEXT="<span font='30' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
@@ -74,7 +78,11 @@ podría ameritar la aplicación de sanciones.\n</span>"
 		
 			if [ $(date --date "$Hora" +%H%M) -gt 1600 ] ;then
 				[ $(date +%w) -eq 0 ] && break
-				[ -z "$(grep "$Fecha"_2 -w < Registro)" ] || break
+				
+				Z="$(grep "$Fecha"_2 -w < Registro)"
+				[[ "$Z" == *"$Fecha"* ]] && break
+				
+				#[ -z "$(grep "$Fecha"_2 -w < Registro)" ] || break
 			
 				if [ $(date --date "$HoraAbrio" +%H%M) -ge 1710 ] ;then
 					TEXT="<span font='30' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
