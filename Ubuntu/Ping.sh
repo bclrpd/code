@@ -1,4 +1,5 @@
 #! /bin/bash
+sleep 10
 cd "$(dirname "$0")"
 
 bash Inicio.sh &
