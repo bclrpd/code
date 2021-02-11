@@ -1,6 +1,6 @@
 #! /bin/bash
 cd "$(dirname "$0")"
-
+sleep 10
 FECHA=1094993008
 BANCA=1475362797
 TURNO=1178772187 #("Entrada 1" o "Entrada 2")
