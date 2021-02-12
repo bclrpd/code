@@ -17,6 +17,11 @@ PX=$((($X-1024)/2))
 ACUMULADO=${TIEMPO}
 
 while true ; do
+
+	until ping -nq -c3 8.8.8.8; do
+		echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
+		sleep 1
+	done
 	TIME="$(cat </dev/tcp/time.nist.gov/13)"
 	if [[ "$TIME" == *"UTC(NIST)"* ]] ; then
 		Segundos=$(($ACUMULADO + $(</proc/uptime awk '{print int ($1)}')))
