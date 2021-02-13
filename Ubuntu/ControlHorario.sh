@@ -28,7 +28,7 @@ while true ; do
 		HoraAbrio=$(date --date "- $Segundos seconds" +%T)
 		Fecha=$(date +%m/%d/%Y)		
 		. Current.ini
-		if [ $(date --date "$Hora" +%H%M) -lt 1500 ] ;then
+		if [ $(date --date "$Hora" +%H%M) -lt 1300 ] ;then
 		
 			Z="$(grep "$Fecha"_1 -w < Registro)"
 			[[ "$Z" == *"$Fecha"* ]] && break
