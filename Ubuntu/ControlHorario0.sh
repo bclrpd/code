@@ -1,7 +1,5 @@
 #! /bin/bash
-#sleep 10
 cd "$(dirname "$0")"
-
 FECHA=1094993008
 BANCA=1475362797
 TURNO=1178772187 #("Entrada 1" o "Entrada 2")
@@ -17,21 +15,27 @@ PX=$((($X-1024)/2))
 ACUMULADO=${TIEMPO}
 
 while true ; do
-	
-	until ntpstat; do
+
+	until ping -nq -c3 8.8.8.8; do
 		echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
-		sleep 2
+		sleep 1
+	done
+	while [ -z "$TIME" ]; do
+		echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
+		TIME="$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
+		sleep 1
 	done
 
 		Segundos=$(($ACUMULADO + $(</proc/uptime awk '{print int ($1)}')))
-		Hora=$(date +%T)
-		HoraAbrio=$(date --date "- $Segundos seconds" +%T)
-		Fecha=$(date +%m/%d/%Y)		
+		Hora=$(date -d "$TIME" +%T)
+		Fecha=$(date -d "$TIME" +%m/%d/%Y)
+		HoraAbrio=$(date -d "$TIME - $Segundos seconds" +%T)			
 		. Current.ini
 		if [ $(date --date "$Hora" +%H%M) -lt 1300 ] ;then
 		
 			Z="$(grep "$Fecha"_1 -w < Registro)"
 			[[ "$Z" == *"$Fecha"* ]] && break
+			
 			#[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
 			
 			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0840 ] ;then
@@ -139,10 +143,10 @@ podría ameritar la aplicación de sanciones.\n</span>"
 			fi
 			
 		fi
-
-
-
-
+	
+	
+	
+	
 echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
 sleep 5
 done
