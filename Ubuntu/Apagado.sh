@@ -4,11 +4,9 @@ while true ; do
 sleep 10
 
 until ping -nq -c3 8.8.8.8; do
-	echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
 	sleep 1
 done
 while [ -z "$TIME" ]; do
-	echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
 	TIME="$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
 	sleep 1
 done
