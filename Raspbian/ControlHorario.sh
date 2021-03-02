@@ -30,7 +30,6 @@ while true ; do
 		Hora=$(date -d "$TIME" +%T)
 		Fecha=$(date -d "$TIME" +%m/%d/%Y)
 		HoraAbrio=$(date -d "$TIME - $Segundos seconds" +%T)			
-		. Current.ini
 		if [ $(date --date "$Hora" +%H%M) -lt 1300 ] ;then
 		
 			Z="$(grep "$Fecha"_1 -w < Registro)"
@@ -38,23 +37,41 @@ while true ; do
 			
 			[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
 			
-			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0840 ] ;then
+			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0855 ] ;then
 				TEXT="<span font='30' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
-<span bgcolor='aqua'>8:30 am</span></sub></big></big></big></b>  \n</span> \
+<span bgcolor='aqua'>8:45 am</span></sub></big></big></big></b>  \n</span> \
 <span font='22' foreground='black' >Vemos pertinente recordarle que debe cumplir el horario \
 de trabajo estipulado por las normas de la empresa, ya que, de no poseer una justificación correcta, \
 podría ameritar la aplicación de sanciones.\n</span>"
 
 				convert  -font times -background white -size 1024 -define pango:justify=true pango:"$TEXT" Imagen.jpg
-							
-				Mensage=$(yad --image="Imagen.jpg"  --geometry 1024x200+$PX+30 --image-on-top \
-				--skip-taskbar --undecorated --on-top \
-				--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
-				--button=gtk-ok  --buttons-layout=center )
-				Razon=$(echo $Mensage | awk -F "|" '{print $2}')
 				
-				echo "$Fecha""_1=$HoraAbrio|TARDE|$Razon" >> Registro
-				echo "TIEMPO=0" > Data.ini
+				Mostrar=False
+				for i in {1..4} ; do
+					Z2="$(grep "$(date -d "$TIME - $i days" +%m/%d/%Y)"_1 -w < Registro)"
+					[[ "$Z2" == *"TARDE"* ]] && Mostrar=True
+				done
+
+				if [ "$Mostrar" = "True" ] ; then
+					Mensage=$(yad --image="Imagen.jpg"  --geometry 1024x200+$PX+30 --image-on-top \
+					--skip-taskbar --undecorated --on-top \
+					--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
+					--button=gtk-ok  --buttons-layout=center )
+					Razon=$(echo $Mensage | awk -F "|" '{print $2}')
+				
+					echo "$Fecha""_1=$HoraAbrio|TARDE|$Razon" >> Registro
+					echo "TIEMPO=0" > Data.ini
+				
+					TEXT3="<span size='25600' rise='-20480' foreground='blue' >Te exhortamos cumplir con el horario correspondiente y evitar incurrir en faltas en futuras ocasiones.</span>"
+					convert -background linen -size 650 -define pango:justify=true pango:"$TEXT3" Imagen2.jpg
+					yad --image="Imagen2.jpg" --no-buttons --undecorated --skip-taskbar --center  --timeout=7 --on-top	
+				
+				else
+					Razon="No Aplica"
+					echo "$Fecha""_1=$HoraAbrio|TARDE|$Razon" >> Registro
+					echo "TIEMPO=0" > Data.ini
+				fi
+										
 				curl $URL -d ifq \
 				-d "entry.$FECHA=$(date --date $Fecha +%d/%m/%Y)" \
 				-d "entry.$BANCA=${Banca}" \
@@ -62,14 +79,10 @@ podría ameritar la aplicación de sanciones.\n</span>"
 				-d "entry.$HORA=$HoraAbrio" \
 				-d "entry.$PUNTUAL=NO" \
 				-d "entry.$RAZON=$Razon"
-				
-				TEXT3="<span size='25600' rise='-20480' foreground='blue' >Te exhortamos cumplir con el horario correspondiente y evitar incurrir en faltas en futuras ocasiones.</span>"
-				convert -background linen -size 650 -define pango:justify=true pango:"$TEXT3" Imagen2.jpg
-				yad --image="Imagen2.jpg" --no-buttons --undecorated --skip-taskbar --center  --timeout=7 --on-top	
-				
+						
 				break			
 				
-			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 0840 ] ;then
+			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 0855 ] ;then
 				echo "$Fecha""_1=$HoraAbrio|OK" >> Registro	
 				echo "TIEMPO=0" > Data.ini
 				curl $URL -d ifq \
@@ -99,15 +112,33 @@ de trabajo estipulado por las normas de la empresa, ya que, de no poseer una jus
 podría ameritar la aplicación de sanciones.\n</span>"
 
 					convert  -font times -background white -size 1024 -define pango:justify=true pango:"$TEXT" Imagen.jpg
-							
-					Mensage=$(yad --image="Imagen.jpg"  --geometry 1024x200+$PX+30 --image-on-top \
-					--skip-taskbar --undecorated --on-top \
-					--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
-					--button=gtk-ok  --buttons-layout=center )
-					Razon=$(echo $Mensage | awk -F "|" '{print $2}')
+					
+					Mostrar=False
+					for i in {1..4} ; do
+						Z2="$(grep "$(date -d "$TIME - $i days" +%m/%d/%Y)"_2 -w < Registro)"
+						[[ "$Z2" == *"TARDE"* ]] && Mostrar=True
+					done
+
+					if [ "$Mostrar" = "True" ] ; then
+						Mensage=$(yad --image="Imagen.jpg"  --geometry 1024x200+$PX+30 --image-on-top \
+						--skip-taskbar --undecorated --on-top \
+						--form --field="<span font='time 15' foreground='blue'><b>Puedes escribir el motivo de la tardanza aqui.</b></span> ":LBL --field="" \
+						--button=gtk-ok  --buttons-layout=center )
+						Razon=$(echo $Mensage | awk -F "|" '{print $2}')
 	
-					echo "$Fecha""_2=$HoraAbrio|TARDE|$Razon" >> Registro
-					echo "TIEMPO=0" > Data.ini	
+						echo "$Fecha""_2=$HoraAbrio|TARDE|$Razon" >> Registro
+						echo "TIEMPO=0" > Data.ini	
+					
+						TEXT3="<span size='25600' rise='-20480' foreground='blue' >Te exhortamos cumplir con el horario correspondiente y evitar incurrir en faltas en futuras ocasiones.</span>"
+						convert -background linen -size 650 -define pango:justify=true pango:"$TEXT3" Imagen2.jpg
+						yad --image="Imagen2.jpg" --no-buttons --undecorated --skip-taskbar --center  --timeout=7 --on-top
+					
+					else
+						Razon="No Aplica"
+						echo "$Fecha""_2=$HoraAbrio|TARDE|$Razon" >> Registro
+						echo "TIEMPO=0" > Data.ini	
+					fi
+								
 					curl $URL -d ifq \
 					-d "entry.$FECHA=$(date --date $Fecha +%d/%m/%Y)" \
 					-d "entry.$BANCA=${Banca}" \
@@ -115,11 +146,7 @@ podría ameritar la aplicación de sanciones.\n</span>"
 					-d "entry.$HORA=$HoraAbrio" \
 					-d "entry.$PUNTUAL=NO" \
 					-d "entry.$RAZON=$Razon"
-					
-					TEXT3="<span size='25600' rise='-20480' foreground='blue' >Te exhortamos cumplir con el horario correspondiente y evitar incurrir en faltas en futuras ocasiones.</span>"
-					convert -background linen -size 650 -define pango:justify=true pango:"$TEXT3" Imagen2.jpg
-					yad --image="Imagen2.jpg" --no-buttons --undecorated --skip-taskbar --center  --timeout=7 --on-top
-					
+									
 					break
 				
 				elif [ $(date --date "$HoraAbrio" +%H%M) -lt 1710 ] ;then
@@ -144,12 +171,10 @@ podría ameritar la aplicación de sanciones.\n</span>"
 			
 		fi
 	
-	
-	
-	
 echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
 sleep 5
 done
 echo "TIEMPO=0" > Data.ini
 
 exit
+
