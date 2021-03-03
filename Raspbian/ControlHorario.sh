@@ -29,7 +29,8 @@ while true ; do
 		Segundos=$(($ACUMULADO + $(</proc/uptime awk '{print int ($1)}')))
 		Hora=$(date -d "$TIME" +%T)
 		Fecha=$(date -d "$TIME" +%m/%d/%Y)
-		HoraAbrio=$(date -d "$TIME - $Segundos seconds" +%T)			
+		HoraAbrio=$(date -d "$TIME - $Segundos seconds" +%T)	
+		. Current.ini	
 		if [ $(date --date "$Hora" +%H%M) -lt 1300 ] ;then
 		
 			Z="$(grep "$Fecha"_1 -w < Registro)"
@@ -177,4 +178,3 @@ done
 echo "TIEMPO=0" > Data.ini
 
 exit
-
