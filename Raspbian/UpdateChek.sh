@@ -24,8 +24,8 @@ Z8=${C1[$(( 0x${MAC2[8]}))]}
 Z11=${C1[$(( 0x${MAC2[11]}))]}
 
 SERIAL="$Z0$Z1$Z2$Z3$Z4$Z5$Z6$Z7$Z8$Z9$Z10$Z11"
+[ -f Current.ini ] || echo "Version=0" > Current.ini
 . Current.ini
-[ $? -ne 0 ] && echo "Version=0" > Current.ini && . Current.ini
 VERSION=${Version}
 if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)" ] ; then
 	LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)
