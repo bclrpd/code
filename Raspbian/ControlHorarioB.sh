@@ -36,7 +36,7 @@ while true ; do
 			Z="$(grep "$Fecha"_1 -w < Registro)"
 			[[ "$Z" == *"$Fecha"* ]] && break
 			
-			#[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
+			[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
 			
 			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0810 ] ;then
 				TEXT="<span font='30' foreground='red' ><b>LA HORA DE ABRIR LA BANCA ES A LAS <big><big><big><sub>\
