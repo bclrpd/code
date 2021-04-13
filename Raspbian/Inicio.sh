@@ -29,7 +29,7 @@ for i in {0..4} ; do
 	ping 8.8.8.8 -i 0.5 -w 5
 	if [ $? -eq 0 ] ;then
 		bash UpdateChek.sh &
-		(/usr/bin/java -jar /home/ventas/lotobet/Lotobet.jar)&
+		(/usr/bin/java -jar /home/ventas/lotobet/LotobetClientExe.jar)&
 		echo "ESTADO=Conectado" > Estado.ini
 		echo "REINICIO=0" >> Estado.ini	
 		echo "75" ; sleep 1
