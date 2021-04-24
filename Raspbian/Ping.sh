@@ -1,6 +1,6 @@
 #! /bin/bash
 #eliminar esta linea
-sed -i 's/.*desktop_fg=#.*/desktop_fg=#f684097b097b/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+sed -i 's/.*desktop_fg=#.*/desktop_fg=#000000000000/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
 #eliminar
 
 
