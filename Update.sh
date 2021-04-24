@@ -2,9 +2,9 @@
 cd "$(dirname "$0")"
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 if [ "$3" == "A" ] ; then
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh)
+	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh)
 else
-	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh PingB.sh ShutdownButton.sh)
+	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh PingB.sh ShutdownButton.sh UpdateChek.sh)
 fi
 
 X=0
@@ -22,9 +22,6 @@ done
 
 
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png
-echo "aaaaaa"
-[ $? -eq 0 ] && sed -i 's/.*desktop_fg=#.*/desktop_fg=#f684097b097b/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
-echo "bbbb"
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg
 [ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 
