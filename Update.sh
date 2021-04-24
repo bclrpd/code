@@ -23,7 +23,7 @@ done
 
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png
 echo "aaaaaa"
-eval sed -i 's/.*desktop_fg=#.*/desktop_fg=#f684097b097b/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+[ $? -eq 0 ] && sed -i 's/.*desktop_fg=#.*/desktop_fg=#f684097b097b/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
 echo "bbbb"
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg
 [ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
