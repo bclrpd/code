@@ -29,14 +29,15 @@ for i in {0..4} ; do
 	ping 8.8.8.8 -i 0.5 -w 5
 	if [ $? -eq 0 ] ;then
 		bash UpdateChek.sh &
-		(/usr/bin/java -jar /home/ventas/lotobet/Lotobet.jar)&
+		#(/usr/bin/java -jar /home/ventas/lotobet/Lotobet.jar)&
+		(/usr/bin/java -jar /home/ventas/lotobet/LotobetClientExe.jar)&
 		echo "ESTADO=Conectado" > Estado.ini
 		echo "REINICIO=0" >> Estado.ini	
 		echo "75" ; sleep 1
 		echo "# CONEXION EXITOSA" ; sleep 1
 		echo "90"
 		echo "# FINALIZANDO" ; sleep 1	
-		sleep 3
+		#sleep 3
 		(gnome-calculator)&
 		sleep 2
 		if [ "$(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}')" == "wifi" ] || [ "$(nmcli d |grep "conectado" -w | awk 'NR==2 {print $2}')" == "wifi" ] ;then
