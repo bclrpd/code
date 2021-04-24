@@ -27,6 +27,7 @@ SERIAL="$Z0$Z1$Z2$Z3$Z4$Z5$Z6$Z7$Z8$Z9$Z10$Z11"
 [ -f Current.ini ] || echo "Version=0" > Current.ini
 . Current.ini
 VERSION=${Version}
+[ -z "$VERSION" ] && VERSION=0
 if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)" ] ; then
 	LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)
 	NEW_VERSION=${LINE##*=}
