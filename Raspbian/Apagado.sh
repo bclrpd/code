@@ -7,7 +7,7 @@ while true ; do
 	
 	sleep 300
 	
-	if [ $(date +%w) -ne 0 ] && [ $(date +%H%M) -lt 1505 ] ; then
+	if [ $(date +%w) -ne 0 ] ; then
 		shutdown 15:10
 		break
 	else
