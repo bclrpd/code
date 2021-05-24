@@ -62,3 +62,38 @@ except:
     print(sys.exc_info())
 #driver.close()
 driver.quit()
+
+
+
+try:
+    #driver.get("https://www.google.com/")
+    driver.get("http://192.168.8.1")
+    print ("1")
+except:
+    print(sys.exc_info())
+
+#time.sleep(3)
+
+try:
+    element = driver.find_element_by_id("username")
+    element.send_keys("admin")
+    element.send_keys(Keys.ENTER)
+    element = driver.find_element_by_id("password")
+    element.send_keys("19762212")
+    element.send_keys(Keys.ENTER)
+    print ("2") 
+    driver.find_element_by_id("link_login_nocard").click()
+    print ("3")
+    driver.find_element_by_id("menu_settings").click()
+    print ("4")
+    driver.find_element_by_id("system").click()
+    print ("5")
+    driver.find_element_by_id("reboot").click()
+    print ("6")
+    driver.find_element_by_id("reboot_apply_button").click()
+    print ("7")
+    driver.find_element_by_id("pop_confirm").click()
+    time.sleep(5)
+    print ("8")
+except:
+    print(sys.exc_info())
