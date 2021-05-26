@@ -65,10 +65,10 @@ if [ -z $(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}') ] ; then	 #Revi
 			nmcli r wifi on
 			sleep 5
 			if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ; then #Revisa si aun no hay conexion
-				nmcli c up "ConexiÃ³n inalÃ¡mbrica 1" &
+				nmcli c up "Conexión inalámbrica 1" &
 			fi
 		else
-			nmcli c up "ConexiÃ³n inalÃ¡mbrica 1" &
+			nmcli c up "Conexión inalámbrica 1" &
 		fi
 	fi
 fi
