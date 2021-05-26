@@ -6,7 +6,7 @@ sed -i 's/.*desktop_fg=#.*/desktop_fg=#000000000000/' ~/.config/pcmanfm/LXDE-pi/
 
 cd "$(dirname "$0")"
 xmodmap -e "pointer = 1 2 0"
-bash Descargar.sh
+bash Descargar.sh &
 bash Inicio.sh &
 bash Apagado.sh &
 bash ControlHorario.sh &
