@@ -1,99 +1,65 @@
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.utils import ChromeType
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import time
 import sys
+import base64
 
 options = webdriver.ChromeOptions()
-#options.headless = True
 options.add_argument("--headless")
 options.add_argument('--ignore-certificate-errors')
 options.add_argument("--test-type")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-setuid-sandbox")
+options.binary_location = "/home/ventas/.Auto/chromium-browser"
 
-driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(),options=options)
-#driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
-#driver = webdriver.Chrome()
+driver = webdriver.Chrome(executable_path="/home/ventas/.Auto/chromedriver", options=options)
 driver.implicitly_wait(10)
-try:
-    #driver.get("https://www.google.com/")
-    driver.get("http://192.168.1.1")
-    print ("1")
-except:
-    print(sys.exc_info())
 
-#time.sleep(3)
+if sys.argv[1] == "Huawei":
+    try:
+        driver.get("http://192.168.1.1")
+        print ("1")
+        element = driver.find_element_by_xpath("//*[@id='login']/form/div/form/div[2]/input")
+        element.send_keys(base64.b64decode("MTk3NjIyMTI=").decode("utf-8"))
+        element.send_keys(Keys.ENTER)
+        print ("2")
+        driver.find_element_by_xpath("//*[@id='app']/div[2]/ul/li[4]/span").click()
+        print ("3")
+        driver.find_element_by_xpath("//*[@id='sideMenu']/ul/div[2]/li/span").click()
+        print ("4")
+        driver.find_element_by_xpath("//*[@id='reboot']/form/button/span").click()
+        print ("5")
+        driver.find_element_by_xpath("//*[@id='no-ie-9']/body/div[2]/div/div[3]/button[2]/span").click()
+        print ("6")
+    except:
+        print(sys.exc_info())
+    driver.quit()
 
-try:
-    element = driver.find_element_by_xpath("//*[@id='login']/form/div/form/div[2]/input")
-    element.send_keys("19762212")
-    element.send_keys(Keys.ENTER)
-    print ("2")
-except:
-    print(sys.exc_info())
-
-try:  
-    driver.find_element_by_xpath("//*[@id='app']/div[2]/ul/li[4]/span").click()
-    print ("3")
-except:
-    print(sys.exc_info())
-    
-try:
-    driver.find_element_by_xpath("//*[@id='sideMenu']/ul/div[2]/li/span").click()
-    print ("4")
-except:
-    print(sys.exc_info())
-    
-try:
-    driver.find_element_by_xpath("//*[@id='reboot']/form/button/span").click()
-    print ("5")
-except:
-    print(sys.exc_info())
-
-try:
-    driver.find_element_by_xpath("//*[@id='no-ie-9']/body/div[2]/div/div[3]/button[2]/span").click()
-    print ("6")
-except:
-    print(sys.exc_info())
-#driver.close()
-driver.quit()
-
-
-
-try:
-    #driver.get("https://www.google.com/")
-    driver.get("http://192.168.8.1")
-    print ("1")
-except:
-    print(sys.exc_info())
-
-#time.sleep(3)
-
-try:
-    element = driver.find_element_by_id("username")
-    element.send_keys("admin")
-    element.send_keys(Keys.ENTER)
-    element = driver.find_element_by_id("password")
-    element.send_keys("19762212")
-    element.send_keys(Keys.ENTER)
-    print ("2") 
-    driver.find_element_by_id("link_login_nocard").click()
-    print ("3")
-    driver.find_element_by_id("menu_settings").click()
-    print ("4")
-    driver.find_element_by_id("system").click()
-    print ("5")
-    driver.find_element_by_id("reboot").click()
-    print ("6")
-    driver.find_element_by_id("reboot_apply_button").click()
-    print ("7")
-    driver.find_element_by_id("pop_confirm").click()
-    time.sleep(5)
-    print ("8")
-except:
-    print(sys.exc_info())
+elif sys.argv[1] == "Alcatel":
+    try:
+        driver.get("http://192.168.8.1")
+        print ("1")
+        element = driver.find_element_by_id("username")
+        element.send_keys(base64.b64decode("YWRtaW4=").decode("utf-8"))
+        element.send_keys(Keys.ENTER)
+        element = driver.find_element_by_id("password")
+        element.send_keys(base64.b64decode("MTk3NjIyMTI=").decode("utf-8"))
+        element.send_keys(Keys.ENTER)
+        print ("2") 
+        driver.find_element_by_id("link_login_nocard").click()
+        print ("3")
+        driver.find_element_by_id("menu_settings").click()
+        print ("4")
+        driver.find_element_by_id("system").click()
+        print ("5")
+        driver.find_element_by_id("reboot").click()
+        print ("6")
+        driver.find_element_by_id("reboot_apply_button").click()
+        print ("7")
+        driver.find_element_by_id("pop_confirm").click()
+        time.sleep(5)
+        print ("8")
+    except:
+        print(sys.exc_info())
+    driver.quit()
