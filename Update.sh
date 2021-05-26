@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 if [ "$3" == "A" ] ; then
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py)
+	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py chromium-browser)
 else
 	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh PingB.sh ShutdownButton.sh UpdateChek.sh Reboot.py)
 fi
@@ -24,5 +24,12 @@ done
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg
 [ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
+
+#--------Descargar chromedriver
+if [ "$(du /home/ventas/.Auto/chromedriver -b | awk 'NR==1 {print $1}')" == "11431612" ] ;then
+	echo "Ok"
+else
+	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/chromedriver -O-
+fi
 
 exit
