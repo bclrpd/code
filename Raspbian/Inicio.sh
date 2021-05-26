@@ -2,6 +2,59 @@
 cd "$(dirname "$0")"
 numlockx on
 
+Reinicar_Modem(){
+
+if ping 192.168.1.1 -i 0.5 -w 5 ; then
+	python3 /home/ventas/.Auto/Reboot.py Huawei &
+	(
+		for i in {1..50} ; do
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"             	REINICIANDO MODEM " 
+		echo "$(( i * 2))"
+		sleep 1
+		done
+	) | 
+	zenity --progress \
+	--title="BANCA LA RAPIDA" \
+	--text="" \
+	--width="300" \
+	--height="100" \
+	--percentage=0 \
+	--auto-close \
+	--auto-kill \
+	--no-cancel
+
+	systemctl reboot -i
+	
+elif ping 192.168.8.1 -i 0.5 -w 5 ; then
+	python3 /home/ventas/.Auto/Reboot.py Alcatel &
+	(
+		for i in {1..50} ; do
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"             	REINICIANDO MODEM " 
+		echo "$(( i * 2))"
+		sleep 1
+		done
+	) | 
+	zenity --progress \
+	--title="BANCA LA RAPIDA" \
+	--text="" \
+	--width="300" \
+	--height="100" \
+	--percentage=0 \
+	--auto-close \
+	--auto-kill \
+	--no-cancel
+
+	systemctl reboot -i
+else
+	zenity --error --text="NO HAY CONEXION A INTERNET\nLLAMA A TU SUPERVISOR" \
+	--width="300" --height="100" --timeout=60
+	systemctl reboot -i
+fi
+}
+
+
 if [ -z $(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}') ] ; then	 #Revisa si no hay conexion
 	if [ $(nmcli n) = "disabled" ] ;then #Revisa si Networking esta desactivado, si es asi lo activa 
 		nmcli n on
@@ -12,10 +65,10 @@ if [ -z $(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}') ] ; then	 #Revi
 			nmcli r wifi on
 			sleep 5
 			if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ; then #Revisa si aun no hay conexion
-				nmcli c up "Conexión inalámbrica 1" &
+				nmcli c up "ConexiÃ³n inalÃ¡mbrica 1" &
 			fi
 		else
-			nmcli c up "Conexión inalámbrica 1" &
+			nmcli c up "ConexiÃ³n inalÃ¡mbrica 1" &
 		fi
 	fi
 fi
@@ -57,16 +110,16 @@ for i in {0..4} ; do
 		fi
 		echo "ESTADO=Desconectado" > Estado.ini
 		echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
-		echo "# ERROR DE CONEXCION \n" \
-		"NUEVO INTENTO EN 5 S" ;sleep 1
-		echo "# ERROR DE CONEXCION \n" \
-		"NUEVO INTENTO EN 4 S" ;sleep 1
-		echo "# ERROR DE CONEXCION \n" \
-		"NUEVO INTENTO EN 3 S" ;sleep 1
-		echo "# ERROR DE CONEXCION \n" \
-		"NUEVO INTENTO EN 2 S" ;sleep 1
-		echo "# ERROR DE CONEXCION \n" \
-		"NUEVO INTENTO EN 1 S" ;sleep 1
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"              NUEVO INTENTO EN 5 S " ;sleep 1
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"              NUEVO INTENTO EN 4 S " ;sleep 1
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"              NUEVO INTENTO EN 3 S " ;sleep 1
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"              NUEVO INTENTO EN 2 S " ;sleep 1
+		echo "#.		ERROR DE CONEXION 		.\n" \
+		"              NUEVO INTENTO EN 1 S " ;sleep 1
 
 	fi
 done
@@ -98,8 +151,8 @@ if [ ${ESTADO} = "Conectado" ] ;then
 			else
 				echo "ESTADO=Desconectado" > Estado.ini
 				echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
-				zenity --info --text="Se Perdio La Conexion a Internet\n La Computadora Se Reiniciara En 10 Segundos" \
-				--width="300" --height="100" --timeout=10
+				zenity --info --text="Se Perdio La Conexion a Internet\nLa Computadora Se Reiniciara En 10 Segundos" \
+				--width="400" --height="100" --timeout=10
 				reboot
 				break
 			fi
@@ -110,25 +163,33 @@ if [ ${ESTADO} = "Conectado" ] ;then
 			else
 				echo "ESTADO=Desconectado" > Estado.ini
 				echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
-				zenity --info --text="Modem NO Detectado\n La Computadora Se Reiniciara En 10 Segundos" \
-				--width="300" --height="100" --timeout=10
+				zenity --error --text="MODEM NO DETECTADO\nLA COMPUTADORA SE REINICIARA" \
+				 --width="300" --height="100" --timeout=10
 				reboot
 				break
 			fi
 		fi
 	done
-elif [ $REINICIO -gt 3 ] ; then
+elif [ $REINICIO -gt 2 ] ; then
 	if [ $(nmcli n c) = "full" ] ; then
-		zenity --info --text="NO SE PUDO ESTABLECER CONEXION A INTERNET\n LLAMA A TU SUPERVISOR"
+		if (($REINICIO % 3 == 0 )); then
+			Reinicar_Modem
+		else
+			zenity --error --text="NO HAY CONEXION A INTERNET\nLLAMA A TU SUPERVISOR" \
+			 --width="300" --height="100" --timeout=60
+			systemctl reboot -i
+		fi
+		
 	else
-		zenity --info --text="MODEM NO DETECTADO\n LLAMA A TU SUPERVISOR"
+		zenity --error --text="MODEM NO DETECTADO\nLLAMA A TU SUPERVISOR" \
+		 --width="300" --height="100" --timeout=60
 	fi
 elif [ $(nmcli n c) = "full" ] ; then
-	zenity --info --text="NO SE PUDO ESTABLECER CONEXION A INTERNET\n LA COMPUTADORA SE REINICIARA" \
-	--timeout=10
-	reboot
+	zenity --error --text="NO HAY CONEXION A INTERNET\nLA COMPUTADORA SE REINICIARA" \
+	 --width="300" --height="100" --timeout=10
+	systemctl reboot -i
 else 
-	zenity --info --text="MODEM NO DETECTADO\n LA COMPUTADORA SE REINICIARA" --timeout=10
-	reboot 
+	zenity --error --text="MODEM NO DETECTADO\nLA COMPUTADORA SE REINICIARA" \
+	--width="300" --height="100" --timeout=10
+	systemctl reboot -i 
 fi
-
