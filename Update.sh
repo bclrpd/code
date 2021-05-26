@@ -26,14 +26,14 @@ wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -
 [ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 
 
-#-----Instalar selenium
-pip3 install selenium
-
 #--------Descargar chromedriver
 if [ "$(du /home/ventas/.Auto/chromedriver -b | awk 'NR==1 {print $1}')" == "11431612" ] ;then
 	echo "Ok"
 else
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/chromedriver -O-
 fi
+
+#-----Instalar selenium
+pip3 install selenium
 
 exit
