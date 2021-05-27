@@ -27,6 +27,8 @@ else
 	if [ "$(md5sum chromedriver | awk 'NR==1 {print $1}')" != "2a4815a798c3d44a3ea424b0c82ba248" ]; then
 		rm chromedriver
 		tar -xf chromedriver.tar.xz chromedriver
+		chmod +rwx chromedriver
+		chmod +rwx chromium-browser
 	else
 		echo "OK"
 	fi
