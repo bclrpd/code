@@ -5,7 +5,7 @@ numlockx on
 Reinicar_Modem(){
 
 if ping 192.168.1.1 -i 0.5 -w 5 ; then
-	python3 /home/ventas/.Auto/Reboot.py Huawei &
+	python3 /home/ventas/.Auto/Reboot.py Alcatel &
 	(
 		for i in {1..50} ; do
 		echo "#.		ERROR DE CONEXION 		.\n" \
@@ -27,7 +27,7 @@ if ping 192.168.1.1 -i 0.5 -w 5 ; then
 	systemctl reboot -i
 	
 elif ping 192.168.8.1 -i 0.5 -w 5 ; then
-	python3 /home/ventas/.Auto/Reboot.py Alcatel &
+	python3 /home/ventas/.Auto/Reboot.py Huawei &
 	(
 		for i in {1..50} ; do
 		echo "#.		ERROR DE CONEXION 		.\n" \
