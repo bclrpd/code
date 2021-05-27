@@ -16,7 +16,7 @@ options.binary_location = "/home/ventas/.Auto/chromium-browser"
 driver = webdriver.Chrome(executable_path="/home/ventas/.Auto/chromedriver", options=options)
 driver.implicitly_wait(10)
 
-if sys.argv[1] == "Huawei":
+if sys.argv[1] == "Alcatel":
     try:
         driver.get("http://192.168.1.1")
         print ("1")
@@ -36,10 +36,11 @@ if sys.argv[1] == "Huawei":
         print(sys.exc_info())
     driver.quit()
 
-elif sys.argv[1] == "Alcatel":
+elif sys.argv[1] == "Huawei":
     try:
-        driver.get("http://192.168.8.1")
+        driver.get("http://192.168.8.1/html/home.html")
         print ("1")
+        driver.find_element_by_id("logout_span").click()
         element = driver.find_element_by_id("username")
         element.send_keys(base64.b64decode("YWRtaW4=").decode("utf-8"))
         element.send_keys(Keys.ENTER)
@@ -47,7 +48,6 @@ elif sys.argv[1] == "Alcatel":
         element.send_keys(base64.b64decode("MTk3NjIyMTI=").decode("utf-8"))
         element.send_keys(Keys.ENTER)
         print ("2") 
-        driver.find_element_by_id("link_login_nocard").click()
         print ("3")
         driver.find_element_by_id("menu_settings").click()
         print ("4")
@@ -57,7 +57,7 @@ elif sys.argv[1] == "Alcatel":
         print ("6")
         driver.find_element_by_id("reboot_apply_button").click()
         print ("7")
-        driver.find_element_by_id("pop_confirm").click()
+        #driver.find_element_by_id("pop_confirm").click()
         time.sleep(5)
         print ("8")
     except:
