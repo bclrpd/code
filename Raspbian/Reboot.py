@@ -58,7 +58,7 @@ elif sys.argv[1] == "Huawei":
         driver.find_element_by_id("reboot_apply_button").click()
         print ("7")
         #driver.find_element_by_id("pop_confirm").click()
-        time.sleep(5)
+        time.sleep(10)
         print ("8")
     except:
         print(sys.exc_info())
