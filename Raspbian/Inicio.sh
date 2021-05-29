@@ -54,25 +54,28 @@ else
 fi
 }
 
-
-if [ -z $(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}') ] ; then	 #Revisa si no hay conexion
-	if [ $(nmcli n) = "disabled" ] ;then #Revisa si Networking esta desactivado, si es asi lo activa 
-		nmcli n on
-		sleep 5
-	fi
-	if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ;then #Revisa si aun no hay conexion
-		if [ $(nmcli r wifi) = "disabled" ] ; then #Revisa si WIFI esta desactivado, si es asi lo activa 
-			nmcli r wifi on
+Conectar_Modem(){
+	if [ -z $(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}') ] ; then	 #Revisa si no hay conexion
+		if [ $(nmcli n) = "disabled" ] ;then #Revisa si Networking esta desactivado, si es asi lo activa 
+			nmcli n on
 			sleep 5
-			if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ; then #Revisa si aun no hay conexion
+		fi
+		if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ;then #Revisa si aun no hay conexion
+			if [ $(nmcli r wifi) = "disabled" ] ; then #Revisa si WIFI esta desactivado, si es asi lo activa 
+				nmcli r wifi on
+				sleep 5
+				if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ; then #Revisa si aun no hay conexion
+					nmcli c up "Conexión inalámbrica 1" &
+				fi
+			else
 				nmcli c up "Conexión inalámbrica 1" &
+				sleep 7
 			fi
-		else
-			nmcli c up "Conexión inalámbrica 1" &
 		fi
 	fi
-fi
+}
 
+Conectar_Modem
 (
 . Estado.ini
 echo "# CONSORCIO DE BANCAS LA RAPIDA" ; sleep 1
@@ -108,6 +111,7 @@ for i in {0..4} ; do
 			nmcli radio wwan on
 			sleep 10
 		fi
+		Conectar_Modem
 		echo "ESTADO=Desconectado" > Estado.ini
 		echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
 		echo "#.		ERROR DE CONEXION 		.\n" \
