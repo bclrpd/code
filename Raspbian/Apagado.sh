@@ -10,7 +10,7 @@ if [ "${Tipo}" = "B" ] ;then
 	while true ; do
 	sleep 20	
 	if [ $(date +%w) -ne 0 ] && [ $(date +%H%M) -eq 2110 ] ; then
-		shutdown -h now
+		systemctl poweroff -i
 		break
 	fi	
 	done
@@ -18,10 +18,10 @@ else
 	while true ; do
 	sleep 20	
 	if [ $(date +%w) -ne 0 ] && [ $(date +%H%M) -eq 1510 ] ; then
-		shutdown -h now
+		systemctl poweroff -i
 		break
 	elif [ $(date +%w) -ne 0 ] && [ $(date +%H%M) -eq 2110 ] ; then
-		shutdown -h now
+		systemctl poweroff -i
 		break
 	fi	
 	done
