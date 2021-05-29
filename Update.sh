@@ -4,7 +4,7 @@ URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 if [ "$3" == "A" ] ; then
 	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py chromium-browser Descargar.sh)
 else
-	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh PingB.sh ShutdownButton.sh UpdateChek.sh Reboot.py chromium-browser Descargar.sh)
+	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py chromium-browser Descargar.sh)
 fi
 
 X=0
