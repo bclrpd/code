@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 cd "$(dirname "$0")"
 
 until ping -nq -c3 8.8.8.8; do
