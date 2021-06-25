@@ -1,36 +1,33 @@
-#! /bin/bash
+#!/bin/sh
 cd "$(dirname "$0")"
 
 until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
-if [ "$(pip3 list | grep selenium -w | awk '{print $1}')" != "selenium" ]; then
 
-	wget -c https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/selenium-3.141.0.tar.gz --limit-rate=10k
-	if [ "$(md5sum selenium-3.141.0.tar.gz | awk 'NR==1 {print $1}')" != "063be08e0f71396a5dd20c9f9ca099dd" ]; then
-		pip3 install selenium-3.141.0.tar.gz
-	else
-		rm selenium-3.141.0.tar.gz
-		wget -c https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/selenium-3.141.0.tar.gz --limit-rate=5k
-	fi
-else
-	echo "OK"
-fi 
+if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "f677f001374b7290683045b483067e35" ]; then
+	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
+fi
+	
+if [ "$(md5sum /home/ventas/lotobet/.61606.png | awk 'NR==1 {print $1}')" != "d43b9f2423088b8f6c8a6ce125a793f8" ]; then
+	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png --limit-rate=10k
+fi
 
+#[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"       # Establecer Fondo de pantalla
+#sed -i 's/.*desktop_fg=#.*/desktop_fg=#000000000000/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf    # Color letras escritorio
 
-wget -c https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/chromedriver.tar.xz --limit-rate=10k
+NewVersion=$(curl https://rapida.lotobet.net:61606/current.xml | grep -oP '(?<=<pkgver>).*?(?=</pkgver>)')
+Version=$(cat /home/ventas/lotobet/current.xml | grep -oP '(?<=<pkgver>).*?(?=</pkgver>)')
 
-if [ "$(md5sum chromedriver.tar.xz | awk 'NR==1 {print $1}')" != "14c68db7dbe360bad84f21c7b8cae255" ]; then
-	rm chromedriver.tar.xz
-	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/chromedriver.tar.xz --limit-rate=5k
-else
-	if [ "$(md5sum chromedriver | awk 'NR==1 {print $1}')" != "2a4815a798c3d44a3ea424b0c82ba248" ]; then
-		rm chromedriver
-		tar -xf chromedriver.tar.xz chromedriver
-		chmod +rwx chromedriver
-		chmod +rwx chromium-browser
-	else
-		echo "OK"
+if (( $(echo "$NewVersion > $Version" |bc -l) )) ;then
+	wget -c https://rapida.lotobet.net:61606/LotobetClientExe.jar -P tmp/ --limit-rate=10k
+	if [ $? -eq 0 ] ; then
+		cp -f tmp/LotobetClientExe.jar /home/ventas/lotobet/LotobetClientExe.jar	
+		if [ $? -eq 0 ]; then
+			rm tmp/LotobetClientExe.jar
+			wget https://rapida.lotobet.net:61606/current.xml -q -O- | tr -d '\r' >/home/ventas/lotobet/current.xml
+		fi
 	fi
 fi
 exit
+
