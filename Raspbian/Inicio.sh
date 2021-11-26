@@ -174,9 +174,9 @@ if [ ${ESTADO} = "Conectado" ] ;then
 			fi
 		fi
 	done
-elif [ $REINICIO -gt 2 ] ; then
+elif [ ${REINICIO} -gt 2 ] ; then
 	if [ $(nmcli n c) = "full" ] ; then
-		if (($REINICIO % 3 == 0 )); then
+		if ((${REINICIO} % 3 == 0 )); then
 			Reinicar_Modem
 		else
 			zenity --error --text="NO HAY CONEXION A INTERNET\nLLAMA A TU SUPERVISOR" \
