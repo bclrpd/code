@@ -5,6 +5,12 @@ until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
 
+#-----------------------------------------
+wget -c https://raw.githubusercontent.com/bclrpd/code/main/Rifa.jpg
+[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Rifa.jpg"
+#----------------------------------------------
+
+
 if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "fb62eed0335a711cf5701699783d59b0" ]; then
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
 fi
