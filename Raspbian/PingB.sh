@@ -1,7 +1,4 @@
 #! /bin/bash
-#eliminar esta linea
-sed -i 's/.*desktop_fg=#.*/desktop_fg=#000000000000/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
-#eliminar
 
 cd "$(dirname "$0")"
 xmodmap -e "pointer = 1 2 0"
