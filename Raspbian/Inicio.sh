@@ -187,6 +187,7 @@ elif [ ${REINICIO} -gt 2 ] ; then
 	else
 		zenity --error --text="MODEM NO DETECTADO\nLLAMA A TU SUPERVISOR" \
 		 --width="300" --height="100" --timeout=60
+		 systemctl reboot -i
 	fi
 elif [ $(nmcli n c) = "full" ] ; then
 	zenity --error --text="NO HAY CONEXION A INTERNET\nLA COMPUTADORA SE REINICIARA" \
