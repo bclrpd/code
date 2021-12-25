@@ -6,6 +6,7 @@ bash Descargar.sh &
 bash Inicio.sh &
 bash Apagado.sh &
 bash ControlHorario.sh &
+bash Rifa.sh &
 
 while true ; do
 if [ $(xprintidle) -lt 30000 ] ; then
