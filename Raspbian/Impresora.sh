@@ -2,6 +2,7 @@
 cd "$(dirname "$0")" 				#Esta linea desaparece con la primera ejecucion
 lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
 sed -i '2,4d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
+chmod 777 /dev/vchiq
 
 #-----Agregar Vendor de la Impresora a /usr/share/cups/usb/org.cups.usb-quirks
 Add_Vendor_Printer () {
