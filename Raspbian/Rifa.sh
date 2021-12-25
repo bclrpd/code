@@ -29,14 +29,14 @@ while true ; do
 						--skip-taskbar --undecorated --on-top \
 						--no-buttons --auto-close		
 						
-						#( xmodmap -e "pointer = 0 0 0" ; sleep 30 ; xmodmap -e "pointer = 1 2 3" ) &
+						#( xmodmap -e "pointer = 0 0 0" ; sleep 215 ; xmodmap -e "pointer = 1 2 3" ) &
 						S="id="
 						xinput | grep "keyboard" | while read -r line ; do
 							if [[ $line != *"Virtual"* ]]; then
 								#echo "$line"
 								ID=$(echo ${line/*$S/$S} | awk '{print $1}' | tr -d $S)
 								echo $ID
-								#( xinput set-prop $ID 'Device Enabled' 0 ; sleep 15 ; xinput set-prop $ID 'Device Enabled' 1 ) &
+								#( xinput set-prop $ID 'Device Enabled' 0 ; sleep 215 ; xinput set-prop $ID 'Device Enabled' 1 ) &
 							fi
 							
 							done
