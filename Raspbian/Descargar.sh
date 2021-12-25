@@ -6,6 +6,7 @@ until ping -nq -c3 8.8.8.8; do
 done
 
 #-----------------------------------------
+wget -c ""
 wget -c https://raw.githubusercontent.com/bclrpd/code/main/Rifa.jpg
 [ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Rifa.jpg"
 #----------------------------------------------
