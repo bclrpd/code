@@ -7,11 +7,11 @@ done
 
 #-----------------------------------------
 #wget -c https://www.dropbox.com/s/i04y11uniaohu11/Rifa.mp4
-until wget -c https://www.dropbox.com/s/i04y11uniaohu11/Rifa.mp4; do
+until wget -c https://www.dropbox.com/s/t523w3hntsj9tvr/Rifa.mp4; do
 	sleep 1
 done
-wget -c https://raw.githubusercontent.com/bclrpd/code/main/Rifa.jpg
-[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Rifa.jpg"
+#wget -c https://raw.githubusercontent.com/bclrpd/code/main/Rifa.jpg
+#[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Rifa.jpg"
 #----------------------------------------------
 
 
