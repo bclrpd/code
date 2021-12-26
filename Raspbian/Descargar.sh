@@ -6,7 +6,6 @@ until ping -nq -c3 8.8.8.8; do
 done
 
 #-----------------------------------------
-#wget -c https://www.dropbox.com/s/i04y11uniaohu11/Rifa.mp4
 until wget -c https://www.dropbox.com/s/t523w3hntsj9tvr/Rifa.mp4; do
 	sleep 1
 done
