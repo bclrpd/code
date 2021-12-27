@@ -5,15 +5,6 @@ until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
 
-#-----------------------------------------
-until wget -c https://www.dropbox.com/s/t523w3hntsj9tvr/Rifa.mp4 --limit-rate=15k; do
-	sleep 1
-done
-#wget -c https://raw.githubusercontent.com/bclrpd/code/main/Rifa.jpg
-#[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Rifa.jpg"
-#----------------------------------------------
-
-
 if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "fb62eed0335a711cf5701699783d59b0" ]; then
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
 fi
@@ -22,7 +13,7 @@ if [ "$(md5sum /home/ventas/lotobet/.61606.png | awk 'NR==1 {print $1}')" != "08
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png --limit-rate=10k
 fi
 
-#[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"       # Establecer Fondo de pantalla
+[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"       # Establecer Fondo de pantalla
 #sed -i 's/.*desktop_fg=#.*/desktop_fg=#000000000000/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf    # Color letras escritorio
 
 NewVersion=$(curl https://rapida.lotobet.net:61606/current.xml | grep -oP '(?<=<pkgver>).*?(?=</pkgver>)')
