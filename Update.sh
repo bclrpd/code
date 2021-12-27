@@ -23,6 +23,9 @@ done
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
 
 #-----------------------------
+rm Rifa.sh
+rm Rifa.mp4
+rm Rifa,jpg
 sleep 1
 systemctl reboot -i
 #--------------------
