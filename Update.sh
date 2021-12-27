@@ -23,6 +23,7 @@ done
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
 
 #-----------------------------
+pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 rm Rifa.sh
 rm Rifa.mp4
 rm Rifa,jpg
