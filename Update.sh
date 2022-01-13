@@ -26,7 +26,7 @@ done
 pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 rm Rifa.sh
 rm Rifa.mp4
-rm Rifa,jpg
+rm Rifa.jpg
 sleep 1
 systemctl reboot -i
 #--------------------
