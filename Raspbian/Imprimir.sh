@@ -12,7 +12,7 @@ wget https://drive.google.com/u/0/uc?id=1xoK8xsJ014ijRmCHnP4ZNjyv_NTI7thh -O Pre
 Premios="$( awk '/\[/{prefix=$0; next} $1{print prefix $0}' Premios.ini)"
 Loterias=("La Primera" "Q Real" "Nac T" "Nac N" "La Suerte" "Loteka" "Q Pale" "Lotedom" "Ny Dia" "Ny Noche" "FL Tarde" "FL Noche" "Anguilla 10am" "Anguilla 1pm" "Anguilla 5pm" "Anguilla 9pm")
 
-if [ $(date +%H%M) -lt 900 ] ; then 
+if [ $(date +%H%M) -lt 1200 ] ; then 
 	Fecha=$(date --date="-1 day" +%d-%m-%Y)
 else
 	Fecha=$(date +%d-%m-%Y)
