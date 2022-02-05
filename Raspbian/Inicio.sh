@@ -87,7 +87,6 @@ for i in {0..4} ; do
 		bash UpdateChek.sh &
 		#(/usr/bin/java -jar /home/ventas/lotobet/Lotobet.jar)&
 		(/usr/bin/java -jar /home/ventas/lotobet/LotobetClientExe.jar)&
-		(bash Boton_Premios.sh)&
 		echo "ESTADO=Conectado" > Estado.ini
 		echo "REINICIO=0" >> Estado.ini	
 		echo "75" ; sleep 1
