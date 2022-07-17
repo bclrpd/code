@@ -299,5 +299,5 @@
 
 # Dymo 450 Turbo (Issue #5521)
 0x0922 0x0021 unidir
-0x0FE6 unidir soft-rese
+0x0FE6 unidir soft-reset
 0x4B43 unidir
