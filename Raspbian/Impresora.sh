@@ -5,16 +5,6 @@ wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/usb-quirks -q -
 sed -i '3,6d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 chmod 777 /dev/vchiq
 
-#-----Agregar Vendor de la Impresora a /usr/share/cups/usb/org.cups.usb-quirks
-Add_Vendor_Printer () {
-	Vendor="0x$1"
-	YY=$(cat /usr/share/cups/usb/org.cups.usb-quirks | grep $Vendor)
-	if [ -z "$YY" ] ; then
-		echo "$Vendor unidir" >> /usr/share/cups/usb/org.cups.usb-quirks
-	fi
-}
-Add_Vendor_Printer "4b43"
-#---------------------------------------------------------------
 while true ; do
 
 	URI=$(lpstat -s |grep "para Impresora" | awk '{print $4}')
