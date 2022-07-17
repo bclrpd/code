@@ -1,8 +1,9 @@
 #! /bin/bash
 cd "$(dirname "$0")" 				
 lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
-wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/usb-quirks.txt -q -O- | tr -d '\r' >/usr/share/cups/usb/org.cups.usb-quirks
-sed -i '3,6d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
+sed -i ' 302s/.*/0x0FE6 unidir soft-reset/' /usr/share/cups/usb/org.cups.usb-quirks
+sed -i ' 303s/.*/0x4B43 unidir/' /usr/share/cups/usb/org.cups.usb-quirks
+sed -i '3,7d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 chmod 777 /dev/vchiq
 
 while true ; do
