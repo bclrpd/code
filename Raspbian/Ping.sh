@@ -2,6 +2,8 @@
 
 cd "$(dirname "$0")"
 xmodmap -e "pointer = 1 2 0"
+#bash Pizarra/Start.sh &
+#bash Mouse.sh &
 bash Descargar.sh &
 bash Inicio.sh &
 bash Apagado.sh &
