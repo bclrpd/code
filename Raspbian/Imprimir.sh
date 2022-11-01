@@ -34,7 +34,9 @@ do
 	fi
 
 done
-echo -e "\x1ba1\x1b!2RESULTADOS" > TicketPremios
+echo -e "Recibe los Premios por Whatsapp Escribiendo al" > TicketPremios
+echo -e "\x1ba1\x1b!2809-486-6448\n" >> TicketPremios
+echo -e "\x1ba1\x1b!2RESULTADOS" >> TicketPremios
 echo -e "$Fecha" >> TicketPremios
 echo -e "\x1ba0\x1b! " >> TicketPremios
 for j in "${Array[@]}"
