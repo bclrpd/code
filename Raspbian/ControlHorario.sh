@@ -18,25 +18,34 @@ function Mostrar_Mensage_Tardanza() {
 	Hora1=$1
 	Hora2=$2
 	
-	Colores=("yellow" "blue" "red")
 	Color=$(echo $(($RANDOM%3)))
 	case $Color in
-		0) convert -size 1024x768  xc:yellow msg/ImagenBase.jpg;;
-		1) convert -size 1024x768  xc:blue msg/ImagenBase.jpg ;;	
-		2) convert -size 1024x768  xc:red msg/ImagenBase.jpg;;
-		*) convert -size 1024x768  xc:red msg/ImagenBase.jpg;;
+		0) convert -size 1024x700  xc:yellow msg/ImagenBase.jpg;;
+		1) convert -size 1024x700  xc:blue msg/ImagenBase.jpg ;;	
+		2) convert -size 1024x700  xc:red msg/ImagenBase.jpg;;
+		*) convert -size 1024x700  xc:red msg/ImagenBase.jpg;;
 	esac
+	TEXT0="<span font='80' foreground='red' ><b>    SON LAS    \n<big><big><big><big><big><big>$Hora2</big></big></big></big></big></big></b></span>"
+	TEXT="<span font='80' foreground='red' ><b>      $Hora2     </b></span>\n<span font='22' foreground='blue' >Recuerda que la hora de abrir la banca es a  las <big><b>$Hora1</b></big>, abrir después de esa hora es considerado <big><b>tardanza</b></big>.\n\nTen en cuenta que todos los días se registra la hora a la que abres la banca y cada vez que llegas después de las <big><b>$Hora1</b></big> se registra como <big><b>tardanza.</b></big>\n\nDe ti depende que esto no suceda de nuevo, puesto que las tardanzas <big><b>no serán toleradas.</b></big>\n</span>"
 
-	TEXT="<span font='80' foreground='red' ><b>     $Hora2     </b></span>\n<span font='22' foreground='blue' >Recuerda que la hora de abrir la banca es a  las $Hora1, abrir después de esa hora es considerado tardanza.\n\nTen en cuenta que todos los días se registra la hora a la que abres la banca y cada vez que llegas después de las $Hora1 se registra como tardanza.\n\nDe ti depende que esto no suceda de nuevo, puesto que las tardanzas no serán toleradas.\n</span>"
-
-# yellow, lime, black ivory
-
-	convert  -font verdana -background ivory -size 700 -define pango:justify=true pango:"$TEXT" msg/ImagenTexto.jpg
+# yellow, lime, ivory
+	convert  -font verdana -background yellow -size 900 pango:"$TEXT0" msg/ImagenHora.jpg
+	convert  -font verdana -background yellow -size 700 -define pango:justify=true pango:"$TEXT" msg/ImagenTexto.jpg
+	
+	convert msg/ImagenBase.jpg msg/ImagenHora.jpg -gravity center -composite -matte msg/output0.jpg
 	convert msg/ImagenBase.jpg msg/ImagenTexto.jpg -gravity center -composite -matte msg/output.jpg
 	
-	yad --image="msg/output.jpg" --geometry 1024 --image-on-top \
+	yad --image="msg/output0.jpg" --fullscreen --image-on-top --no-close\
+	--skip-taskbar --undecorated --on-top --no-buttons --timeout=10 
+	
+	yad --image="msg/output.jpg" --fullscreen --image-on-top --no-close\
 	--skip-taskbar --undecorated --on-top \
 	--button=gtk-ok  --buttons-layout=center
+	yad --image="msg/output.jpg" --fullscreen --image-on-top --no-close\
+	--skip-taskbar --undecorated --on-top --no-buttons --timeout=10
+	
+	pcmanfm --set-wallpaper "/home/ventas/.Auto/msg/output.jpg"
+	
 }
 
 
