@@ -10,6 +10,7 @@ URL="https://docs.google.com/forms/d/e/1FAIpQLScaQs1b41h3mIVMsn6wNscjKLzeGVMXSc7
 X=$(xdpyinfo | awk '/dimensions/{print $2}' | awk -F "x" '{print $1}')
 PX=$((($X-1024)/2))
 [ -f Registro ] || echo "  Fecha    HORA    T       Razon" > Registro
+[[ "$(file -bi Registro)" == *"charset=binary" ]] && $(sed -i 's/\x0//g' Registro) #Repara el archivo
 [ -f Data.ini ] || echo "TIEMPO=0" > Data.ini
 . Data.ini
 ACUMULADO=${TIEMPO}
