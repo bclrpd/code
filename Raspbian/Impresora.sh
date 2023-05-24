@@ -41,6 +41,10 @@ while true ; do
 	fi
 	sleep 2
 done
+#-------Para poder cambiar la densidad de impresion de la impresora-----------
+chmod +777 /dev/usb/lp0
+chmod +777 /dev/ttyUSB0
+
 
 #--------Sincronizar Hora-------------
 until ping -nq -c3 8.8.8.8; do
