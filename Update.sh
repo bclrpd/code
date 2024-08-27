@@ -21,7 +21,7 @@ done
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q -O- | tr -d '\r' >/home/ventas/lotobet/current.xml
 
 #-----------------Estas Linenas se borraran en la primera ejecucion---------------------------------
-wget -c wget https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/
+wget -c https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/
 if [ $? -eq 0 ] ; then
 	cp -f tmp/LotobetClientExe.jar /home/ventas/lotobet/LotobetClientExe.jar
 	if [ $? -eq 0 ]; then
