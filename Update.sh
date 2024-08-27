@@ -24,9 +24,6 @@ wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q 
 
 #-----------------------------
 pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
-rm Rifa.sh
-rm Rifa.mp4
-rm Rifa.jpg
 sleep 1
 systemctl reboot -i
 #--------------------
