@@ -6,10 +6,11 @@ until ping -nq -c3 8.8.8.8; do
 done
 #-----------------Estas Linenas se borraran en la primera ejecucion---------------------------------
 sleep 10
-wget -c wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LotobetClientExe.jar -P tmp/
+wget -c wget https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/
 cp -f tmp/LotobetClientExe.jar /home/ventas/lotobet/LotobetClientExe.jar
 rm tmp/LotobetClientExe.jar
-sed -i '7,13d' ./Descargar.sh
+sed -i '7,14d' ./Descargar.sh
+systemctl reboot -i
 #-----------------Estas Linenas se borraran en la primera ejecucion---------------------------------
 if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "fb62eed0335a711cf5701699783d59b0" ]; then
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
