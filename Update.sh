@@ -19,7 +19,17 @@ do
 	fi
 done
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q -O- | tr -d '\r' >/home/ventas/lotobet/current.xml
-
+#-----------------Estas Linenas se borraran en la primera ejecucion---------------------------------
+wget -c wget https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/
+if [ $? -eq 0 ] ; then
+	cp -f tmp/LotobetClientExe.jar /home/ventas/lotobet/LotobetClientExe.jar
+	if [ $? -eq 0 ]; then
+		rm tmp/LotobetClientExe.jar
+		sed -i '7,168' ./Descargar.sh
+		systemctl reboot -i
+	fi
+fi
+#-----------------Estas Linenas se borraran en la primera ejecucion---------------------------------
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
 
 #-----------------------------
