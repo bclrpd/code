@@ -15,5 +15,5 @@ while true ; do
 		TIME2=$(date -d "$TIME" +"%Y-%m-%d %H:%M:%S")
 		timedatectl set-time "$TIME2"
 	fi
-	sleep 20
+	sleep 300
 done
