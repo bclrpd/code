@@ -6,7 +6,7 @@ sed -i '303s/.*/0x4B43 unidir/' /usr/share/cups/usb/org.cups.usb-quirks
 sed -i '304d' /usr/share/cups/usb/org.cups.usb-quirks
 sed -i '3,8d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 chmod 777 /dev/vchiq
-
+bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
 while true ; do
 
 	URI=$(lpstat -s |grep "para Impresora" | awk '{print $4}')
