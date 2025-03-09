@@ -4,7 +4,7 @@ lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la pri
 sed -i '302s/.*/0x0FE6 unidir soft-reset/' /usr/share/cups/usb/org.cups.usb-quirks
 sed -i '303s/.*/0x4B43 unidir/' /usr/share/cups/usb/org.cups.usb-quirks
 sed -i '304s/.*/0x2ca6 0x811a unidir/' /usr/share/cups/usb/org.cups.usb-quirks
-sed -i '305d' /usr/share/cups/usb/org.cups.usb-quirks
+#sed -i '305d' /usr/share/cups/usb/org.cups.usb-quirks
 sed -i '3,9d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 chmod 777 /dev/vchiq
 bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
