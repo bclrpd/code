@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 cd "$(dirname "$0")"
 
 function descargar_cliente {
