@@ -42,7 +42,7 @@ if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current 
 		fi
 	fi
  elif [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep 0123456789)" ] ; then
-    LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)
+    LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep 0123456789)
 	NEW_VERSION=${LINE##*=}
 	BANCA=${LINE%%=*}
 	T_BANCA=${BANCA%%_*}
