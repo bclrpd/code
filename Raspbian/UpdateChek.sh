@@ -41,5 +41,18 @@ if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current 
 			bash Update.sh $NEW_VERSION $N_BANCA $T_BANCA &
 		fi
 	fi
+ elif [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep 0123456789)" ] ; then
+    LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep $SERIAL)
+	NEW_VERSION=${LINE##*=}
+	BANCA=${LINE%%=*}
+	T_BANCA=${BANCA%%_*}
+	N_BANCA=${BANCA##*_}
+	
+	if [ $VERSION -lt $NEW_VERSION ] ; then
+		wget https://raw.githubusercontent.com/bclrpd/code/main/Update_fast.sh -q -O- | tr -d '\r' >Update.sh
+		if [ $? -eq 0 ] ; then
+			bash Update.sh $NEW_VERSION $N_BANCA $T_BANCA &
+		fi
+	fi
 fi
 exit
