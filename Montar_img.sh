@@ -1,14 +1,8 @@
 #!/bin/sh                                          
-# Author: Dubravko Penezic, dpenezic@gmail.com
-#           initial script mount and unmount
 
-#  Updates: Pete Flahery, cometcoaster@gmail.com
-#            added fsck capability "f" option
-#            changed to run from current directory (the one that image is in)
-#            NOTE: this can be run against a symlinked image file(s)
-
-# Credit to valuable answer from few users on Raspberry Pi Forum , http://www.raspberrypi.org/forums/viewtopic.php?f=63&t=28860
-#
+# montar y desmontar memoria sd directamente
+# sudo mount -t ext4 /dev/sda2 /media/usb
+# sudo umount /media/usb
 
 OPTION=$1
 IMG_FILE=$2
