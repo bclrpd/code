@@ -8,8 +8,7 @@ for i in "${vendor[@]}" ; do
 		echo "$i" >> /usr/share/cups/usb/org.cups.usb-quirks
 	fi	
 done
-sed -i '3,12d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
-chmod 777 /dev/vchiq
+sed -i '3,11d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
 while true ; do
 
