@@ -102,6 +102,7 @@ for i in {0..4} ; do
 			nmcli r wifi off
 		fi	
 		echo "100"
+  		xdotool search --onlyvisible --class Lotobet windowactivate
 		break
 		
 	else
@@ -140,6 +141,7 @@ zenity --progress \
 . Estado.ini
 echo ${ESTADO}
 if [ ${ESTADO} = "Conectado" ] ;then
+	bash Keep_Open.sh &
 	CONTADOR=0
 	while true ;do
 		ping -s 8 8.8.8.8 -c 10
