@@ -82,9 +82,10 @@ echo "# CONSORCIO DE BANCAS LA RAPIDA" ; sleep 1
 for i in {0..4} ; do
 	echo "25"
 	echo "# CONECTANDO" ;sleep 1
-	ping 8.8.8.8 -i 0.5 -w 5
+	ping 8.8.8.8 -i 0.5 -w 5 -q
 	if [ $? -eq 0 ] ;then
 		bash UpdateChek.sh &
+  		(gnome-calculator)&
 		#(/usr/bin/java -jar /home/ventas/lotobet/Lotobet.jar)&
 		(/usr/bin/java -jar /home/ventas/lotobet/LotobetClientExe.jar)&
 		echo "ESTADO=Conectado" > Estado.ini
@@ -93,9 +94,6 @@ for i in {0..4} ; do
 		echo "# CONEXION EXITOSA" ; sleep 1
 		echo "90"
 		echo "# FINALIZANDO" ; sleep 1	
-		#sleep 3
-		(gnome-calculator)&
-		sleep 2
 		if [ "$(nmcli d |grep "conectado" -w | awk 'NR==1 {print $2}')" == "wifi" ] || [ "$(nmcli d |grep "conectado" -w | awk 'NR==2 {print $2}')" == "wifi" ] ;then
 			if [ -z $(ifconfig |grep "inet 1.1.1.1  netmask 255.255.255.0  broadcast 1.1.1.255" | awk 'NR==1 {print $2}') ] ; then
 				nmcli r wifi off
