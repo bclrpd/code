@@ -1,5 +1,6 @@
 #! /bin/bash
 cd "$(dirname "$0")"
+gsettings set org.gnome.nm-applet show-applet false
 xmodmap -e "pointer = 1 2 0"
 #bash Pizarra/Start.sh &
 #bash Mouse.sh &
