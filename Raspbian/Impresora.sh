@@ -1,14 +1,16 @@
 #! /bin/bash
 cd "$(dirname "$0")"
 lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
-vendor=('0x0FE6 unidir soft-reset' '0x4B43 unidir' '0x2ca6 0x811a unidir soft-reset')
+sed -i '/0x2ca6 0x811a unidir/d' /usr/share/cups/usb/org.cups.usb-quirks
+sleep 1
+vendor=('0x0FE6 unidir soft-reset' '0x4B43 unidir' '0x2CA6 0x811A unidir soft-reset')
 for i in "${vendor[@]}" ; do
 	existe=$(grep "$i" /usr/share/cups/usb/org.cups.usb-quirks)
 	if [ -z "$existe" ] ; then
 		echo "$i" >> /usr/share/cups/usb/org.cups.usb-quirks
 	fi	
 done
-sed -i '3,11d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
+sed -i '3,13d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
 while true ; do
 
