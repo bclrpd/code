@@ -28,9 +28,9 @@ check_descargar_cliente
 	
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 if [ "$3" == "A" ] ; then
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh)
+	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh)
 else
-	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh)
+	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh)
 fi
 
 X=0
@@ -44,6 +44,7 @@ do
 	fi
 done
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q -O- | tr -d '\r' >/home/ventas/lotobet/current.xml
+wget https://raw.githubusercontent.com/bclrpd/code/main/panel -q -O- | tr -d '\r' >/home/ventas/.config/lxpanel/LXDE-pi/panels/panel
 
 
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
