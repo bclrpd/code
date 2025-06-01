@@ -44,6 +44,7 @@ do
 	fi
 done
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q -O- | tr -d '\r' >/home/ventas/lotobet/current.xml
+wget https://raw.githubusercontent.com/bclrpd/code/main/panel -q -O- | tr -d '\r' >/home/ventas/.config/lxpanel/LXDE-pi/panels/panel
 
 
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
