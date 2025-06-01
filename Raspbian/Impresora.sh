@@ -1,7 +1,7 @@
 #! /bin/bash
 cd "$(dirname "$0")"
 lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
-vendor=('0x0FE6 unidir soft-reset' '0x4B43 unidir' '0x2ca6 0x811a unidir')
+vendor=('0x0FE6 unidir soft-reset' '0x4B43 unidir' '0x2ca6 0x811a unidir soft-reset')
 for i in "${vendor[@]}" ; do
 	existe=$(grep "$i" /usr/share/cups/usb/org.cups.usb-quirks)
 	if [ -z "$existe" ] ; then
