@@ -1,7 +1,9 @@
 #! /bin/bash
 cd "$(dirname "$0")"
+echo "1" >> aa
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
 if [ $? -eq 0 ] ; then
+echo "2" >> aa
     if ping 192.168.1.1 -i 0.5 -w 5 ; then
         lxterminal -e "python3 /home/ventas/.Auto/CanalWifi.py Alcatel" 		
     elif ping 192.168.8.1 -i 0.5 -w 5 ; then
@@ -9,7 +11,9 @@ if [ $? -eq 0 ] ; then
     fi    
 else
     exit
+    echo "3" >> aa
 fi
+echo "4" >> aa
 sleep 30
 
 until ping -nq -c3 8.8.8.8; do
