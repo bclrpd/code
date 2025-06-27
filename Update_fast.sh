@@ -4,15 +4,12 @@ echo "1" >> aa
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
 if [ $? -eq 0 ] ; then
 echo "2" >> aa
-until ping -nq -c3 192.168.1.1; do
-	echo "NNNNNN" >> aa
-	sleep 1
-done
-    if ping 192.168.1.1 -i 0.5 -w 5 ; then
+	ip=$(ip route | grep default | awk '{print $3}')
+    if [ $ip = "192.168.1.1" ] ; then
     	echo "2.1" >> aa
         lxterminal -e "python3 /home/ventas/.Auto/CanalWifi.py Alcatel" 
 	echo "2.2" >> aa
-    elif ping 192.168.8.1 -i 0.5 -w 5 ; then
+    elif [ $ip = "192.168.8.1" ] ; then
         python3 /home/ventas/.Auto/CanalWifi.py Huawei 
     fi    
 else
