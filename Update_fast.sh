@@ -5,7 +5,9 @@ wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O
 if [ $? -eq 0 ] ; then
 echo "2" >> aa
     if ping 192.168.1.1 -i 0.5 -w 5 ; then
-        lxterminal -e "python3 /home/ventas/.Auto/CanalWifi.py Alcatel" 		
+    	echo "2.1" >> aa
+        lxterminal -e "python3 /home/ventas/.Auto/CanalWifi.py Alcatel" 
+	echo "2.2" >> aa
     elif ping 192.168.8.1 -i 0.5 -w 5 ; then
         python3 /home/ventas/.Auto/CanalWifi.py Huawei 
     fi    
@@ -19,7 +21,7 @@ sleep 30
 until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
-
+echo "5" >> aa
 inf=986953837
 URL="https://docs.google.com/forms/d/e/1FAIpQLSd0pRPkVt8oigNw-CZVuMyESFybTi1Me1ORbENgJWiuaothwg/formResponse"
 . Current.ini
