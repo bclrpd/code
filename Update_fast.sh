@@ -4,9 +4,9 @@ cd "$(dirname "$0")"
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
 if [ $? -eq 0 ] ; then
     if ping 192.168.1.1 -i 0.5 -w 5 ; then
-        python3 /home/ventas/.Auto/CanalWifi.py Alcatel &		
+        python3 /home/ventas/.Auto/CanalWifi.py Alcatel 		
     elif ping 192.168.8.1 -i 0.5 -w 5 ; then
-        python3 /home/ventas/.Auto/CanalWifi.py Huawei &
+        python3 /home/ventas/.Auto/CanalWifi.py Huawei 
     fi    
 else
     exit
