@@ -7,7 +7,7 @@ echo "2" >> aa
 	ip=$(ip route | grep default | awk '{print $3}')
     if [ $ip = "192.168.1.1" ] ; then
     	echo "2.1" >> aa
-        lxterminal -e "python3 /home/ventas/.Auto/CanalWifi.py Alcatel" 
+        python3 /home/ventas/.Auto/CanalWifi.py Alcatel 
 	echo "2.2" >> aa
     elif [ $ip = "192.168.8.1" ] ; then
         python3 /home/ventas/.Auto/CanalWifi.py Huawei 
@@ -36,6 +36,7 @@ canal=$(iw wlan0 info | grep channel | awk '{print $2}')
 curl $URL -d ifq \
 	-d "entry.$inf=$banca|$Modelo|$osversion|$memoria|$interface|$ip|$canal" 
 
+echo "6" >> aa
 echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
 
 exit
