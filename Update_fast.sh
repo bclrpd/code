@@ -4,6 +4,10 @@ echo "1" >> aa
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
 if [ $? -eq 0 ] ; then
 echo "2" >> aa
+until ping -nq -c3 192.168.1.1; do
+	echo "NNNNNN" >> aa
+	sleep 1
+done
     if ping 192.168.1.1 -i 0.5 -w 5 ; then
     	echo "2.1" >> aa
         lxterminal -e "python3 /home/ventas/.Auto/CanalWifi.py Alcatel" 
