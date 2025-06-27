@@ -1,6 +1,5 @@
 #! /bin/bash
 cd "$(dirname "$0")"
-sleep 30
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
 if [ $? -eq 0 ] ; then
     if ping 192.168.1.1 -i 0.5 -w 5 ; then
