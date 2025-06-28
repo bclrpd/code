@@ -16,6 +16,7 @@ while [ -z "$TIME" ]; do
 	TIME="$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
 	sleep 1
 done
+sleep 20
 inf=986953837
 URL="https://docs.google.com/forms/d/e/1FAIpQLSd0pRPkVt8oigNw-CZVuMyESFybTi1Me1ORbENgJWiuaothwg/formResponse"
 . Current.ini
