@@ -18,9 +18,9 @@ else
 fi
 echo "4" >> aa
 sleep 30
-
-until ping -nq -c3 8.8.8.8; do
-	echo "..." >> aa
+while [ -z "$TIME" ]; do
+	TIME="$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
+ 	echo "..." >> aa
 	sleep 1
 done
 echo "5" >> aa
