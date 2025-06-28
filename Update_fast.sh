@@ -20,6 +20,7 @@ echo "4" >> aa
 sleep 30
 
 until ping -nq -c3 8.8.8.8; do
+	echo "..." >> aa
 	sleep 1
 done
 echo "5" >> aa
