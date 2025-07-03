@@ -105,8 +105,6 @@ elif sys.argv[1] == "Huawei":
         time.sleep(1)
         ancho.select_by_value('20')
         time.sleep(1)
-        ancho.select_by_value('0')
-        time.sleep(1)
         driver.find_element_by_id("apply_button").click()
         print ("8")
         time.sleep(20)
