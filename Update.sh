@@ -1,6 +1,6 @@
 #! /bin/bash
 cd "$(dirname "$0")"
-wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
+#wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/CanalWifi.py -O CanalWifi.py 
 if [ $? -eq 0 ] ; then
 	ip=$(ip route | grep default | awk '{print $3}')
     if [ $ip = "192.168.1.1" ] ; then
