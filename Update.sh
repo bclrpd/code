@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 
 function descargar_cliente {
-	wget -c https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/ --limit-rate=20k
+	wget -c https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/ --limit-rate=100k
 	if [ $? -eq 0 ] ; then
 		cp -f tmp/LotobetClientExe.jar /home/ventas/lotobet/LotobetClientExe.jar
 		if [ $? -eq 0 ]; then
