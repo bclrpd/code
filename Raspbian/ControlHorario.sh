@@ -76,7 +76,7 @@ while true ; do
 			
 			[ -z "$(grep "$Fecha"_1 -w < Registro)" ] || break
 			
-			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0855 ] ;then
+			if [ $(date --date "$HoraAbrio" +%H%M) -ge 0835 ] ;then
 				
 				Mostrar=False
 				for i in {1..4} ; do
@@ -85,7 +85,7 @@ while true ; do
 				done
 
 				if [ "$Mostrar" = "True" ] ; then
-					Mostrar_Mensage_Tardanza '8:45' $(date -d "$HoraAbrio" +%l:%M)
+					Mostrar_Mensage_Tardanza '8:30' $(date -d "$HoraAbrio" +%l:%M)
 					Razon=""
 				
 					echo "$Fecha""_1=$HoraAbrio|TARDE|$Razon" >> Registro
@@ -107,7 +107,7 @@ while true ; do
 						
 				break			
 				
-			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 0855 ] ;then
+			elif [ $(date --date "$HoraAbrio" +%H%M) -lt 0835 ] ;then
 				echo "$Fecha""_1=$HoraAbrio|OK" >> Registro	
 				echo "TIEMPO=0" > Data.ini
 				curl $URL -d ifq \
@@ -129,7 +129,7 @@ while true ; do
 				
 				[ -z "$(grep "$Fecha"_2 -w < Registro)" ] || break
 
-				if [ $(date --date "$HoraAbrio" +%H%M) -ge 1710 ] ;then
+				if [ $(date --date "$HoraAbrio" +%H%M) -ge 1705 ] ;then
 					Mostrar=False
 					for i in {1..4} ; do
 						Z2="$(grep "$(date -d "$TIME - $i days" +%m/%d/%Y)"_2 -w < Registro)"
@@ -160,7 +160,7 @@ while true ; do
 									
 					break
 				
-				elif [ $(date --date "$HoraAbrio" +%H%M) -lt 1710 ] ;then
+				elif [ $(date --date "$HoraAbrio" +%H%M) -lt 1705 ] ;then
 	
 					echo "$Fecha""_2=$HoraAbrio|OK" >> Registro
 					echo "TIEMPO=0" > Data.ini
