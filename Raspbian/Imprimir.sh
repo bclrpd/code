@@ -54,7 +54,7 @@ echo "imprimiendo 1" > TicketPremios
 descargar_premios
 
 Premios="$( awk '/\[/{prefix=$0; next} $1{print prefix $0}' Premios.ini)"
-Loterias=("Primera 12pm" "Primera 8pm" "Q Real" "Nac T" "Nac N"  "Loteka" "Q Pale" "Lotedom" "Suerte 12.30pm" "Suerte 6pm" "Ny Dia" "Ny Noche" "FL Tarde" "FL Noche" "Anguilla 9am" "Anguilla 10am" "Anguilla 11am" "Anguilla 12pm" "Anguilla 1pm" "Anguilla 2pm" "Anguilla 3pm" "Anguilla 4pm" "Anguilla 5pm" "Anguilla 6pm" "Anguilla 7pm" "Anguilla 8pm" "Anguilla 9pm")
+Loterias=("Primera 12pm" "Primera 7pm" "Q Real" "Nac T" "Nac N"  "Loteka" "Q Pale" "Lotedom" "Suerte 12.30pm" "Suerte 6pm" "Ny Dia" "Ny Noche" "FL Tarde" "FL Noche" "Anguilla 9am" "Anguilla 10am" "Anguilla 11am" "Anguilla 12pm" "Anguilla 1pm" "Anguilla 2pm" "Anguilla 3pm" "Anguilla 4pm" "Anguilla 5pm" "Anguilla 6pm" "Anguilla 7pm" "Anguilla 8pm" "Anguilla 9pm")
 
 Array=()
 
