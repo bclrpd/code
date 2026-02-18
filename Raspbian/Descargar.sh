@@ -14,7 +14,6 @@ done
 time=$(date -d "$TIME" +%s)
 hora_archivo=$(stat /home/ventas/.Auto/msg/output.jpg | grep 'Modificación:')
 hora_archivo=${hora_archivo/'Modificación: '/}
-echo $hora_archivo
 hora_archivo=$(date -d "$hora_archivo" +%s)
 if [ $(($time - $hora_archivo)) -lt 18000 ]; then
 	cambiar_fondo=0
