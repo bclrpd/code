@@ -5,6 +5,22 @@ until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
 
+cambiar_fondo=1
+while [ -z "$TIME" ]; do
+	echo "TIEMPO=$((ACUMULADO+$(</proc/uptime awk '{printf int ($1)}')))" > Data.ini
+	TIME="$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
+	sleep 1
+done
+time=$(date -d "$TIME" +%s)
+hora_archivo=$(stat /home/ventas/.Auto/msg/output.jpg | grep 'Modificación:')
+hora_archivo=${hora_archivo/'Modificación: '/}
+echo $hora_archivo
+hora_archivo=$(date -d "$hora_archivo" +%s)
+if [ $(($time - $hora_archivo)) -lt 18000 ]; then
+	cambiar_fondo=0
+fi
+
+
 if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "fb62eed0335a711cf5701699783d59b0" ]; then
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
 fi
@@ -13,7 +29,7 @@ if [ "$(md5sum /home/ventas/lotobet/.61606.png | awk 'NR==1 {print $1}')" != "36
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png --limit-rate=10k
 fi
 
-[ $? -eq 0 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"       # Establecer Fondo de pantalla
+[ $? -eq 0 ] && [ $cambiar_fondo -eq 1 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"       # Establecer Fondo de pantalla
 #sed -i 's/.*desktop_fg=#.*/desktop_fg=#000000000000/' ~/.config/pcmanfm/LXDE-pi/desktop-items-0.conf    # Color letras escritorio
 
 NewVersion=$(curl https://rapida.lotobet.net:61606/current.xml | grep -oP '(?<=<pkgver>).*?(?=</pkgver>)')
