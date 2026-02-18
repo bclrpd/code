@@ -38,10 +38,24 @@ for i in "${Archivo[@]}"
 do
 	wget -q --method HEAD $URL$i
 	if [ $? -eq 0 ] ; then
-		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >ControlHorario.sh && continue
-		wget $URL$i -q -O- | tr -d '\r' >$i
+		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >tmp/ControlHorario.sh && continue
+		wget $URL$i -q -O- | tr -d '\r' >tmp/$i
 		[ $? -eq 0 ] || X=1 
 	fi
+done
+
+for i in "${Archivo[@]}"; do
+    [ "$i" = "ControlHorarioB.sh" ] && i = "ControlHorario.sh"
+    if [ $(stat -c%s $i) -gt 100 ] ; then
+        cp -f tmp/$i /home/ventas/.Auto/$i
+        if [ $? -eq 0 ]; then
+			rm tmp/$i
+        else
+             X=1
+		fi  
+    else
+        X=1 
+    fi        
 done
 
 wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q -O- | tr -d '\r' >/home/ventas/lotobet/current.xml
