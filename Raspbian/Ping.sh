@@ -9,12 +9,6 @@ bash Apagado.sh &
 bash ControlHorario.sh &
 bash Boton_Premios.sh &
 bash Icono_network.sh &
+bash Monitorear_Coneccion.sh &
 
-while true ; do
-if [ $(xprintidle) -lt 30000 ] ; then
-ping 8.8.8.8 -i 0.2 -w 5 
-else
-sleep 1
-fi
-done
 
