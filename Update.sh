@@ -45,6 +45,7 @@ do
 done
 
 for i in "${Archivo[@]}"; do
+	echo $i
     [[ "$i" == "ControlHorarioB.sh" ]] && i = "ControlHorario.sh"
 	echo $i
     if [ $(stat -c%s $i) -gt 100 ] ; then
