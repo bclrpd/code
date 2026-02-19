@@ -11,6 +11,7 @@ while true ; do
             echo "$(date +%FT%T)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
         else
             echo "$(date +%FT%T)/$ping_result" | tr -d '\n' >> Registro_ping
+            echo '\n' >> Registro_ping
             sleep 5
         fi
     elif [ "$idle_time" -gt $((contador * 30000)) ] ; then
@@ -21,6 +22,7 @@ while true ; do
             echo "$(date +%FT%T)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
          else
             echo "$(date +%FT%T)/$ping_result" | tr -d '\n' >> Registro_ping
+            echo '\n' >> Registro_ping
             sleep 5
         fi
     else
