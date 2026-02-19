@@ -32,7 +32,7 @@ if [ "$3" == "A" ] ; then
 else
 	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
 fi
-
+echo "archivo $Archivo"
 X=0
 for i in "${Archivo[@]}"
 do
