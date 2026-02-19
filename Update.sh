@@ -40,12 +40,13 @@ do
 	if [ $? -eq 0 ] ; then
 		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >tmp/ControlHorario.sh && continue
 		wget $URL$i -q -O- | tr -d '\r' >tmp/$i
-		[ $? -eq 0 ] || X=1 && echo "Error $i"
+		[ $? -eq 0 ] || X=1
 	fi
 done
 
 for i in "${Archivo[@]}"; do
     [ "$i" == "ControlHorarioB.sh" ] && i = "ControlHorario.sh"
+	echo $i
     if [ $(stat -c%s $i) -gt 100 ] ; then
         cp -f tmp/$i /home/ventas/.Auto/$i
         if [ $? -eq 0 ]; then
