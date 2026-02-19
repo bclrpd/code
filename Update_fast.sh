@@ -27,10 +27,10 @@ function check_descargar_cliente {
 check_descargar_cliente
 	
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
-if [ "$3" == "A" ] ; then
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
-else
+if [ "$3" == "B" ] ; then
 	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
+else
+	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
 fi
 
 X=0
@@ -40,12 +40,12 @@ do
 	if [ $? -eq 0 ] ; then
 		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >tmp/ControlHorario.sh && continue
 		wget $URL$i -q -O- | tr -d '\r' >tmp/$i
-		[ $? -eq 0 ] || X=1 
+		[ $? -eq 0 ] || X=1
 	fi
 done
 
 for i in "${Archivo[@]}"; do
-    [ "$i" = "ControlHorarioB.sh" ] && i = "ControlHorario.sh"
+    [ "$i" == "ControlHorarioB.sh" ] && i="ControlHorario.sh"
     if [ $(stat -c%s $i) -gt 100 ] ; then
         cp -f tmp/$i /home/ventas/.Auto/$i
         if [ $? -eq 0 ]; then
@@ -65,10 +65,8 @@ gsettings set org.gnome.nm-applet show-applet false
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
 
 #-----------------------------
-pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
+#pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 sleep 1
 systemctl reboot -i
-#--------------------
-
 exit
 
