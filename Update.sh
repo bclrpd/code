@@ -67,7 +67,7 @@ gsettings set org.gnome.nm-applet show-applet false
 #-----------------------------
 pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 sleep 1
-systemctl reboot -i
+#systemctl reboot -i
 #--------------------
 
 exit
