@@ -34,7 +34,7 @@ else
 fi
 
 X=0
-for i in "${Archivo[@]}"
+for i in "${Archivo[@]}";
 do
 	wget -q --method HEAD $URL$i
 	if [ $? -eq 0 ] ; then
