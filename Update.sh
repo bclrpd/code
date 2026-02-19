@@ -34,8 +34,7 @@ else
 fi
 
 X=0
-for i in "${Archivo[@]}";
-do
+for i in "${Archivo[@]}"; do
 	wget -q --method HEAD $URL$i
 	if [ $? -eq 0 ] ; then
 		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >tmp/ControlHorario.sh && continue
@@ -46,7 +45,7 @@ done
 
 for i in "${Archivo[@]}"; do
     [ "$i" == "ControlHorarioB.sh" ] && i="ControlHorario.sh"
-    if [ $(stat -c%s $i) -gt 100 ] ; then
+    if [ $(stat -c%s tmp/$i) -gt 100 ] ; then
         cp -f tmp/$i /home/ventas/.Auto/$i
         if [ $? -eq 0 ]; then
 			rm tmp/$i
@@ -62,13 +61,7 @@ wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/current.xml -q 
 wget https://raw.githubusercontent.com/bclrpd/code/main/panel -q -O- | tr -d '\r' >/home/ventas/.config/lxpanel/LXDE-pi/panels/panel
 gsettings set org.gnome.nm-applet show-applet false
 
-[ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
-
-#-----------------------------
-#pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
-sleep 1
-systemctl reboot -i
-#--------------------
+[ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh && systemctl reboot -i
 
 exit
 
