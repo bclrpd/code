@@ -10,7 +10,7 @@ while true ; do
         if  [ ${#lista[@]} -eq 27 ] ; then
             echo "$(date +%FT%T)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
         else
-            echo "$(date +%FT%T)/$ping_result" tr -d '\n' >> Registro_ping
+            echo "$(date +%FT%T)/$ping_result" | tr -d '\n' >> Registro_ping
         fi
     elif [ "$idle_time" -gt $((contador * 30000)) ] ; then
         ((contador++))
@@ -19,7 +19,7 @@ while true ; do
         if  [ ${#lista[@]} -eq 27 ] ; then
             echo "$(date +%FT%T)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
          else
-            echo "$(date +%FT%T)/$ping_result" tr -d '\n' >> Registro_ping
+            echo "$(date +%FT%T)/$ping_result" | tr -d '\n' >> Registro_ping
         fi
     else
         sleep 1
