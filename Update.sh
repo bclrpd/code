@@ -40,7 +40,7 @@ do
 	if [ $? -eq 0 ] ; then
 		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >tmp/ControlHorario.sh && continue
 		wget $URL$i -q -O- | tr -d '\r' >tmp/$i
-		[ $? -eq 0 ] || X=1 
+		[ $? -eq 0 ] || X=1 && echo "Error $i"
 	fi
 done
 
