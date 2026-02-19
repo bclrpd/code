@@ -32,7 +32,7 @@ if [ "$3" == "B" ] ; then
 else
 	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
 fi
-echo "archivo $Archivo"
+
 X=0
 for i in "${Archivo[@]}"
 do
@@ -45,9 +45,7 @@ do
 done
 
 for i in "${Archivo[@]}"; do
-	echo $i
     [ "$i" == "ControlHorarioB.sh" ] && i="ControlHorario.sh"
-	echo $i
     if [ $(stat -c%s $i) -gt 100 ] ; then
         cp -f tmp/$i /home/ventas/.Auto/$i
         if [ $? -eq 0 ]; then
@@ -69,7 +67,7 @@ gsettings set org.gnome.nm-applet show-applet false
 #-----------------------------
 pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 sleep 1
-#systemctl reboot -i
+systemctl reboot -i
 #--------------------
 
 exit
