@@ -8,14 +8,14 @@ while true ; do
         ping_result=$(ping 8.8.8.8 -i 0.2 -w 10 -q)
         lista=( $ping_result )
         if  [ ${#lista[@]} -gt 16 ] ; then
-            echo "$(date +%s)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
+            echo "$(date +%FT%T)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
         fi
     elif [ "$idle_time" -gt $((contador * 30000)) ] ; then
         ((contador++))
         ping_result=$(ping 8.8.8.8 -i 0.2 -w 10 -q)
         lista=( $ping_result ) 
         if  [ ${#lista[@]} -gt 16 ] ; then
-            echo "$(date +%s)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
+            echo "$(date +%FT%T)/${lista[17]//%/}/${lista[25]}" >> Registro_ping
         fi
     else
         sleep 1
