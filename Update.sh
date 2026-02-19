@@ -65,7 +65,7 @@ gsettings set org.gnome.nm-applet show-applet false
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh
 
 #-----------------------------
-pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
+#pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"
 sleep 1
 systemctl reboot -i
 #--------------------
