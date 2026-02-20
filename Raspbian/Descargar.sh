@@ -15,12 +15,12 @@ Hora=$(date -d "$TIME" +%T)
 Fecha=$(date -d "$TIME" +%m/%d/%Y)
 if [ $(date --date "$Hora" +%H%M) -lt 1400 ]; then
     Z="$(grep "$Fecha"_1 -w < Registro)"
-	if [ "$Z" == *"TARDE"* ]; then
+	if [[ "$Z" == *"TARDE"* ]]; then
         cambiar_fondo=0
     fi
 elif [ $(date --date "$Hora" +%H%M) -gt 1700 ]; then
     Z="$(grep "$Fecha"_2 -w < Registro)"
-	if [ "$Z" == *"TARDE"* ]; then
+	if [[ "$Z" == *"TARDE"* ]]; then
         cambiar_fondo=0
     fi
 fi
