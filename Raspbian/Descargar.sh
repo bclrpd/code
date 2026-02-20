@@ -11,14 +11,19 @@ while [ -z "$TIME" ]; do
 	TIME="$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
 	sleep 1
 done
-time=$(date -d "$TIME" +%s)
-hora_archivo=$(stat /home/ventas/.Auto/msg/output.jpg | grep 'Modificación:')
-hora_archivo=${hora_archivo/'Modificación: '/}
-hora_archivo=$(date -d "$hora_archivo" +%s)
-if [ $(($time - $hora_archivo)) -lt 18000 ]; then
-	cambiar_fondo=0
+Hora=$(date -d "$TIME" +%T)
+Fecha=$(date -d "$TIME" +%m/%d/%Y)
+if [ $(date --date "$Hora" +%H%M) -lt 1400 ]; then
+    Z="$(grep "$Fecha"_1 -w < Registro)"
+	if [ "$Z" == *"TARDE"* ]; then
+        cambiar_fondo=0
+    fi
+elif [ $(date --date "$Hora" +%H%M) -gt 1700 ]; then
+    Z="$(grep "$Fecha"_2 -w < Registro)"
+	if [ "$Z" == *"TARDE"* ]; then
+        cambiar_fondo=0
+    fi
 fi
-
 
 if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "fb62eed0335a711cf5701699783d59b0" ]; then
 	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
