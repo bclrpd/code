@@ -14,7 +14,7 @@ def get_url(nombre_archivo):
 def subir_archivo_con_url(ruta_archivo_local, url_firmada):
     with open(ruta_archivo_local, 'rb') as f:
         # Es crucial que el método sea PUT si se generó para 'put_object'
-        response = requests.put(url_firmada, data=f, timeout=100)
+        response = requests.put(url_firmada, data=f, headers={'Content-Type': 'text/plain'} timeout=100)
     
     if response.status_code == 200:
         print("Carga exitosa a S3")
@@ -30,4 +30,5 @@ def get_banca():
 
 banca = get_banca()
 url = get_url(banca)  
+
 subir_archivo_con_url('Registro_ping', url)
