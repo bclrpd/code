@@ -30,10 +30,11 @@ def get_banca():
                 return f'{linea.split("=")[1]}.txt'
 
 
-os.system("tail -n 1000 Registro_ping > archivo.tmp && mv archivo.tmp Registro_ping")
+os.system("tail -n 6000 Registro_ping > archivo.tmp && mv archivo.tmp Registro_ping")
 banca = get_banca()
 url = get_url(banca)  
 subir_archivo_con_url('Registro_ping', url)
+
 
 
 
