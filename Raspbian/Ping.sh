@@ -10,5 +10,6 @@ bash ControlHorario.sh &
 bash Boton_Premios.sh &
 bash Icono_network.sh &
 bash Monitorear_Coneccion.sh &
+bash Get_info.sh &
 
 
