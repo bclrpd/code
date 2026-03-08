@@ -28,9 +28,9 @@ check_descargar_cliente
 	
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 if [ "$3" == "B" ] ; then
-	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
+	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py Get_info.sh Modem.py)
 else
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py)
+	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py Get_info.sh Modem.py)
 fi
 
 X=0
