@@ -32,22 +32,6 @@ done
 t0=0
 interv=20	#minutos
 while true ; do
-	t1=$(date +%H%M)
-	t_up=$((t0 + interv))
-	t_dow=$((t0 - interv))
-	if [[ "$t1" -lt "$t_dow" || "$t1" -gt "$t_up" ]]; then
-		Coneccion_a_Modem="$(cat info.ini | grep 'Coneccion_Modem_PC=' | cut -d'=' -f2)"
-		m_name="$(cat info.ini | grep 'Modem=' | cut -d'=' -f2)"
-		if [[ "$Coneccion_a_Modem" == "True" ]]; then
-			if [ -z "$(ps -ax |grep -v grep | grep 'python3 Modem.py')" ] ; then
-				python3 Modem.py $m_name &
-				echo "$m_name"
-				t0=$(date +%H%M)
-			fi
-			
-		fi
-	fi
-	
 	route=$(ip route | grep default)
 	ip=$(echo ${route##*'via '} | awk '{ print $1}')
 	if ping $ip -i .2 -c 2 -w 1 -q >/dev/null ; then
@@ -66,6 +50,24 @@ while true ; do
 	wifi_Quality=$(echo ${wf##*'Link Quality='} | awk '{ print $1}' | cut -d/ -f1)
 	sed -i "s/^wifi_Signal=.*/wifi_Signal=$wifi_Signal/" info.ini
 	sed -i "s/^wifi_Quality=.*/wifi_Quality=$wifi_Quality/" info.ini
-	echo '...'
+	
+    t1=$(date +%H%M)
+	t_up=$((t0 + interv))
+	t_dow=$((t0 - interv))
+	if [[ "$t1" -lt "$t_dow" || "$t1" -gt "$t_up" ]]; then
+		Coneccion_a_Modem="$(cat info.ini | grep 'Coneccion_Modem_PC=' | cut -d'=' -f2)"
+		m_name="$(cat info.ini | grep 'Modem=' | cut -d'=' -f2)"
+		if [[ "$Coneccion_a_Modem" == "True" ]]; then
+			if [ -z "$(ps -ax |grep -v grep | grep 'python3 Modem.py')" ] ; then
+				python3 Modem.py $m_name &
+				echo "$m_name"
+				t0=$(date +%H%M)
+			fi
+			
+		fi
+	fi
+	     
+    echo '...'
 	sleep 5
 done
+
