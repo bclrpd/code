@@ -10,8 +10,8 @@ Proceder(){
     interface="$(cat info.ini | grep 'Intercafe=' | cut -d'=' -f2)"
     wifiSignal="$(cat info.ini | grep 'wifi_Signal=' | cut -d'=' -f2)"
     wifiQuality="$(cat info.ini | grep 'wifi_Quality=' | cut -d'=' -f2)"
-    Nivel_Senal="$(cat info.ini | grep 'Nivel_Senal=' | cut -d'=' -f2)"
-    Senal_Ruido="$(cat info.ini | grep 'Senal_Ruido=' | cut -d'=' -f2)"
+    Senal="$(cat info.ini | grep 'Senal=' | cut -d'=' -f2)"
+    Senal_Calidad="$(cat info.ini | grep 'Senal_Calidad=' | cut -d'=' -f2)"
     
     ping_result=$(ping 8.8.8.8 -i 0.2 -w 9 -q 2>&1)
     if [[ "$ping_result" == *"min/avg/max/mdev"* ]]; then
@@ -28,7 +28,7 @@ Proceder(){
         sleep 9
     else
         [[ "$pqtPerdidos" == "100" ]] && estadistica=''
-        echo "$(date +%FT%T)|$modem|$red|$interface|$wifiSignal|$wifiQuality|$Nivel_Senal|$Senal_Ruido|$pqtPerdidos|$estadistica" >> Registro_ping
+        echo "$(date +%FT%T)|$modem|$red|$interface|$wifiSignal|$wifiQuality|$Senal|$Senal_Calidad|$pqtPerdidos|$estadistica" >> Registro_ping
     fi
     }
 
