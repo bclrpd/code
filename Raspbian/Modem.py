@@ -129,7 +129,7 @@ def Huawey():
         for key, value in resultado.items():
             # if not value == '':
             os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
-            print(key+' = '+str(value))
+            #print(key+' = '+str(value))
             
 
     def getInfo():
@@ -355,7 +355,7 @@ def Alcatel():
         for key, value in resultado.items():
             #if not value == '':
             os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
-            print(key+' = '+str(value))
+            #print(key+' = '+str(value))
     
     def getInfo():
         try:
