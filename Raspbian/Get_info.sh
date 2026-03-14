@@ -7,11 +7,11 @@ info=(
 	Intercafe
 	wifi_Signal
 	wifi_Quality
-	Telefonica
-	Nivel_Senal
+	Telefonica	
 	Modelo_Dispositivo
 	Codigo_SIM
-	Senal_Ruido
+	Senal
+	Senal_Calidad
 	Id_Celda
 	Disp_Conectados_Wifi
 	Tarjeta_SIM
