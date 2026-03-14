@@ -25,10 +25,10 @@ import selenium.webdriver.chrome.service as service
 
 resultado = {
         'Telefonica': '', 
-        'Nivel_Senal': '', 
         'Modelo_Dispositivo': '', 
-        'Codigo_SIM': '', 
-        'Senal_Ruido': '', 
+        'Codigo_SIM': '',
+        'Senal': '', 
+        'Senal_Calidad': '', 
         'Id_Celda': '', 
         'Disp_Conectados_Wifi': '',
         'Tarjeta_SIM': '',
@@ -79,7 +79,7 @@ def Huawey():
                 'api/device/signal',
                 'api/dialup/mobile-dataswitch',]
 
-    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Ruido':'', 'Id_Celda':'', 'Dis_conectados':''}
+    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Calidad':'', 'Id_Celda':'', 'Dis_conectados':''}
     Tarjeta_SIM ={ '257':'OK' }
     Tarjeta_SIM.update(dict.fromkeys(['255','256','258','259','260','261'], 'NO_SIM'))
     Estado_Coneccion = {'900':'Conectando', '901':'Conectado', '902':'Desconectado', '903':'Desconectando'}
@@ -106,10 +106,8 @@ def Huawey():
     def guardar_Inf(respuesta):
         default = ET.fromstring("<nada></nada>")         
         resultado['Telefonica'] = respuesta.get('api/net/current-plmn', default).findtext('ShortName', '')
-        resultado['Nivel_Senal'] = respuesta.get('api/monitoring/status', default).findtext('SignalIcon', '')
         resultado['Modelo_Dispositivo'] = respuesta.get('api/device/basic_information', default).findtext('devicename', '')
         resultado['Codigo_SIM'] = respuesta.get('api/device/information', default).findtext('Iccid', '')
-        resultado['Senal_Ruido'] = respuesta.get('api/device/signal', default).findtext('sinr', '')
         resultado['Id_Celda'] = respuesta.get('api/device/signal', default).findtext('cell_id', '')
         resultado['Disp_Conectados_Wifi'] = respuesta.get('api/monitoring/status', default).findtext('CurrentWifiUser', '')
         resultado['Tarjeta_SIM'] = Tarjeta_SIM.get(str(respuesta.get('api/monitoring/converged-status', default).findtext('SimState', '')), '')
@@ -118,10 +116,20 @@ def Huawey():
         resultado['Red_Configurada'] = Red_Configurada.get(str(respuesta.get('api/net/net-mode', default).findtext('NetworkMode', '')), '')
         resultado['Datos_Moviles'] = Datos_Moviles.get(str(respuesta.get('api/dialup/mobile-dataswitch', default).findtext('dataswitch', '')), '')
         
+        if '3G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('api/device/signal', default).findtext('rscp', '')
+            resultado['Senal_Calidad'] = respuesta.get('api/device/signal', default).findtext('ecio', '')
+        elif '4G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('api/device/signal', default).findtext('rsrp', '') 
+            resultado['Senal_Calidad'] = respuesta.get('api/device/signal', default).findtext('sinr', '')
+        elif '2G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('api/device/signal', default).findtext('rssi', '')
+        
+        
         for key, value in resultado.items():
             # if not value == '':
             os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
-                # print(key+' = '+str(value))
+            print(key+' = '+str(value))
             
 
     def getInfo():
@@ -160,6 +168,7 @@ def Huawey():
                 url="http://192.168.8.1/"+items
                 response_data = driver.execute_async_script(js_script, url)
                 respuesta[items] = ET.fromstring(response_data)
+                #print(response_data)
 
             guardar_Inf(respuesta)
             
@@ -244,7 +253,7 @@ def Alcatel():
     cookies = {'obj': '%7B%22_%24s_f%22%3A0%2C%22_%24p%22%3A%22%40BBHAEMHJKJK5776%22%7D', 't': '',}
 
     Get_info = ['GetSimStatus', 'GetSystemStatus', 'GetNetworkInfo', 'GetSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
-    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Ruido':'', 'Id_Celda':'', 'Dis_conectados':''}
+    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Calidad':'', 'Id_Celda':'', 'Dis_conectados':''}
     Tarjeta_SIM ={ '0':'NO_SIM', '1':'Detectada', '4':'Bloqueada', '6':'Invalida', '7':'OK' }
     Estado_Coneccion = {'0':'Desconectado', '1':'Conectando', '2':'Conectado', '3':'Desconectando'}
     Red_Conectada = {'0':'Sin servicio', '1':'GPRS(2G)', '2':'EDGE(2G)', '3':'HSPA(3G)', '4':'HSUPA(3G)', '5':'UMTS(3G)', '6':'HSPA+(3G)', '7':'DCHSPA+(3G)', '8':'LTE(4G)', '9':'LTE+(4G+)', '11':'GSM(2G)',}
@@ -323,10 +332,8 @@ def Alcatel():
     
     def guardar_Inf(respuesta):       
         resultado['Telefonica'] = respuesta.get('GetSimStatus', {}).get('SPN', '')
-        resultado['Nivel_Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSSI', '')
         resultado['Modelo_Dispositivo'] = respuesta.get('GetSystemInfo', {}).get('DeviceName', '')
         resultado['Codigo_SIM'] = respuesta.get('GetSystemInfo', {}).get('ICCID', '')
-        resultado['Senal_Ruido'] = respuesta.get('GetNetworkInfo', {}).get('SINR', '')
         resultado['Id_Celda'] = respuesta.get('GetNetworkInfo', {}).get('CellId', '')
         resultado['Disp_Conectados_Wifi'] = respuesta.get('GetConnectedDeviceList', {}).get('TotalConnNum', '')
         resultado['Tarjeta_SIM'] = Tarjeta_SIM.get(str(respuesta.get('GetSimStatus', {}).get('SIMState')), '')
@@ -335,11 +342,20 @@ def Alcatel():
         resultado['Modo_Conec_Configurado'] = Modo_Conec_Configurado.get(str(respuesta.get('GetConnectionSettings', {}).get('ConnectMode')), '')
         resultado['Modo_Busq_Red_Configurado'] = Modo_Busq_Red_Configurado.get(str(respuesta.get('GetNetworkSettings', {}).get('NetselectionMode')), '')
         resultado['Red_Configurada'] = Red_Configurada.get(str(respuesta.get('GetNetworkSettings', {}).get('NetworkMode')), '')
+        if '3G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSCP', '') 
+            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('EcIo', '')
+        elif '4G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSRP', '') 
+            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('SINR', '')
+        elif '2G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSSI', '') 
+         
                
         for key, value in resultado.items():
             #if not value == '':
             os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
-                #print(key+' = '+str(value))
+            print(key+' = '+str(value))
     
     def getInfo():
         try:
@@ -348,6 +364,7 @@ def Alcatel():
                 data['method'] = itmes
                 response = requests.post('http://192.168.1.1/jrd/webapi', cookies=cookies, headers=headers, json=data, verify=False, timeout=10, allow_redirects=False)
                 respuesta[itmes] = response.json()['result']
+                #print(json.dumps(response.json()['result'], indent=4))
             
             guardar_Inf(respuesta)            
             #return json.dumps(resultado, indent=4)
