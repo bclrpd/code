@@ -8,3 +8,4 @@ elif [ "$SHUTDOWN" == "Apagar" ]; then
 fi
 exit 0
 
+#1e9e544039e5b1
