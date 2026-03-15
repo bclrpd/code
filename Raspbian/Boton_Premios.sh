@@ -10,3 +10,4 @@ yad --text="Premios" --text-align=center --form --columns=2 \
 --field="Hoy":fbtn "bash Imprimir.sh Hoy"
 
 exit
+#1e9e544039e5b1
