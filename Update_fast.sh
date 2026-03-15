@@ -35,9 +35,10 @@ Archivo=(
     Get_info.sh 
     Icono_network.sh 
     Impresora.sh 
-    Imprimir.sh Logo 
+    Imprimir.sh  
     Inicio.sh 
-    Keep_Open.sh 
+    Keep_Open.sh
+	Logo
     Modem.py
     Monitorear_Coneccion.sh 
     Mouse.sh 
