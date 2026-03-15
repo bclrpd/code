@@ -35,7 +35,7 @@ fi
 
 X=0
 for i in "${Archivo[@]}"; do
-	[ "$i" = "ControlHorarioB.sh" ] && curl -sfS $URL$i | tr -d '\r' >tmp/ControlHorario.sh && continue
+	[ "$i" = "ControlHorarioB.sh" ] && curl -sfSL $URL$i | tr -d '\r' >tmp/ControlHorario.sh && continue
 	curl -sfSL $URL$i | tr -d '\r' >tmp/$i
 	[ $? -eq 0 ] || X=1
 done
