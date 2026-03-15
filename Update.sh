@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 
 function descargar_cliente {
-	wget -c https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/ --limit-rate=100k
+	wget -c https://raw.githubusercontent.com/bclrpd/code/main/LotobetClientExe.jar -P tmp/
 	if [ $? -eq 0 ] ; then
 		cp -f tmp/LotobetClientExe.jar /home/ventas/lotobet/LotobetClientExe.jar
 		if [ $? -eq 0 ]; then
@@ -27,10 +27,33 @@ function check_descargar_cliente {
 check_descargar_cliente
 	
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
+Archivo=(
+    Apagado.sh 
+    Boton_Premios.sh 
+    CloneMac.sh 
+    Descargar.sh 
+    Get_info.sh 
+    Icono_network.sh 
+    Impresora.sh 
+    Imprimir.sh  
+    Inicio.sh 
+    Keep_Open.sh
+    Modem.py
+    Monitorear_Coneccion.sh 
+    Mouse.sh 
+    Ping.sh 
+    Reboot.py 
+    ShutdownButton.sh 
+    Sincronizar_Hora.sh 
+    Subir_archivo.py 
+    Tinta.sh 
+    UpdateChek.sh
+)
+
 if [ "$3" == "B" ] ; then
-	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py Get_info.sh Modem.py)
+	Archivo+=(ControlHorarioB.sh)
 else
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py Get_info.sh Modem.py)
+	Archivo+=(ControlHorario.sh)
 fi
 
 X=0
@@ -42,7 +65,7 @@ done
 
 for i in "${Archivo[@]}"; do
     [ "$i" == "ControlHorarioB.sh" ] && i="ControlHorario.sh"
-    if [ $(stat -c%s tmp/$i) -gt 100 ] ; then
+    if grep -q "1e9e544039e5b1" tmp/$i; then
         cp -f tmp/$i /home/ventas/.Auto/$i
         if [ $? -eq 0 ]; then
 			rm tmp/$i
@@ -61,4 +84,3 @@ gsettings set org.gnome.nm-applet show-applet false
 [ $X -eq 0 ] && echo "Version=$1" > Current.ini && echo "Banca=$2" >> Current.ini && echo "Tipo=$3" >> Current.ini && rm Update.sh && systemctl reboot -i
 
 exit
-
