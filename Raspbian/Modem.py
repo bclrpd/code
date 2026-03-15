@@ -407,3 +407,5 @@ elif modem == 'Alcatel':
     Alcatel()
 else:
     print(f"Error __Moden '{modem}' no identificado__")
+
+#1e9e544039e5b1
