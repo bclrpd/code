@@ -35,6 +35,6 @@ banca = get_banca()
 url = get_url(banca)  
 subir_archivo_con_url('Registro_ping', url)
 
-
+#1e9e544039e5b1
 
 
