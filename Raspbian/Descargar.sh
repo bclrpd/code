@@ -26,11 +26,15 @@ elif [ $(date --date "$Hora" +%H%M) -gt 1700 ]; then
 fi
 
 if [ "$(md5sum Wallpaper.jpg | awk 'NR==1 {print $1}')" != "fb62eed0335a711cf5701699783d59b0" ]; then
-	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg -O Wallpaper.jpg --limit-rate=10k
+	curl -sfSL https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Wallpaper.jpg > Wallpaper.jpg 
+fi
+
+if [ "$(md5sum Logo | awk 'NR==1 {print $1}')" != "6a131cabcf727264da56e52334518d5d" ]; then
+	curl -sfSL https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/Logo > Logo
 fi
 	
 if [ "$(md5sum /home/ventas/lotobet/.61606.png | awk 'NR==1 {print $1}')" != "366ae429b5871b3ca026f2ff5f2c433c" ]; then
-	wget https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png -O /home/ventas/lotobet/.61606.png --limit-rate=10k
+	curl -sfSL https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/LogoPrinter.png > /home/ventas/lotobet/.61606.png
 fi
 
 [ $? -eq 0 ] && [ $cambiar_fondo -eq 1 ] && pcmanfm --set-wallpaper "/home/ventas/.Auto/Wallpaper.jpg"       # Establecer Fondo de pantalla
