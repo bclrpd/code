@@ -38,7 +38,6 @@ Archivo=(
     Imprimir.sh  
     Inicio.sh 
     Keep_Open.sh
-	Logo
     Modem.py
     Monitorear_Coneccion.sh 
     Mouse.sh 
