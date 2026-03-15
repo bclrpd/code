@@ -27,10 +27,33 @@ function check_descargar_cliente {
 check_descargar_cliente
 	
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
+Archivo=(
+    Apagado.sh 
+    Boton_Premios.sh 
+    CloneMac.sh 
+    Descargar.sh 
+    Get_info.sh 
+    Icono_network.sh 
+    Impresora.sh 
+    Imprimir.sh Logo 
+    Inicio.sh 
+    Keep_Open.sh 
+    Modem.py
+    Monitorear_Coneccion.sh 
+    Mouse.sh 
+    Ping.sh 
+    Reboot.py 
+    ShutdownButton.sh 
+    Sincronizar_Hora.sh 
+    Subir_archivo.py 
+    Tinta.sh 
+    UpdateChek.sh
+)
+
 if [ "$3" == "B" ] ; then
-	Archivo=(ControlHorarioB.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py Get_info.sh Modem.py)
+	Archivo+=(ControlHorarioB.sh)
 else
-	Archivo=(ControlHorario.sh Apagado.sh CloneMac.sh Impresora.sh Inicio.sh Ping.sh ShutdownButton.sh UpdateChek.sh Reboot.py Descargar.sh Boton_Premios.sh Imprimir.sh Logo Mouse.sh Tinta.sh Sincronizar_Hora.sh Keep_Open.sh Icono_network.sh Monitorear_Coneccion.sh Subir_archivo.py Get_info.sh Modem.py)
+	Archivo+=(ControlHorario.sh)
 fi
 
 X=0
