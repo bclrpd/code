@@ -35,12 +35,9 @@ fi
 
 X=0
 for i in "${Archivo[@]}"; do
-	wget -q --method HEAD $URL$i
-	if [ $? -eq 0 ] ; then
-		[ "$i" = "ControlHorarioB.sh" ] && wget $URL$i -q -O- | tr -d '\r' >tmp/ControlHorario.sh && continue
-		curl -sfSL $URL$i | tr -d '\r' >tmp/$i
-		[ $? -eq 0 ] || X=1
-	fi
+	[ "$i" = "ControlHorarioB.sh" ] && curl -sfS $URL$i | tr -d '\r' >tmp/ControlHorario.sh && continue
+	curl -sfSL $URL$i | tr -d '\r' >tmp/$i
+	[ $? -eq 0 ] || X=1
 done
 
 for i in "${Archivo[@]}"; do
