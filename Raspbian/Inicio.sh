@@ -92,7 +92,8 @@ verificar_y_reparar_Estado_ini
 
 Conectar_Modem
 (
-. Estado.ini
+ESTADO="$(cat Estado.ini | grep 'ESTADO=' | cut -d'=' -f2)"
+REINICIO="$(cat Estado.ini | grep 'REINICIO=' | cut -d'=' -f2)"
 echo "# CONSORCIO DE BANCAS LA RAPIDA" ; sleep 1
 for i in {0..4} ; do
 	echo "25"
@@ -104,8 +105,8 @@ for i in {0..4} ; do
   		(gnome-calculator)&
 		#(/usr/bin/java -jar /home/ventas/lotobet/Lotobet.jar)&
 		(/usr/bin/java -jar /home/ventas/lotobet/LotobetClientExe.jar)&
-		echo "ESTADO=Conectado" > Estado.ini
-		echo "REINICIO=0" >> Estado.ini	
+        sed -i "s/^ESTADO=.*/ESTADO=Conectado/" Estado.ini	
+        sed -i "s/^REINICIO=.*/REINICIO=0/" Estado.ini
 		echo "75" ; sleep 1
 		echo "# CONEXION EXITOSA" ; sleep 1
 		echo "90"
@@ -127,8 +128,8 @@ for i in {0..4} ; do
 			sleep 10
 		fi
 		Conectar_Modem
-		echo "ESTADO=Desconectado" > Estado.ini
-		echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
+        sed -i "s/^ESTADO=.*/ESTADO=Desconectado/" Estado.ini
+        sed -i "s/^REINICIO=.*/REINICIO=$(($REINICIO + 1))/" Estado.ini
 		echo "#.		ERROR DE CONEXION 		.\n" \
 		"              NUEVO INTENTO EN 5 S " ;sleep 1
 		echo "#.		ERROR DE CONEXION 		.\n" \
@@ -154,9 +155,11 @@ zenity --progress \
 --no-cancel
 
 
-. Estado.ini
-echo ${ESTADO}
-if [ ${ESTADO} = "Conectado" ] ;then
+
+ESTADO="$(cat Estado.ini | grep 'ESTADO=' | cut -d'=' -f2)"
+REINICIO="$(cat Estado.ini | grep 'REINICIO=' | cut -d'=' -f2)"
+echo $ESTADO
+if [ $ESTADO = "Conectado" ] ;then
 	bash Keep_Open.sh &
 	CONTADOR=0
 	while true ;do
@@ -169,8 +172,8 @@ if [ ${ESTADO} = "Conectado" ] ;then
 			if [ $CONTADOR -lt 6 ] ; then
 				let CONTADOR++
 			else
-				echo "ESTADO=Desconectado" > Estado.ini
-				echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
+                sed -i "s/^ESTADO=.*/ESTADO=Desconectado/" Estado.ini
+                sed -i "s/^REINICIO=.*/REINICIO=$(($REINICIO + 1))/" Estado.ini
 				zenity --info --text="Se Perdio La Conexion a Internet\nLa Computadora Se Reiniciara En 10 Segundos" \
 				--width="400" --height="100" --timeout=10
 				reboot
@@ -181,8 +184,8 @@ if [ ${ESTADO} = "Conectado" ] ;then
 			if [ $CONTADOR -lt 6 ] ; then
 				let CONTADOR++
 			else
-				echo "ESTADO=Desconectado" > Estado.ini
-				echo "REINICIO="$((${REINICIO} + 1)) >> Estado.ini
+                sed -i "s/^ESTADO=.*/ESTADO=Desconectado/" Estado.ini
+                sed -i "s/^REINICIO=.*/REINICIO=$(($REINICIO + 1))/" Estado.ini
 				zenity --error --text="MODEM NO DETECTADO\nLA COMPUTADORA SE REINICIARA" \
 				 --width="300" --height="100" --timeout=10
 				reboot
@@ -190,9 +193,9 @@ if [ ${ESTADO} = "Conectado" ] ;then
 			fi
 		fi
 	done
-elif [ ${REINICIO} -gt 2 ] ; then
+elif [ $REINICIO -gt 2 ] ; then
 	if [ $(nmcli n c) = "full" ] ; then
-		if ((${REINICIO} % 3 == 0 )); then
+		if (($REINICIO % 3 == 0 )); then
 			Reinicar_Modem
 		else
 			zenity --error --text="NO HAY CONEXION A INTERNET\nLLAMA A TU SUPERVISOR" \
