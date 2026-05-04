@@ -28,6 +28,8 @@ for i in "${info[@]}" ; do
 	[[ "$file" == *"$i"* ]] || echo "$i=" >> info.ini
 	
 done
+
+[[ "$(file -bi info.ini)" == *"charset=binary" ]] && $(sed -i 's/\x0//g' info.ini) #Repara el archivo
 	
 t0=0
 interv=20	#minutos
