@@ -77,6 +77,7 @@ Conectar_Modem(){
 
 verificar_y_reparar_Estado_ini(){
 	[[ "$(file -bi Estado.ini)" == *"charset=binary" ]] && $(sed -i 's/\x0//g' Estado.ini) #Repara el archivo
+	sed -i 's/[^[:print:]]//g' Estado.ini  #Repara el archivo
 	lineas=(
 		ESTADO
 		REINICIO
