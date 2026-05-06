@@ -32,7 +32,8 @@ Proceder(){
     fi
     }
 
-[[ "$(file -bi Registro_ping)" == *"charset=binary" ]] && $(sed -i 's/\x0//g' Registro_ping) #Repara el archivo
+#[[ "$(file -bi Registro_ping)" == *"charset=binary" ]] && $(sed -i 's/\x0//g' Registro_ping) #Repara el archivo
+sed -i 's/[^[:print:]]//g' Registro_ping  #Repara el archivo
 while true ; do
     idle_time=$(xprintidle)
   
