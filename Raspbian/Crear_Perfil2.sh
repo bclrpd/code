@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd "$(dirname "$0")"
 # Configuración
 ORIGEN="/etc/NetworkManager/system-connections/Conexión inalámbrica 1.nmconnection"
 DESTINO="/etc/NetworkManager/system-connections/Conexión inalámbrica 2.nmconnection"
@@ -23,5 +23,5 @@ sudo chmod 600 "$DESTINO"
 
 # 6. Avisar a NetworkManager que hay un archivo nuevo
 sudo nmcli connection reload
-
+rm Crear_Perfil2.sh # elimina el script al finalizar
 echo "✅ Perfil copiado y modificado en $DESTINO"
