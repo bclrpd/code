@@ -65,10 +65,12 @@ Conectar_Modem(){
 				nmcli r wifi on
 				sleep 5
 				if [ -z $(nmcli d |grep "conectado" -w | awk '{print $2}') ] ; then #Revisa si aun no hay conexion
-					nmcli c up "Conexión inalámbrica 1" &
+					#nmcli c up "Conexión inalámbrica 1" &
+					for red in "Conexión inalámbrica 1" "Conexión inalámbrica 2"; do nmcli c up "$red" && break; done &
 				fi
 			else
-				nmcli c up "Conexión inalámbrica 1" &
+				#nmcli c up "Conexión inalámbrica 1" &
+				for red in "Conexión inalámbrica 1" "Conexión inalámbrica 2"; do nmcli c up "$red" && break; done &
 				sleep 7
 			fi
 		fi
