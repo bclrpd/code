@@ -10,7 +10,7 @@ NUEVA_CLAVE=$(echo "VCVFVkhHTWJCZlY4ejJAaA==" | base64 --decode)
 sudo cp "$ORIGEN" "$DESTINO"
 
 # 2. Modificar el ID interno (el nombre que muestra nmcli)
-sudo sed -i "s/^id=.*/id=perfil 2/" "$DESTINO"
+sudo sed -i "s/^id=.*/id=Conexión inalámbrica 2/" "$DESTINO"
 
 # 3. Modificar el SSID
 sudo sed -i "s/^ssid=.*/ssid=$NUEVO_SSID/" "$DESTINO"
