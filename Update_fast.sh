@@ -30,7 +30,8 @@ URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 Archivo=(
     Apagado.sh 
     Boton_Premios.sh 
-    CloneMac.sh 
+    CloneMac.sh
+	Crear_Perfil2.sh
     Descargar.sh 
     Get_info.sh 
     Icono_network.sh 
