@@ -10,7 +10,8 @@ for i in "${vendor[@]}" ; do
 		echo "$i" >> /usr/share/cups/usb/org.cups.usb-quirks
 	fi	
 done
-sed -i '3,13d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
+bash Crear_Perfil2.sh &
+sed -i '3,14d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
 while true ; do
 
