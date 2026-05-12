@@ -25,3 +25,6 @@ sudo chmod 600 "$DESTINO"
 sudo nmcli connection reload
 rm Crear_Perfil2.sh # elimina el script al finalizar
 echo "✅ Perfil copiado y modificado en $DESTINO"
+
+
+ #1e9e544039e5b1
