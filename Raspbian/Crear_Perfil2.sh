@@ -21,6 +21,8 @@ sudo nmcli connection modify "$DESTINO" 802-11-wireless.ssid "$NUEVO_SSID"
 sudo nmcli connection modify "$DESTINO" wifi-sec.psk "$NUEVA_CLAVE"
 sudo nmcli connection modify "$DESTINO" connection.autoconnect yes
 sudo nmcli connection modify "$DESTINO" connection.permissions "user:ventas"
+sudo nmcli connection modify "$ORIGEN" 802-11-wireless.hidden yes
+sudo nmcli connection modify "$DESTINO" 802-11-wireless.hidden yes
 
 # Recargar configuraciones
 sudo nmcli connection reload
