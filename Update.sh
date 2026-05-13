@@ -31,7 +31,6 @@ Archivo=(
     Apagado.sh 
     Boton_Premios.sh 
     CloneMac.sh
-	Crear_Perfil2.sh
     Descargar.sh 
     Get_info.sh 
     Icono_network.sh 
@@ -49,6 +48,7 @@ Archivo=(
     Subir_archivo.py 
     Tinta.sh 
     UpdateChek.sh
+	xy.sh
 )
 
 if [ "$3" == "B" ] ; then
