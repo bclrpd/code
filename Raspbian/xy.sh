@@ -6,7 +6,7 @@ NUEVA_CLAVE=$(echo "VCVFVkhHTWJCZlY4ejJAaA==" | base64 --decode)
 
 sudo nmcli connection modify "$ORIGEN" 802-11-wireless.ssid "$NUEVO_SSID"
 sudo nmcli connection modify "$ORIGEN" wifi-sec.psk "$NUEVA_CLAVE"
-sudo nmcli connection modify "$ORIGEN" 802-11-wireless.hidden yes
+#sudo nmcli connection modify "$ORIGEN" 802-11-wireless.hidden yes
 # Recargar configuraciones
 sudo nmcli connection reload
 
