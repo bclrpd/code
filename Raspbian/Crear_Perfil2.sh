@@ -20,7 +20,7 @@ sudo nmcli connection clone "$ORIGEN" "$DESTINO"
 sudo nmcli connection modify "$DESTINO" 802-11-wireless.ssid "$NUEVO_SSID"
 sudo nmcli connection modify "$DESTINO" wifi-sec.psk "$NUEVA_CLAVE"
 sudo nmcli connection modify "$DESTINO" connection.autoconnect yes
-sudo nmcli connection modify "Conexión inalámbrica 2" connection.permissions "user:ventas"
+sudo nmcli connection modify "$DESTINO" connection.permissions "user:ventas"
 
 # Recargar configuraciones
 sudo nmcli connection reload
