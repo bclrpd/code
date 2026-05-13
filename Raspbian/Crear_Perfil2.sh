@@ -1,34 +1,29 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-# Configuración
-ORIGEN="/etc/NetworkManager/system-connections/Conexión inalámbrica 1.nmconnection"
-DESTINO="/etc/NetworkManager/system-connections/Conexión inalámbrica 2.nmconnection"
+ORIGEN="Conexión inalámbrica 1"
+DESTINO="Conexión inalámbrica 2"
+
 NUEVO_SSID="Cargando.."
 NUEVA_CLAVE=$(echo "VCVFVkhHTWJCZlY4ejJAaA==" | base64 --decode)
-NUEVO_UUID=$(uuid)
 
-# 1. Copiar el archivo original con permisos de root
-sudo cp "$ORIGEN" "$DESTINO"
+if ! nmcli connection show "$ORIGEN" >/dev/null 2>&1; then
+    echo "❌ La conexión origen no existe: $ORIGEN"
+    exit 1
+fi
 
-# 2. Modificar el ID interno (el nombre que muestra nmcli)
-sudo sed -i "s/^id=.*/id=Conexión inalámbrica 2/" "$DESTINO"
+if nmcli connection show "$DESTINO" >/dev/null 2>&1; then
+    echo "⚠️ La conexión destino ya existe. Eliminando..."
+    sudo nmcli connection delete "$DESTINO"
+fi
 
-# 3. Modificar el SSID
-sudo sed -i "s/^ssid=.*/ssid=$NUEVO_SSID/" "$DESTINO"
+sudo nmcli connection clone "$ORIGEN" "$DESTINO"
+sudo nmcli connection modify "$DESTINO" 802-11-wireless.ssid "$NUEVO_SSID"
+sudo nmcli connection modify "$DESTINO" wifi-sec.psk "$NUEVA_CLAVE"
+sudo nmcli connection modify "$DESTINO" connection.autoconnect yes
 
-# 4. Modificar la contraseña (PSK)
-sudo sed -i "s/^psk=.*/psk=$NUEVA_CLAVE/" "$DESTINO"
-
-# 5. Reemplazar el UUID viejo por el nuevo en el archivo de destino
-sudo sed -i "s/^uuid=.*/uuid=$NUEVO_UUID/" "$DESTINO"
-
-# 6. Ajustar permisos (Crucial: NetworkManager ignora archivos si no son 600)
-sudo chmod 600 "$DESTINO"
-
-# 7. Avisar a NetworkManager que hay un archivo nuevo
+# Recargar configuraciones
 sudo nmcli connection reload
-rm Crear_Perfil2.sh # elimina el script al finalizar
-echo "✅ Perfil copiado y modificado en $DESTINO"
 
-
- #1e9e544039e5b1
+echo "✅ Conexión creada correctamente:"
+ 
+#1e9e544039e5b1
