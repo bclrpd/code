@@ -241,7 +241,7 @@ def Huawey():
 
         
 
-def Alcatel():
+def Alcatel(accion, parametro = ""):
     headers = {
         'Referer': 'http://192.168.1.1/index.html',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
@@ -374,23 +374,6 @@ def Alcatel():
             logear()
             print(f"Error fatal: {str(e)}")
            
-
-
-
-
-    logear()
-    getInfo()
-
-    quit()
-    
-    accion = ""
-    parametro = ""
-    try:
-        accion = sys.argv[1]
-        parametro = sys.argv[2]
-    except Exception as e:
-            print(f"Error fatal: {str(e)}")
-
     logear()
     ejecutar(accion, parametro)
     
@@ -547,31 +530,8 @@ def Tcl():
         except Exception as e:
             logear()
             print(f"Error fatal: {str(e)}")
-           
 
-
-
-    logear()
-    getInfo()
-    quit()
         
-    print(json.dumps(resultado, indent=4))
-    ejecutar('configurarRed', "4G")
-    time.sleep(20)
-    print('----------')
-    #logear()
-    getInfo()
-    print(json.dumps(resultado, indent=4))
-    quit()
-    
-    accion = ""
-    parametro = ""
-    try:
-        accion = sys.argv[1]
-        parametro = sys.argv[2]
-    except Exception as e:
-            print(f"Error fatal: {str(e)}")
-
     logear()
     ejecutar(accion, parametro)
     
@@ -594,18 +554,24 @@ def check():
 
 try:
     modem = sys.argv[1]
+    accion = sys.argv[2]
     #parametro = sys.argv[2]
 except Exception as e:
     print(f"Error __Faltan argumentos__: {str(e)}")
     quit()
-        
+   
+try:
+    parametro = sys.argv[2]
+except Exception as e:
+    parametro = ""
+   
 if modem == 'Huawei':
     Huawey()
 elif modem == 'Alcatel':
     if 'TCL' in check():
-        Tcl()
+        Tcl(accion, parametro)
     else:
-        Alcatel()
+        Alcatel(accion, parametro)
 else:
     print(f"Error __Moden '{modem}' no identificado__")
 
