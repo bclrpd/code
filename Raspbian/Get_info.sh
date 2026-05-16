@@ -62,7 +62,7 @@ while true ; do
 		m_name="$(cat info.ini | grep 'Modem=' | cut -d'=' -f2)"
 		if [[ "$Coneccion_a_Modem" == "True" ]]; then
 			if [ -z "$(ps -ax |grep -v grep | grep 'python3 Modem.py')" ] ; then
-				python3 Modem.py $m_name &
+				python3 Modem.py $m_name 'informacion'&
 				echo "$m_name"
 				t0=$(date +%H%M)
 			fi
