@@ -10,6 +10,7 @@ info=(
 	Telefonica	
 	Modelo_Dispositivo
 	Codigo_SIM
+	Numero_Telefonico
 	Senal
 	Senal_Calidad
 	Id_Celda
