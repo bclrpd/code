@@ -379,7 +379,7 @@ def Alcatel(accion, parametro = ""):
     
 
 
-def Tcl():
+def Tcl(accion, parametro = ""):
 
     headers = {
         "Accept": "application/json, text/plain, */*",
