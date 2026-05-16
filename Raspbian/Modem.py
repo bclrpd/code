@@ -27,6 +27,7 @@ resultado = {
         'Telefonica': '', 
         'Modelo_Dispositivo': '', 
         'Codigo_SIM': '',
+        'Numero_Telefonico': "",
         'Senal': '', 
         'Senal_Calidad': '', 
         'Id_Celda': '', 
@@ -394,6 +395,203 @@ def Alcatel():
     ejecutar(accion, parametro)
     
 
+
+def Tcl():
+
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "Origin": 'http://192.168.1.1',
+        "Referer": 'http://192.168.1.1/',
+        "_TclRequestVerificationKey": 'KSDHSDFOGQ5WERYTUIQWERTYUISDFG1HJZXCVCXBN2GDSMNDHKVKFsVBNf',
+        "custom_id": "JO",
+        "device_name": "HH63A"
+    }
+    
+    payload = {
+        "_": int(time.time() * 1000),
+        "id": "12",
+        "jsonrpc": "2.0",
+        "method": "",
+        "params": {}
+    }
+
+    #Get_info = ['GetSimStatus', 'GetSystemStatus', 'GetNetworkInfo', 'GetSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
+    Get_info = ['GetSimStatus', 'GetModemStatus', 'GetNetworkInfo', 'GetApSystemInfo', 'GetModemSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
+    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Calidad':'', 'Id_Celda':'', 'Dis_conectados':''}
+    Tarjeta_SIM ={ '0':'NO_SIM', '1':'Detectada', '4':'Bloqueada', '6':'Invalida', '7':'OK' }
+    Estado_Coneccion = {'0':'Desconectado', '1':'Conectando', '2':'Conectado', '3':'Desconectando'}
+    Red_Conectada = {'0':'Sin servicio', '1':'GPRS(2G)', '2':'EDGE(2G)', '3':'HSPA(3G)', '4':'HSUPA(3G)', '5':'UMTS(3G)', '6':'HSPA+(3G)', '7':'DCHSPA+(3G)', '8':'LTE(4G)', '9':'LTE+(4G+)', '10':'3G', '11':'GSM(2G)',}
+    Modo_Conec_Configurado = {'0':'Manual', '1':'Automatico',}
+    Modo_Busq_Red_Configurado = {'0':'Automatico', '1':'Manual',}
+    Red_Configurada = {'0':'Automatico', '1':'2G', '2':'3G', '3':'4G', '5':'4G'}
+
+    def logear():
+        payload_loging = {
+            "_": int(time.time() * 1000),
+            "id": "1.4",
+            "jsonrpc": "2.0",
+            "method": "Login",
+            "params": {
+                "UserName": "dc13ibej?7",
+                "Password": "542ea57b46521f7ce76a6854d0799cf87f8ebfbddb2091daea0aa3db49a80a11e426eaae5c41ada979eddcf4f4da4ff0d0e90ddc70dba533e179d04e2a2da555"
+            }
+        }
+        try:
+            while True:
+                response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload_loging, verify=False, timeout=10, allow_redirects=False)
+                if response.status_code == 200:
+                    token = response.json()['result']['token']
+                    headers['_TclRequestVerificationToken'] = token
+                    break
+                print("Error al Logear")
+                time.sleep(2)
+        except Exception as e:
+            print(f"Error fatal: {str(e)}")
+        
+
+    def ejecutar(accion, parametro = ""):
+        data = {
+            "_": int(time.time() * 1000),
+            "id": "12",
+            "jsonrpc": "2.0",
+            "method": "",
+            "params": {}
+        }
+        if accion == "conectar":
+            data['method'] = 'Connect'
+        elif accion == "desconectar":
+            data['method'] = 'DisConnect'
+            data['params'] = {"ReconnectFlag":1}
+        elif accion == "configurarRed":
+            if parametro == "Auto":
+                modo = 0
+            elif parametro == "2G":
+                modo = 1
+            elif parametro == "3G":
+                modo = 2
+            elif parametro == "4G":
+                modo = 3
+            else:
+                return
+            
+            data['method'] = 'DisConnect'
+            data['params'] = {"ReconnectFlag":1}
+            response = requests.post('http://192.168.1.1/jrd/webapi', json=data, headers=headers, verify=False, timeout=10, allow_redirects=False)    
+            #time.sleep(3)
+            data['method'] = 'SetNetworkSettings'
+            data['params'] = {
+                              "NetselectionMode": 0,
+                              "NetworkMode": modo,
+                              "NetworkMode5G": 0,
+                              "NetworkBand": 65535,
+                              "DomesticRoam": 0,
+                              "DomesticRoamGuard": 0
+                            }
+            response = requests.post('http://192.168.1.1/jrd/webapi', json=data, headers=headers, verify=False, timeout=10, allow_redirects=False)
+        
+        elif accion == "reiniciar":
+            data['method'] = 'SetDeviceReboot'
+            #data = {"id":"12","jsonrpc":"2.0","method":"SetDeviceReboot","params":{}}
+        elif accion == "informacion":
+            print(getInfo())
+            return 
+        else:
+            return
+            
+        if not accion == "configurarRed":
+            response = requests.post('http://192.168.1.1/jrd/webapi', json=data, headers=headers, verify=False, timeout=10, allow_redirects=False)
+        return(json.dumps(response.json(), indent=4))
+    
+    def guardar_Inf(respuesta):       
+        resultado['Telefonica'] = respuesta.get('GetSimStatus', {}).get('SPN', '')
+        resultado['Modelo_Dispositivo'] = respuesta.get('GetApSystemInfo', {}).get('DeviceName', '')
+        resultado['Codigo_SIM'] = respuesta.get('GetModemSystemInfo', {}).get('ICCID', '')
+        resultado['Numero_Telefonico'] = respuesta.get('GetModemSystemInfo', {}).get('MSISDN', '')
+        resultado['Id_Celda'] = respuesta.get('GetNetworkInfo', {}).get('CellId', '')
+        resultado['Disp_Conectados_Wifi'] = respuesta.get('GetConnectedDeviceList', {}).get('TotalConnNum', '')
+        resultado['Tarjeta_SIM'] = Tarjeta_SIM.get(str(respuesta.get('GetSimStatus', {}).get('SIMState')), '')
+        resultado['Estado_Coneccion'] = Estado_Coneccion.get(str(respuesta.get('GetModemStatus', {}).get('ConnectionStatus')), '')
+        resultado['Red_Conectada'] = Red_Conectada.get(str(respuesta.get('GetModemStatus', {}).get('NetworkType')), '')
+        resultado['Modo_Conec_Configurado'] = Modo_Conec_Configurado.get(str(respuesta.get('GetConnectionSettings', {}).get('ConnectMode')), '')
+        resultado['Modo_Busq_Red_Configurado'] = Modo_Busq_Red_Configurado.get(str(respuesta.get('GetNetworkSettings', {}).get('NetselectionMode')), '')
+        resultado['Red_Configurada'] = Red_Configurada.get(str(respuesta.get('GetNetworkSettings', {}).get('NetworkMode')), '')
+        if '3G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSCP', '') 
+            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('EcIo', '')
+        elif '4G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSRP', '') 
+            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('SINR', '')
+        elif '2G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSSI', '') 
+         
+     
+        for key, value in resultado.items():
+            #if not value == '':
+            os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
+            #print(key+' = '+str(value))
+ 
+    def getInfo():
+        try:
+            respuesta = {}
+            for itmes in Get_info:
+                payload['method'] = itmes
+                response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload, verify=False, timeout=10, allow_redirects=False)
+                respuesta[itmes] = response.json()['result']
+                print(json.dumps(response.json()['result'], indent=4))
+            
+            #print(respuesta)
+            guardar_Inf(respuesta)            
+            #return json.dumps(resultado, indent=4)
+            return resultado
+        except Exception as e:
+            logear()
+            print(f"Error fatal: {str(e)}")
+           
+
+
+
+    logear()
+    getInfo()
+    quit()
+        
+    print(json.dumps(resultado, indent=4))
+    ejecutar('configurarRed', "4G")
+    time.sleep(20)
+    print('----------')
+    #logear()
+    getInfo()
+    print(json.dumps(resultado, indent=4))
+    quit()
+    
+    accion = ""
+    parametro = ""
+    try:
+        accion = sys.argv[1]
+        parametro = sys.argv[2]
+    except Exception as e:
+            print(f"Error fatal: {str(e)}")
+
+    logear()
+    ejecutar(accion, parametro)
+    
+
+def check():
+    try:
+        headers0 = {
+            'Referer': 'http://192.168.1.1/index.html',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36',
+            '_TclRequestVerificationKey': 'KSDHSDFOGQ5WERYTUIQWERTYUISDFG1HJZXCVCXBN2GDSMNDHKVKFsVBNf',
+            '_TclRequestVerificationToken': '',
+            }
+        data0 = {'id': '12', 'jsonrpc': '2.0', 'method': 'GetApSystemInfo', 'params': {}, }
+        
+        response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers0, json=data0, verify=False, timeout=10, allow_redirects=False)
+        return response.json()['result']['DeviceName'] 
+    except Exception as e:
+        return ""
+
+
 try:
     modem = sys.argv[1]
     #parametro = sys.argv[2]
@@ -404,7 +602,10 @@ except Exception as e:
 if modem == 'Huawei':
     Huawey()
 elif modem == 'Alcatel':
-    Alcatel()
+    if 'TCL' in check():
+        Tcl()
+    else:
+        Alcatel()
 else:
     print(f"Error __Moden '{modem}' no identificado__")
 
