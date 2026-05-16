@@ -5,7 +5,8 @@ numlockx on
 Reinicar_Modem(){
 
 if ping 192.168.1.1 -i 0.5 -w 5 ; then
-	python3 /home/ventas/.Auto/Reboot.py Alcatel &
+	#python3 /home/ventas/.Auto/Reboot.py Alcatel &
+	python3 /home/ventas/.Auto/Modem.py 'Alcatel' 'reiniciar' &
 	(
 		for i in {1..50} ; do
 		echo "#.		ERROR DE CONEXION 		.\n" \
