@@ -40,6 +40,8 @@ if [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current 
 		if [ $? -eq 0 ] ; then
 			bash Update.sh $NEW_VERSION $N_BANCA $T_BANCA &
 		fi
+	elif [ $VERSION -eq $NEW_VERSION ] ; then
+		echo "Version=$NEW_VERSION" > Current.ini && echo "Banca=$N_BANCA" >> Current.ini && echo "Tipo=$T_BANCA" >> Current.ini
 	fi
  elif [ ! -z "$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep 0123456789)" ] ; then
     LINE=$(curl -s https://raw.githubusercontent.com/bclrpd/code/main/Current | grep 0123456789)
