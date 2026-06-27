@@ -29,6 +29,7 @@ check_descargar_cliente
 URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 Archivo=(
     Apagado.sh 
+	Bateria.py
     Boton_Premios.sh 
     CloneMac.sh
     Descargar.sh 
@@ -42,7 +43,8 @@ Archivo=(
     Monitorear_Coneccion.sh 
     Mouse.sh 
     Ping.sh 
-    Reboot.py 
+    Reboot.py
+	Start_bateria.sh
     ShutdownButton.sh 
     Sincronizar_Hora.sh 
     Subir_archivo.py 
