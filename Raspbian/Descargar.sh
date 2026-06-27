@@ -4,6 +4,25 @@ cd "$(dirname "$0")"
 until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
+# las siguientes lineas se eliminaran en la primera ejecucion
+#---------------------------------------------------------------
+if [ "$(md5sum bleak.tar.gz | awk 'NR==1 {print $1}')" != "89a871ad491b6075ca0afc580ccb39c6" ]; then
+	curl -sfSL https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/bleak.tar.gz > bleak.tar.gz
+fi
+
+blk=$(python3 -c "import bleak; print('Instalado')")
+if [[ "$blk" != *"Instalado"* ]]; then
+	tar -xvzf bleak.tar.gz
+	cd bleak
+	echo "Instalando...."
+	pip3 install --no-index --find-links=. bleak
+	cd ../
+	rm -rf bleak
+    rm bleak.tar.gz
+	sed -i '7,24d' ./Descargar.sh
+fi
+#-----------------------------------------------
+
 
 cambiar_fondo=1
 while [ -z "$TIME" ]; do
