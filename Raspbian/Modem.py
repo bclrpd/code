@@ -412,25 +412,42 @@ def Tcl(accion, parametro = ""):
     Red_Configurada = {'0':'Automatico', '1':'2G', '2':'3G', '3':'4G', '5':'4G'}
 
     def logear():
-        payload_loging = {
-            "_": int(time.time() * 1000),
-            "id": "1.4",
-            "jsonrpc": "2.0",
-            "method": "Login",
-            "params": {
-                "UserName": "dc13ibej?7",
-                "Password": "414dd683b999688e6f535975bae4147b5d2587342ca4afd3e719091249bbedc4ed7e7a72cd8589cd608acbb2c63537cd2f53fd5b879e8dedbaf86d9062c8f9f3"
-            }
-        }
         try:
-            while True:
-                response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload_loging, verify=False, timeout=10, allow_redirects=False)
-                if response.status_code == 200:
-                    token = response.json()['result']['token']
-                    headers['_TclRequestVerificationToken'] = token
-                    break
-                print("Error al Logear")
-                time.sleep(2)
+            response = requests.post('http://192.168.1.1/jrd/webapi', json={'method': 'GetDeviceSt',}, verify=False)
+            if response.status_code == 200:
+                salt_del_router = response.json()['result']['Salt']
+                print(salt_del_router)
+                psw = base64.b64decode("VCVFVkhHTWJCZlY4ejJAaA==").decode("utf-8")
+                psw_bytes = psw.encode('utf-8')
+                salt_bytes = salt_del_router.encode('utf-8')
+                hash_bytes = hashlib.pbkdf2_hmac(
+                    'sha512', 
+                    psw_bytes, 
+                    salt_bytes, 
+                    1024, 
+                    64
+                )
+                psw_encriptado = hash_bytes.hex()
+            
+                payload_loging = {
+                    "_": int(time.time() * 1000),
+                    "id": "1.4",
+                    "jsonrpc": "2.0",
+                    "method": "Login",
+                    "params": {
+                        "UserName": "dc13ibej?7",
+                        "Password": psw_encriptado
+                    }
+                }
+                
+                while True:
+                    response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload_loging, verify=False, timeout=10, allow_redirects=False)
+                    if response.status_code == 200:
+                        token = response.json()['result']['token']
+                        headers['_TclRequestVerificationToken'] = token
+                        break
+                    print("Error al Logear")
+                    time.sleep(2)
         except Exception as e:
             print(f"Error fatal: {str(e)}")
         
