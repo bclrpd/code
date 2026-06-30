@@ -25,7 +25,9 @@ import selenium.webdriver.chrome.service as service
 
 resultado = {
         'Telefonica': '', 
-        'Modelo_Dispositivo': '', 
+        'Modelo_Dispositivo': '',
+        'Software_Version': '',
+        'Router_IMEI': '', 
         'Codigo_SIM': '',
         'Numero_Telefonico': "",
         'Senal': '', 
@@ -489,6 +491,8 @@ def Tcl(accion, parametro = ""):
     def guardar_Inf(respuesta):       
         resultado['Telefonica'] = respuesta.get('GetSimStatus', {}).get('SPN', '')
         resultado['Modelo_Dispositivo'] = respuesta.get('GetApSystemInfo', {}).get('DeviceName', '')
+        resultado['Software_Version'] = respuesta.get('GetModemSystemInfo', {}).get('SwVersion', '')
+        resultado['Router_IMEI'] = respuesta.get('GetModemSystemInfo', {}).get('IMEI', '')
         resultado['Codigo_SIM'] = respuesta.get('GetModemSystemInfo', {}).get('ICCID', '')
         resultado['Numero_Telefonico'] = respuesta.get('GetModemSystemInfo', {}).get('MSISDN', '')
         resultado['Id_Celda'] = respuesta.get('GetNetworkInfo', {}).get('CellId', '')
@@ -526,7 +530,7 @@ def Tcl(accion, parametro = ""):
             #print(respuesta)
             guardar_Inf(respuesta)            
             #return json.dumps(resultado, indent=4)
-            return resultado
+            return respuesta
         except Exception as e:
             logear()
             print(f"Error fatal: {str(e)}")
