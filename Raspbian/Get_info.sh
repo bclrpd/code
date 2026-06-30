@@ -9,6 +9,8 @@ info=(
 	wifi_Quality
 	Telefonica	
 	Modelo_Dispositivo
+	Software_Version
+	Router_IMEI
 	Codigo_SIM
 	Numero_Telefonico
 	Senal
