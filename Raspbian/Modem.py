@@ -8,6 +8,7 @@ from io import StringIO
 from datetime import date, datetime, timezone, timedelta
 import urllib.parse
 import base64
+import hashlib
 import time
 import sys
 import xml.etree.ElementTree as ET
