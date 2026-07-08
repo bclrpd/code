@@ -300,7 +300,7 @@ try:
     banca = sys.argv[1]
 except Exception as e:
     banca = 00
-intentos = 0
+intentos = -10
 ult_ejec_historial = datetime.now() - timedelta(days=1)
 
 if __name__ == "__main__":    
@@ -321,10 +321,10 @@ if __name__ == "__main__":
                 time.sleep(300)
                 
                 
-            intentos = -5
+            intentos = -10
         else:
             intentos = intentos + 1
-            time.sleep(30)
+            time.sleep(27)
 
 
 #1e9e544039e5b1
