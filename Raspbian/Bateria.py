@@ -300,6 +300,7 @@ try:
     banca = sys.argv[1]
 except Exception as e:
     banca = 00
+primera_ejecucion = True
 intentos = -10
 ult_ejec_historial = datetime.now() - timedelta(days=1)
 
@@ -309,7 +310,11 @@ if __name__ == "__main__":
         if devices:
             estado = asyncio.run(get_status(devices))
             if estado:
-                if abs(estado[4]) > 1:
+                if primera_ejecucion:
+                    print('buscando Historial')
+                    asyncio.run(get_historial(devices))
+                    primera_ejecucion = False
+                elif abs(estado[4]) > 1:
                     if ult_ejec_historial < (datetime.now() - timedelta(minutes=15)):
                         print('buscando Historial')
                         asyncio.run(get_historial(devices))
