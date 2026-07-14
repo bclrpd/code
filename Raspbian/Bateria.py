@@ -169,6 +169,7 @@ async def bateria_weco(device):
             intervalo = 300
         else:
             intervalo = 600
+    else:
         intervalo = 300
         
 # Convertimos bateria_wltraton en async def
