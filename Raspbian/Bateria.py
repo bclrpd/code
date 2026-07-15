@@ -232,7 +232,7 @@ async def bateria_wltraton(device):
             await client.start_notify(UUID_NOTIFICACION, manejar_notificacion)
             await asyncio.sleep(0.5)
             global id_bateria, intervalo
-            id_bateria = device.name
+            id_bateria = device.address
             try:
                 inf_basica = await enviar_y_esperar_comando(client, COMANDO_INFO_BASICA)
                 await asyncio.sleep(0.3)
