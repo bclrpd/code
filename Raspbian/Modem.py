@@ -13,6 +13,7 @@ import time
 import sys
 import xml.etree.ElementTree as ET
 import fileinput
+import random
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -396,32 +397,24 @@ def Tcl(accion, parametro = ""):
         "custom_id": "JO",
         "device_name": "HH63A"
     }
-    
+
     payload = {
         "_": int(time.time() * 1000),
-        "id": "12",
+        "id": f"{random.uniform(0, 100):.1f}",
         "jsonrpc": "2.0",
         "method": "",
         "params": {}
     }
 
-    #Get_info = ['GetSimStatus', 'GetSystemStatus', 'GetNetworkInfo', 'GetSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
-    Get_info = ['GetSimStatus', 'GetModemStatus', 'GetNetworkInfo', 'GetApSystemInfo', 'GetModemSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
-    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Calidad':'', 'Id_Celda':'', 'Dis_conectados':''}
-    Tarjeta_SIM ={ '0':'NO_SIM', '1':'Detectada', '4':'Bloqueada', '6':'Invalida', '7':'OK' }
-    Estado_Coneccion = {'0':'Desconectado', '1':'Conectando', '2':'Conectado', '3':'Desconectando'}
-    Red_Conectada = {'0':'Sin servicio', '1':'GPRS(2G)', '2':'EDGE(2G)', '3':'HSPA(3G)', '4':'HSUPA(3G)', '5':'UMTS(3G)', '6':'HSPA+(3G)', '7':'DCHSPA+(3G)', '8':'LTE(4G)', '9':'LTE+(4G+)', '10':'3G', '11':'GSM(2G)',}
-    Modo_Conec_Configurado = {'0':'Manual', '1':'Automatico',}
-    Modo_Busq_Red_Configurado = {'0':'Automatico', '1':'Manual',}
-    Red_Configurada = {'0':'Automatico', '1':'2G', '2':'3G', '3':'4G', '5':'4G'}
 
     def logear():
         try:
             response = requests.post('http://192.168.1.1/jrd/webapi', json={'method': 'GetDeviceSt',}, verify=False)
             if response.status_code == 200:
                 salt_del_router = response.json()['result']['Salt']
-                print(salt_del_router)
+                #print(salt_del_router)
                 psw = base64.b64decode("VCVFVkhHTWJCZlY4ejJAaA==").decode("utf-8")
+                #psw = 'claro1234'
                 psw_bytes = psw.encode('utf-8')
                 salt_bytes = salt_del_router.encode('utf-8')
                 hash_bytes = hashlib.pbkdf2_hmac(
@@ -432,20 +425,14 @@ def Tcl(accion, parametro = ""):
                     64
                 )
                 psw_encriptado = hash_bytes.hex()
-            
-                payload_loging = {
-                    "_": int(time.time() * 1000),
-                    "id": "1.4",
-                    "jsonrpc": "2.0",
-                    "method": "Login",
-                    "params": {
-                        "UserName": "dc13ibej?7",
-                        "Password": psw_encriptado
-                    }
-                }
+                
+                payload["_"] = int(time.time() * 1000)
+                payload["id"] = f"{random.uniform(0, 100):.1f}"
+                payload["method"] = "Login"
+                payload["params"] = {"UserName": "dc13ibej?7", "Password": psw_encriptado}
                 
                 while True:
-                    response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload_loging, verify=False, timeout=10, allow_redirects=False)
+                    response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload, verify=False, timeout=10, allow_redirects=False)
                     if response.status_code == 200:
                         token = response.json()['result']['token']
                         headers['_TclRequestVerificationToken'] = token
@@ -453,13 +440,268 @@ def Tcl(accion, parametro = ""):
                     print("Error al Logear")
                     time.sleep(2)
         except Exception as e:
+            print(f"Error fatal_0: {str(e)}")
+                
+    def aceptar_condiciones():
+        try:
+            params = {'name': 'SetPrivacySettings',}
+            payload["_"] = int(time.time() * 1000)
+            payload["id"] = f"{random.uniform(0, 100):.1f}"
+            payload["method"] = "SetPrivacySettings"
+            payload["params"] = {'PrivacyFlag': 1,}
+            response = requests.post('http://192.168.1.1/jrd/webapi', params=params, headers=headers, json=payload, verify=False)
+            if response.status_code == 200:
+                print(f"Condiciones Aceptadas")
+        except Exception as e:
             print(f"Error fatal: {str(e)}")
+            return
+
+    def cambiar_clave():
+        CurrPassword_encriptado = ""
+        NewPassword_encriptado = ""
+        try:
+            response = requests.post('http://192.168.1.1/jrd/webapi', json={'method': 'GetDeviceSt',}, verify=False)
+            if response.status_code == 200:
+                salt_del_router = response.json()['result']['Salt']
+                salt_bytes = salt_del_router.encode('utf-8')
+                CurrPassword = 'claro1234'
+                CurrPassword_bytes = CurrPassword.encode('utf-8')
+                hash_bytes_CurrPassword = hashlib.pbkdf2_hmac(
+                    'sha512', 
+                    CurrPassword_bytes, 
+                    salt_bytes, 
+                    1024, 
+                    64
+                )
+                CurrPassword_encriptado = hash_bytes_CurrPassword.hex()
+                NewPassword = base64.b64decode("VCVFVkhHTWJCZlY4ejJAaA==").decode("utf-8")
+                NewPassword_bytes = NewPassword.encode('utf-8')
+                hash_bytes_NewPassword = hashlib.pbkdf2_hmac(
+                    'sha512', 
+                    NewPassword_bytes, 
+                    salt_bytes, 
+                    1024, 
+                    64
+                )
+                NewPassword_encriptado = hash_bytes_NewPassword.hex()
+                print("contrase;as encriptadas")
+        except Exception as e:
+            print(f"Error fatal_1: {str(e)}")
+            return
+
+        try:
+            params = {'name': 'ChangePassword',}
+            payload["_"] = int(time.time() * 1000)
+            payload["id"] = f"{random.uniform(0, 100):.1f}"
+            payload["method"] = "ChangePassword"
+            payload["params"] = {'UserName': 'dc13ibej?7', 'CurrPassword': CurrPassword_encriptado, 'NewPassword': NewPassword_encriptado,}
+            response = requests.post('http://192.168.1.1/jrd/webapi', params=params, headers=headers, json=payload, verify=False)
+            if response.status_code == 200:
+                print("Contraseña Modificada")
+                params = {'name': 'SetPasswordChangeFlag',}
+                payload["_"] = int(time.time() * 1000)
+                payload["id"] = f"{random.uniform(0, 100):.1f}"
+                payload["method"] = "SetPasswordChangeFlag"
+                payload["params"] = {'change_flag': 1,}
+                response = requests.post('http://192.168.1.1/jrd/webapi', params=params, headers=headers, json=payload, verify=False)
+                if response.status_code == 200:
+                    print("Contraseña Modificada")
+            
+        except Exception as e:
+            print(f"Error fatal_2: {str(e)}")
+            return
+
+    def configurar_wifi():
         
+        try:
+            paramsGet = {'name': 'GetWlanSettings',}
+            paramsSet = {'name': 'SetWlanSettings',}
+            payload["_"] = int(time.time() * 1000)
+            payload["id"] = f"{random.uniform(0, 100):.1f}"
+            payload["method"] = "GetWlanSettings"
+            payload["params"] = {}
+            response = requests.post('http://192.168.1.1/jrd/webapi', params=paramsGet, headers=headers, json=payload, verify=False)
+            if response.status_code == 200:
+                AP2G = response.json()['result']['AP2G']
+                AP5G = response.json()['result']['AP5G']
+                AP2G_guest = response.json()['result']['AP2G_guest']
+                AP5G_guest = response.json()['result']['AP5G_guest'] 
+                
+                payload['_'] = int(time.time() * 1000)
+                payload["id"] = f"{random.uniform(0, 100):.1f}"
+                payload["method"] = 'SetWlanSettings'
+                payload["params"] = {
+                    'WiFiState': 0,
+                    'ApState': 0,
+                    'preferred': 0,
+                    'WlanAPMode': 0,
+                    'selectMode': 1,
+                    'WiFiOffTime': 0,
+                    'isolate': 0,
+                    'SleepMode': 0,
+                    'AP2G': AP2G,
+                    'AP5G': AP5G,
+                    'AP2G_guest': AP2G_guest,
+                    'AP5G_guest': AP5G_guest,
+                    }
+                
+                payload["params"]['AP2G']['Ssid'] = "Cargando.."
+                payload["params"]['AP2G']['WpaKey'] = "T%EVHGMbBfV8z2@h"
+                payload["params"]['AP2G']['Channel'] = 9
+                payload["params"]['AP2G']['Bandwidth'] = 1
+                payload["params"]['AP5G']['Ssid'] = "Cargando....."
+                payload["params"]['AP5G']['WpaKey'] = "T%EVHGMbBfV8z2@h"
+                payload["params"]['AP5G']['Channel'] = 40
+                
+                print("configurando WIFI, si todo sale bien la señal wifi deberia reiniciarse  ")
+                response = requests.post('http://192.168.1.1/jrd/webapi', params=paramsSet, headers=headers, json=payload, allow_redirects=False)
+                if response.status_code == 200:
+                    print("WIFI configurado con exito")
+                    print(response.text)            
+        except Exception as e:
+            print(f"Error fatal: {str(e)}")
+            return
+
+    def cambiar_canal():
+        try:
+            paramsGet = {'name': 'GetWlanSettings',}
+            paramsSet = {'name': 'SetWlanSettings',}
+            payload["_"] = int(time.time() * 1000)
+            payload["id"] = f"{random.uniform(0, 100):.1f}"
+            payload["method"] = "GetWlanSettings"
+            payload["params"] = {}
+
+            response = requests.post('http://192.168.1.1/jrd/webapi', params=paramsGet, headers=headers, json=payload, verify=False)
+
+            if response.status_code == 200:
+                AP2G = response.json()['result']['AP2G']
+                AP5G = response.json()['result']['AP5G']
+                AP2G_guest = response.json()['result']['AP2G_guest']
+                AP5G_guest = response.json()['result']['AP5G_guest'] 
+                payload['_'] = int(time.time() * 1000)
+                payload["id"] = f"{random.uniform(0, 100):.1f}"
+                payload["method"] = 'SetWlanSettings'
+                payload["params"] = {
+                    'WiFiState': 0,
+                    'ApState': 0,
+                    'preferred': 0,
+                    'WlanAPMode': 0,
+                    'selectMode': 1,
+                    'WiFiOffTime': 0,
+                    'isolate': 0,
+                    'SleepMode': 0,
+                    'AP2G': AP2G,
+                    'AP5G': AP5G,
+                    'AP2G_guest': AP2G_guest,
+                    'AP5G_guest': AP5G_guest,
+                    }
+                canales = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                canal_actual = AP2G["CurChannel"]
+                canales.remove(canal_actual)
+                canal_nuevo = random.choice(canales)
+                payload["params"]['AP2G']['Channel'] = canal_nuevo   
+                print("configurando WIFI, si todo sale bien la señal wifi deberia reiniciarse  ")
+                response = requests.post('http://192.168.1.1/jrd/webapi', params=paramsSet, headers=headers, json=payload, allow_redirects=False)
+                if response.status_code == 200:
+                    print("WIFI configurado con exito")
+                    print(response.text)            
+        except Exception as e:
+            print(f"Error fatal: {str(e)}")
+            return
+
+    def chek_Pizarra():
+        mac_raspberry = ['B8:27:EB', 'DC:A6:32', 'E4:5F:01', '28:CD:C1', '2C:CF:67', 'D8:3A:DD', '88:A2:9E', '98:FE:54' ]
+        pizarra = False
+        for i in range(15):
+            try:
+                logear()
+                time.sleep(2)
+                params = {'name': 'GetConnectedDeviceList',}
+                payload["_"] = int(time.time() * 1000)
+                payload["id"] = f"{random.uniform(0, 100):.1f}"
+                payload["method"] = "GetConnectedDeviceList"
+                payload["params"] = {}
+                response = requests.post('http://192.168.1.1/jrd/webapi', params=params, headers=headers, json=payload, verify=False)
+                if response.status_code == 200:
+                    deviceList = response.json()['result']['ConnectedList']
+                    for device in deviceList:
+                        if device['ConnectType'] != 4: 
+                            mac = device['MacAddress']
+                            prefijo = mac[:8].upper()
+                            print(mac)
+                            if prefijo in mac_raspberry:
+                                ip = device['IPAddress']
+                                if "192.168.1" in ip:    
+                                    pizarra = True
+                                    break
+                    if pizarra:
+                        break
+            except Exception as e:
+                print(f"Error fatal: {str(e)}")
+                return
+            time.sleep(60)
+            
+            
+        if pizarra:
+            print('Pizarra detectada')
+        else:
+            logear()
+            cambiar_canal()
+            print('Pizarra NO detectada')
+
+    def getInfo():
+        try:
+            respuesta = {}
+            for itmes in Get_info:
+                payload["_"] = int(time.time() * 1000)
+                payload["id"] = f"{random.uniform(0, 100):.1f}"
+                payload['method'] = itmes
+                payload["params"] = {}
+                response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload, verify=False, timeout=10, allow_redirects=False)
+                respuesta[itmes] = response.json()['result']
+                print(json.dumps(response.json()['result'], indent=4))
+            
+            #print(respuesta)
+            guardar_Inf(respuesta)            
+            #return json.dumps(resultado, indent=4)
+            return respuesta
+        except Exception as e:
+            logear()
+            print(f"Error fatal: {str(e)}")
+
+    def guardar_Inf(respuesta):       
+        resultado['Telefonica'] = respuesta.get('GetSimStatus', {}).get('SPN', '')
+        resultado['Modelo_Dispositivo'] = respuesta.get('GetApSystemInfo', {}).get('DeviceName', '')
+        resultado['Software_Version'] = respuesta.get('GetModemSystemInfo', {}).get('SwVersion', '')
+        resultado['Router_IMEI'] = respuesta.get('GetModemSystemInfo', {}).get('IMEI', '')
+        resultado['Codigo_SIM'] = respuesta.get('GetModemSystemInfo', {}).get('ICCID', '')
+        resultado['Numero_Telefonico'] = respuesta.get('GetModemSystemInfo', {}).get('MSISDN', '')
+        resultado['Id_Celda'] = respuesta.get('GetNetworkInfo', {}).get('CellId', '')
+        resultado['Disp_Conectados_Wifi'] = respuesta.get('GetConnectedDeviceList', {}).get('TotalConnNum', '')
+        resultado['Tarjeta_SIM'] = Tarjeta_SIM.get(str(respuesta.get('GetSimStatus', {}).get('SIMState')), '')
+        resultado['Estado_Coneccion'] = Estado_Coneccion.get(str(respuesta.get('GetModemStatus', {}).get('ConnectionStatus')), '')
+        resultado['Red_Conectada'] = Red_Conectada.get(str(respuesta.get('GetModemStatus', {}).get('NetworkType')), '')
+        resultado['Modo_Conec_Configurado'] = Modo_Conec_Configurado.get(str(respuesta.get('GetConnectionSettings', {}).get('ConnectMode')), '')
+        resultado['Modo_Busq_Red_Configurado'] = Modo_Busq_Red_Configurado.get(str(respuesta.get('GetNetworkSettings', {}).get('NetselectionMode')), '')
+        resultado['Red_Configurada'] = Red_Configurada.get(str(respuesta.get('GetNetworkSettings', {}).get('NetworkMode')), '')
+        if '3G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSCP', '') 
+            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('EcIo', '')
+        elif '4G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSRP', '') 
+            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('SINR', '')
+        elif '2G' in resultado['Red_Conectada']:
+            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSSI', '') 
+         
+     
+        for key, value in resultado.items():
+            #if not value == '':
+            os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
 
     def ejecutar(accion, parametro = ""):
         data = {
             "_": int(time.time() * 1000),
-            "id": "12",
+            "id": f"{random.uniform(0, 100):.1f}",
             "jsonrpc": "2.0",
             "method": "",
             "params": {}
@@ -498,10 +740,21 @@ def Tcl(accion, parametro = ""):
         
         elif accion == "reiniciar":
             data['method'] = 'SetDeviceReboot'
-            #data = {"id":"12","jsonrpc":"2.0","method":"SetDeviceReboot","params":{}}
         elif accion == "informacion":
             print(getInfo())
             return 
+        elif accion == "cambiar_canal":
+            cambiar_canal()
+        elif accion == "configurar":
+            aceptar_condiciones()  
+            time.sleep(2)  
+            logear()
+            time.sleep(2)
+            cambiar_clave()
+            time.sleep(2)
+            configurar_wifi()
+        elif accion == "check_Pizarra":
+            chek_Pizarra()
         else:
             return
             
@@ -509,54 +762,7 @@ def Tcl(accion, parametro = ""):
             response = requests.post('http://192.168.1.1/jrd/webapi', json=data, headers=headers, verify=False, timeout=10, allow_redirects=False)
         return(json.dumps(response.json(), indent=4))
     
-    def guardar_Inf(respuesta):       
-        resultado['Telefonica'] = respuesta.get('GetSimStatus', {}).get('SPN', '')
-        resultado['Modelo_Dispositivo'] = respuesta.get('GetApSystemInfo', {}).get('DeviceName', '')
-        resultado['Software_Version'] = respuesta.get('GetModemSystemInfo', {}).get('SwVersion', '')
-        resultado['Router_IMEI'] = respuesta.get('GetModemSystemInfo', {}).get('IMEI', '')
-        resultado['Codigo_SIM'] = respuesta.get('GetModemSystemInfo', {}).get('ICCID', '')
-        resultado['Numero_Telefonico'] = respuesta.get('GetModemSystemInfo', {}).get('MSISDN', '')
-        resultado['Id_Celda'] = respuesta.get('GetNetworkInfo', {}).get('CellId', '')
-        resultado['Disp_Conectados_Wifi'] = respuesta.get('GetConnectedDeviceList', {}).get('TotalConnNum', '')
-        resultado['Tarjeta_SIM'] = Tarjeta_SIM.get(str(respuesta.get('GetSimStatus', {}).get('SIMState')), '')
-        resultado['Estado_Coneccion'] = Estado_Coneccion.get(str(respuesta.get('GetModemStatus', {}).get('ConnectionStatus')), '')
-        resultado['Red_Conectada'] = Red_Conectada.get(str(respuesta.get('GetModemStatus', {}).get('NetworkType')), '')
-        resultado['Modo_Conec_Configurado'] = Modo_Conec_Configurado.get(str(respuesta.get('GetConnectionSettings', {}).get('ConnectMode')), '')
-        resultado['Modo_Busq_Red_Configurado'] = Modo_Busq_Red_Configurado.get(str(respuesta.get('GetNetworkSettings', {}).get('NetselectionMode')), '')
-        resultado['Red_Configurada'] = Red_Configurada.get(str(respuesta.get('GetNetworkSettings', {}).get('NetworkMode')), '')
-        if '3G' in resultado['Red_Conectada']:
-            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSCP', '') 
-            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('EcIo', '')
-        elif '4G' in resultado['Red_Conectada']:
-            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSRP', '') 
-            resultado['Senal_Calidad'] = respuesta.get('GetNetworkInfo', {}).get('SINR', '')
-        elif '2G' in resultado['Red_Conectada']:
-            resultado['Senal'] = respuesta.get('GetNetworkInfo', {}).get('RSSI', '') 
-         
-     
-        for key, value in resultado.items():
-            #if not value == '':
-            os.system(f""" sed -i 's/^{key}=.*/{key}={value}/' info.ini""")
-            #print(key+' = '+str(value))
- 
-    def getInfo():
-        try:
-            respuesta = {}
-            for itmes in Get_info:
-                payload['method'] = itmes
-                response = requests.post('http://192.168.1.1/jrd/webapi', headers=headers, json=payload, verify=False, timeout=10, allow_redirects=False)
-                respuesta[itmes] = response.json()['result']
-                print(json.dumps(response.json()['result'], indent=4))
-            
-            #print(respuesta)
-            guardar_Inf(respuesta)            
-            #return json.dumps(resultado, indent=4)
-            return respuesta
-        except Exception as e:
-            logear()
-            print(f"Error fatal: {str(e)}")
-
-        
+    
     logear()
     ejecutar(accion, parametro)
     
@@ -580,7 +786,6 @@ def check():
 try:
     modem = sys.argv[1]
     accion = sys.argv[2]
-    #parametro = sys.argv[2]
 except Exception as e:
     print(f"Error __Faltan argumentos__: {str(e)}")
     quit()
@@ -597,6 +802,8 @@ elif modem == 'Alcatel':
         Tcl(accion, parametro)
     else:
         Alcatel(accion, parametro)
+elif modem == 'TCL'
+        Tcl(accion, parametro)
 else:
     print(f"Error __Moden '{modem}' no identificado__")
 
