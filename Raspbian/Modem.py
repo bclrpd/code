@@ -802,7 +802,7 @@ elif modem == 'Alcatel':
         Tcl(accion, parametro)
     else:
         Alcatel(accion, parametro)
-elif modem == 'TCL'
+elif modem == 'TCL':
         Tcl(accion, parametro)
 else:
     print(f"Error __Moden '{modem}' no identificado__")
