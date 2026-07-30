@@ -17,9 +17,9 @@ while true ; do
 	URI=$(lpstat -s |grep "para Impresora" | awk '{print $4}')
 	NEWURI=$(lpinfo -v |grep "usb" | awk '{print $2}')
 	NEWURI2=$(lpinfo -v | grep "serial:/dev/ttyUSB0" | awk '{print $2}')
-	echo $URI
-	echo $NEWURI
-	echo $NEWURI2
+	#echo $URI
+	#echo $NEWURI
+	#echo $NEWURI2
 
 	if [ ! -z $NEWURI ] ; then
 		if [ $NEWURI != $URI ] ; then
