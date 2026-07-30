@@ -33,6 +33,10 @@ for i in "${info[@]}" ; do
 done
 
 [[ "$(file -bi info.ini)" == *"charset=binary" ]] && $(sed -i 's/\x0//g' info.ini) #Repara el archivo
+
+#--------Cambia el canal del wifi si no detecta la Pizarra-----------
+python3 Modem.py 'TCL' 'check_Pizarra'&
+#--------------------------------
 	
 t0=0
 interv=20	#minutos
