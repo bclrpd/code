@@ -612,7 +612,8 @@ def Tcl(accion, parametro = ""):
     def chek_Pizarra():
         mac_raspberry = ['B8:27:EB', 'DC:A6:32', 'E4:5F:01', '28:CD:C1', '2C:CF:67', 'D8:3A:DD', '88:A2:9E', '98:FE:54' ]
         pizarra = False
-        for i in range(15):
+        for i in range(10):
+            print(f"Buscarndo Pizarra. Intento {i}...")
             try:
                 logear()
                 time.sleep(2)
@@ -628,7 +629,6 @@ def Tcl(accion, parametro = ""):
                         if device['ConnectType'] != 4: 
                             mac = device['MacAddress']
                             prefijo = mac[:8].upper()
-                            print(mac)
                             if prefijo in mac_raspberry:
                                 ip = device['IPAddress']
                                 if "192.168.1" in ip:    
@@ -638,7 +638,7 @@ def Tcl(accion, parametro = ""):
                         break
             except Exception as e:
                 print(f"Error fatal: {str(e)}")
-                return
+                #return
             time.sleep(60)
             
             
@@ -803,6 +803,7 @@ elif modem == 'Alcatel':
     else:
         Alcatel(accion, parametro)
 elif modem == 'TCL':
+    if 'TCL' in check():
         Tcl(accion, parametro)
 else:
     print(f"Error __Moden '{modem}' no identificado__")
