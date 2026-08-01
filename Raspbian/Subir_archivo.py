@@ -59,7 +59,7 @@ def guardar_informaion_banca():
     datos = {
         'Banca': inf.get('Banca', ''),
         'Fecha': inf.get('Fecha', ''),
-        'version_pi': inf.get('version_pi', ''),
+        'Version_pi': inf.get('version_pi', ''),
         'MAC': inf.get('MAC', ''),
         'Interfaz': inf.get('Interfaz', ''),
         'Modelo_Dispositivo': inf.get('Modelo_Dispositivo', ''),
