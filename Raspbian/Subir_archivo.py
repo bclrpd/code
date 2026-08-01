@@ -40,7 +40,7 @@ def guardar_informaion_banca():
     inf['Fecha'] = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     with open("Current.ini", "r", encoding="utf-8") as f:
         for linea in f:
-            if "Banca" in linea:
+            if "=" in linea:
                 linea = linea.strip()
                 inf[str(linea.split("=")[0])] = linea.split("=")[1]
                              
