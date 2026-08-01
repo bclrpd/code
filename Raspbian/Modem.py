@@ -633,6 +633,19 @@ def Tcl(accion, parametro = ""):
                                 ip = device['IPAddress']
                                 if "192.168.1" in ip:    
                                     pizarra = True
+                                    with open("Current.ini", "r", encoding="utf-8") as f:
+                                        for linea in f:
+                                            if "Banca" in linea:
+                                                linea = linea.strip()
+                                                banca = f'{linea.split("=")[1]}'
+                                                url = "https://bancas-info-60149547169.us-east4.run.app"
+                                                parametros = {'cd': f'100110{banca}',}
+                                                datos = {'Mac': mac}
+                                                response = requests.post(url, params=parametros, json=datos, timeout=10)
+                                                if response.status_code == 200:
+                                                    print(response.json())
+                                                else:
+                                                    print(f"Error {response.status_code}: {response.text}")
                                     break
                     if pizarra:
                         break
