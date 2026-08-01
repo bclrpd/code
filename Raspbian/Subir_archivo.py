@@ -4,6 +4,9 @@ import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
+# se ejecuta desde el script 'Inicio.sh'
+
+
 def get_url(nombre_archivo):
     # URL que te proporcionó AWS (Function URL o API Gateway)
     url = "https://vpjt2hz4h4uqnqblkewmpugi4m0hqyyn.lambda-url.us-east-1.on.aws/"
@@ -33,23 +36,8 @@ def get_banca():
 
 
 def guardar_informaion_banca():
-    """ #organizacion de los datos a enviar
-        ( 
-            banca,
-            fecha,
-            version_Raspberry,
-            MAC,
-            interfaz_De_Red,
-            router,
-            IMEI_Router,
-            s_Version_Router,
-            telefonica,
-            numero_telefono,
-            codigo_SIM,
-        )
-    """
     inf = {}
-    inf['Fecha'] = datetime.now().strftime("%Y%m%d%H%M%S")
+    inf['Fecha'] = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     with open("Current.ini", "r", encoding="utf-8") as f:
         for linea in f:
             if "Banca" in linea:
@@ -68,22 +56,25 @@ def guardar_informaion_banca():
     except FileNotFoundError:
         pass
     
-    datos = (
-        inf.get('Banca', ''),
-        inf.get('Fecha', ''),
-        inf.get('version_pi', ''),
-        inf.get('MAC', ''),
-        inf.get('Intercafe', ''),
-        inf.get('Modelo_Dispositivo', ''),
-        inf.get('Router_IMEI', ''),
-        inf.get('Software_Version', ''),
-        inf.get('Telefonica', ''),
-        inf.get('Numero_Telefonico', ''),
-        inf.get('Codigo_SIM', '')
-        )
+    datos = {
+        'Banca': inf.get('Banca', ''),
+        'Fecha': inf.get('Fecha', ''),
+        'version_pi': inf.get('version_pi', ''),
+        'MAC': inf.get('MAC', ''),
+        'Interfaz': inf.get('Interfaz', ''),
+        'Modelo_Dispositivo': inf.get('Modelo_Dispositivo', ''),
+        'Router_IMEI': inf.get('Router_IMEI', ''),
+        'Software_Version': inf.get('Software_Version', ''),
+        'Telefonica': inf.get('Telefonica', ''),
+        'Numero_Telefonico': inf.get('Numero_Telefonico', ''),
+        'Codigo_SIM': inf.get('Codigo_SIM', '')
+        }
     #------------Guardando Informacion--------------
-    url = "https://vksokey7jymcxroazidxvybjwi0suyfv.lambda-url.us-east-1.on.aws/"
-    parametros = {'orden': 'guardar_Informacion_Banca'}
+    url = "https://bancas-info-60149547169.us-east4.run.app"
+    if inf.get('Tipo', '') == 'B':
+        parametros = {'cd': f"110020{datos['Banca']}"}
+    else:
+        parametros = {'cd': f"110010{datos['Banca']}"}
     response = requests.post(url, params=parametros, json=datos, timeout=10)
     if response.status_code == 200:
         print(response.json())

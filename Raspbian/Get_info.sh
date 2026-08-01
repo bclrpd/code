@@ -4,7 +4,7 @@ rm sed*
 info=(
 	Coneccion_Modem_PC
 	Modem 
-	Intercafe
+	Interfaz
 	wifi_Signal
 	wifi_Quality
 	Telefonica	
@@ -52,8 +52,8 @@ while true ; do
 	[[ "$route" == *"192.168.8.1"* ]] && modem='Huawei'
 	[[ "$route" == *"192.168.1.1"* ]] && modem='Alcatel'
 	sed -i "s/^Modem=.*/Modem=$modem/" info.ini
-	interfece=$(echo $route | awk '{ print $5}')
-	sed -i "s/^Intercafe=.*/Intercafe=$interfece/" info.ini
+	interfaz=$(echo $route | awk '{ print $5}')
+	sed -i "s/^Interfaz=.*/Interfaz=$interfaz/" info.ini
 	wf=$(iwconfig wlan0 | grep 'Link Quality')
 	wifi_Signal=$(echo ${wf##*'Signal level='} | awk '{ print $1}')
 	wifi_Quality=$(echo ${wf##*'Link Quality='} | awk '{ print $1}' | cut -d/ -f1)
