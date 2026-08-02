@@ -120,10 +120,8 @@ async def bateria_weco(device):
 
 
     def guardar_historial(datos):
-        url = "https://bancas-info-60149547169.us-east4.run.app"
-        parametros = {'cd': f'00030000',}
-        datos_historial = {'registros': datos}
-        response = requests.post(url, params=parametros, json=datos_historial, timeout=10)
+        url = "https://guardar-hist-weco-60149547169.us-east4.run.app"
+        response = requests.post(url, json=datos, timeout=10)
         if response.status_code == 200:
             print(response.json())
         else:
@@ -131,9 +129,8 @@ async def bateria_weco(device):
             
 
     def guardar_estado(datos):
-        url = "https://bancas-info-60149547169.us-east4.run.app"
-        parametros = {'cd': f'110210{banca}',}
-        response = requests.post(url, params=parametros, json=datos, timeout=10)
+        url = "https://guardar-inf-baterias-60149547169.us-east4.run.app"
+        response = requests.post(url, json=datos, timeout=10)
         if response.status_code == 200:
             print(response.json())
         else:
@@ -281,9 +278,8 @@ async def bateria_wltraton(device):
         
         
     def guardar_estado(datos):
-        url = "https://bancas-info-60149547169.us-east4.run.app"
-        parametros = {'cd': f'110210{banca}',}
-        response = requests.post(url, params=parametros, json=datos, timeout=10)
+        url = "https://guardar-inf-baterias-60149547169.us-east4.run.app"
+        response = requests.post(url, json=datos, timeout=10)
         if response.status_code == 200:
             print(response.json())
         else:
