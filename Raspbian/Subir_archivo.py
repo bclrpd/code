@@ -58,6 +58,7 @@ def guardar_informaion_banca():
     
     datos = {
         'Banca': inf.get('Banca', ''),
+        'Tipo': inf.get('Tipo', 'A'),
         'Fecha': inf.get('Fecha', ''),
         'Version_pi': inf.get('version_pi', ''),
         'MAC': inf.get('MAC', ''),
@@ -70,12 +71,8 @@ def guardar_informaion_banca():
         'Codigo_SIM': inf.get('Codigo_SIM', '')
         }
     #------------Guardando Informacion--------------
-    url = "https://bancas-info-60149547169.us-east4.run.app"
-    if inf.get('Tipo', '') == 'B':
-        parametros = {'cd': f"110020{datos['Banca']}"}
-    else:
-        parametros = {'cd': f"110010{datos['Banca']}"}
-    response = requests.post(url, params=parametros, json=datos, timeout=10)
+    url = "https://guardar-inf-bancas-60149547169.us-east4.run.app"
+    response = requests.post(url, json=datos, timeout=10)
     if response.status_code == 200:
         print(response.json())
     else:
