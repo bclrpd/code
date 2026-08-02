@@ -121,7 +121,8 @@ async def bateria_weco(device):
 
     def guardar_historial(datos):
         url = "https://guardar-hist-weco-60149547169.us-east4.run.app"
-        response = requests.post(url, json=datos, timeout=10)
+        datos_historial = {'registros': datos}
+        response = requests.post(url, json=datos_historial, timeout=10)
         if response.status_code == 200:
             print(response.json())
         else:
