@@ -640,10 +640,9 @@ def Tcl(accion, parametro = ""):
                                                 linea = linea.strip()
                                                 banca_inf[str(linea.split("=")[0])] = linea.split("=")[1]
                                                 
-                                        url = "https://pizarras-info-60149547169.us-east4.run.app"
-                                        parametros = {'cd': f"0110{banca_inf['Banca']}",}
-                                        datos = {'Mac': mac, 'Tipo': banca_inf['Tipo']}
-                                        response = requests.post(url, params=parametros, json=datos, timeout=10)
+                                        url = "https://guardar-inf-pizarras-60149547169.us-east4.run.app"
+                                        datos = {'Banca': banca_inf['Banca'], 'Mac': mac, 'Tipo': banca_inf['Tipo']}
+                                        response = requests.post(url, json=datos, timeout=10)
                                         if response.status_code == 200:
                                             print(response.json())
                                         else:
