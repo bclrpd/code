@@ -140,7 +140,7 @@ async def bateria_weco(device):
         
     def calcular_cantidad_registros(bateria_id):
         #url = "https://s3cr5kdn23qsjiwiwdx2kqkuse0jslvg.lambda-url.us-east-1.on.aws/"
-        url = "https://get-info-bateria-60149547169.us-east4.run.app"
+        url = "https://ultimo-hist-weco-60149547169.us-east4.run.app"
         parametros = {'Id': bateria_id}
         try:
             #response = requests.post(url, params={'orden': 'ultiomo_registro', 'bateria_id': bateria_id}, timeout=10)
