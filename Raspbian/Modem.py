@@ -610,58 +610,66 @@ def Tcl(accion, parametro = ""):
             return
 
     def chek_Pizarra():
-        mac_raspberry = ['B8:27:EB', 'DC:A6:32', 'E4:5F:01', '28:CD:C1', '2C:CF:67', 'D8:3A:DD', '88:A2:9E', '98:FE:54' ]
+        mac_raspberry = ['b8:27:eb', 'dc:a6:32', 'e4:5f:01', '28:cd:c1', '2c:cf:67', 'd8:3a:dd', '88:a2:9e', '98:fe:54' ]
+        with open("/sys/class/net/eth0/address", "r", encoding="utf-8") as f:
+            mac_eth0 = f.read().strip()
+        with open("/sys/class/net/wlan0/address", "r", encoding="utf-8") as f:
+            mac_wlan0 = f.read().strip()
         pizarra = False
-        for i in range(10):
-            print(f"Buscarndo Pizarra. Intento {i}...")
-            try:
-                logear()
-                time.sleep(2)
-                params = {'name': 'GetConnectedDeviceList',}
-                payload["_"] = int(time.time() * 1000)
-                payload["id"] = f"{random.uniform(0, 100):.1f}"
-                payload["method"] = "GetConnectedDeviceList"
-                payload["params"] = {}
-                response = requests.post('http://192.168.1.1/jrd/webapi', params=params, headers=headers, json=payload, verify=False)
-                if response.status_code == 200:
-                    deviceList = response.json()['result']['ConnectedList']
-                    for device in deviceList:
-                        if device['ConnectType'] != 4: 
+        for i in range(6):
+            for i in range(10):
+                print(f"Buscarndo Pizarra. Intento {i}...")
+                try:
+                    logear()
+                    time.sleep(2)
+                    params = {'name': 'GetConnectedDeviceList',}
+                    payload["_"] = int(time.time() * 1000)
+                    payload["id"] = f"{random.uniform(0, 100):.1f}"
+                    payload["method"] = "GetConnectedDeviceList"
+                    payload["params"] = {}
+                    response = requests.post('http://192.168.1.1/jrd/webapi', params=params, headers=headers, json=payload, verify=False)
+                    if response.status_code == 200:
+                        deviceList = response.json()['result']['ConnectedList']
+                        for device in deviceList:
                             mac = device['MacAddress']
-                            prefijo = mac[:8].upper()
-                            if prefijo in mac_raspberry:
-                                ip = device['IPAddress']
-                                if "192.168.1" in ip:    
-                                    pizarra = True
-                                    with open("Current.ini", "r", encoding="utf-8") as f:
-                                        banca_inf = {}
-                                        for linea in f:
-                                            if "=" in linea:
-                                                linea = linea.strip()
-                                                banca_inf[str(linea.split("=")[0])] = linea.split("=")[1]
-                                                
-                                        url = "https://guardar-inf-pizarras-60149547169.us-east4.run.app"
-                                        datos = {'Banca': banca_inf['Banca'], 'Mac': mac, 'Tipo': banca_inf['Tipo']}
-                                        response = requests.post(url, json=datos, timeout=10)
-                                        if response.status_code == 200:
-                                            print(response.json())
-                                        else:
-                                            print(f"Error {response.status_code}: {response.text}")
-                                    break
-                    if pizarra:
-                        break
-            except Exception as e:
-                print(f"Error fatal: {str(e)}")
-                #return
-            time.sleep(60)
+                            if mac != mac_eth0 and mac != mac_wlan0:
+                                prefijo = mac[:8]
+                                if prefijo in mac_raspberry:
+                                    ip = device['IPAddress']
+                                    if "192.168.1" in ip:    
+                                        pizarra = True
+                                        with open("Current.ini", "r", encoding="utf-8") as f:
+                                            banca_inf = {}
+                                            for linea in f:
+                                                if "=" in linea:
+                                                    linea = linea.strip()
+                                                    banca_inf[str(linea.split("=")[0])] = linea.split("=")[1]
+                                                    
+                                            url = "https://guardar-inf-pizarras-60149547169.us-east4.run.app"
+                                            datos = {'Banca': banca_inf['Banca'], 'Mac': mac, 'Tipo': banca_inf['Tipo']}
+                                            response = requests.post(url, json=datos, timeout=10)
+                                            if response.status_code == 200:
+                                                print(response.json())
+                                            else:
+                                                print(f"Error {response.status_code}: {response.text}")
+                                        break
+                        if pizarra:
+                            break
+                except Exception as e:
+                    print(f"Error fatal: {str(e)}")
+                    #return
+                time.sleep(60)
+                
+                
+            if pizarra:
+                print('Pizarra detectada')
+                break
+            else:
+                logear()
+                cambiar_canal()
+                time.sleep(60)
+                print('Pizarra NO detectada')
             
-            
-        if pizarra:
-            print('Pizarra detectada')
-        else:
-            logear()
-            cambiar_canal()
-            print('Pizarra NO detectada')
 
     def getInfo():
         try:
