@@ -25,7 +25,8 @@ done
 
 sudo apt-get update -y
 sudo apt install arp-scan -y
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/arp-scan
+sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/arp-scan
+getcap /usr/sbin/arp-scan
 rm autoremove.sh
 
 #1e9e544039e5b1
