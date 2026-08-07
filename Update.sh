@@ -51,6 +51,7 @@ Archivo=(
     Tinta.sh 
     UpdateChek.sh
 	xy.sh
+	autoremove.sh
 )
 
 if [ "$3" == "B" ] ; then
