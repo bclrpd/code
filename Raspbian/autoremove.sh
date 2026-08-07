@@ -20,6 +20,8 @@ for i in "${repositorios[@]}" ; do
 done
 
 sudo apt-get update -y
+sudo apt install arp-scan -y
+sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/arp-scan
 rm autoremove.sh
 
 #1e9e544039e5b1
