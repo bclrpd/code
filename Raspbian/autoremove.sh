@@ -1,4 +1,5 @@
 #! /bin/bash
+# Se ejecuta desde el script Impresora.sh
 cd "$(dirname "$0")"
 
 sed -i '/0x2ca6 0x811a unidir/d' /usr/share/cups/usb/org.cups.usb-quirks
