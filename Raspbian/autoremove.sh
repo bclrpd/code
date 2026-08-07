@@ -19,6 +19,10 @@ for i in "${repositorios[@]}" ; do
 	fi	
 done
 
+until ping -nq -c3 8.8.8.8; do
+	sleep 1
+done
+
 sudo apt-get update -y
 sudo apt install arp-scan -y
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/arp-scan
