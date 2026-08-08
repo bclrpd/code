@@ -766,6 +766,7 @@ def Tcl(accion, parametro = ""):
             print(getInfo())
             return 
         elif accion == "cambiar_canal":
+            logear()
             cambiar_canal()
         elif accion == "configurar":
             aceptar_condiciones()  
