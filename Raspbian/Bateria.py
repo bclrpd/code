@@ -1,3 +1,4 @@
+#Se ejecuta desde el script Start_bateria.sh
 import asyncio
 import sys
 import time
