@@ -1,4 +1,5 @@
 #! /bin/bash
+#Se ejecuta desde el script Ping.sh
 cd "$(dirname "$0")"
 until ping -nq -c3 8.8.8.8; do
 	sleep 1
