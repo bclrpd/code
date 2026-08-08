@@ -1,4 +1,5 @@
 #!/bin/sh
+#Se ejecuta desde el script Get_info.sh
 cd "$(dirname "$0")"
 until ping -nq -c3 8.8.8.8; do
 	sleep 1
