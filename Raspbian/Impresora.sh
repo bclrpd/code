@@ -1,4 +1,5 @@
 #! /bin/bash
+#Se ejecuta desde rc.local
 cd "$(dirname "$0")"
 lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
 bash autoremove.sh &
