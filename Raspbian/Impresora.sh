@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
 bash autoremove.sh &
-sed -i '3,5d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
+sed -i '4,6d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
 bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
 while true ; do
 
