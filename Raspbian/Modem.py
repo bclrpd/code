@@ -406,6 +406,17 @@ def Tcl(accion, parametro = ""):
         "params": {}
     }
 
+    
+    #Get_info = ['GetSimStatus', 'GetSystemStatus', 'GetNetworkInfo', 'GetSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
+    Get_info = ['GetSimStatus', 'GetModemStatus', 'GetNetworkInfo', 'GetApSystemInfo', 'GetModemSystemInfo', 'GetNetworkSettings', 'GetConnectedDeviceList', 'GetConnectionSettings' ]
+    DatosUtiles = {'Telefonica': '', 'Nivel_Senal':'', 'Modelo_Dispositivo':'', 'Codigo_SIM':'', 'Senal_Calidad':'', 'Id_Celda':'', 'Dis_conectados':''}
+    Tarjeta_SIM ={ '0':'NO_SIM', '1':'Detectada', '4':'Bloqueada', '6':'Invalida', '7':'OK' }
+    Estado_Coneccion = {'0':'Desconectado', '1':'Conectando', '2':'Conectado', '3':'Desconectando'}
+    Red_Conectada = {'0':'Sin servicio', '1':'GPRS(2G)', '2':'EDGE(2G)', '3':'HSPA(3G)', '4':'HSUPA(3G)', '5':'UMTS(3G)', '6':'HSPA+(3G)', '7':'DCHSPA+(3G)', '8':'LTE(4G)', '9':'LTE+(4G+)', '10':'3G', '11':'GSM(2G)',}
+    Modo_Conec_Configurado = {'0':'Manual', '1':'Automatico',}
+    Modo_Busq_Red_Configurado = {'0':'Automatico', '1':'Manual',}
+    Red_Configurada = {'0':'Automatico', '1':'2G', '2':'3G', '3':'4G', '5':'4G'}
+    
 
     def logear():
         try:
