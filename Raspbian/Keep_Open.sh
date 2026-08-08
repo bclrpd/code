@@ -1,4 +1,5 @@
 #! /bin/bash
+#Se ejecuta desde el script Inicio.sh
 cd "$(dirname "$0")"
 
 while true ; do
