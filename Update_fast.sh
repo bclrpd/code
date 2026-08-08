@@ -30,7 +30,8 @@ URL=https://raw.githubusercontent.com/bclrpd/code/main/Raspbian/
 Archivo=(
     Apagado.sh
 	Bateria.py
-    Boton_Premios.sh 
+    Boton_Premios.sh
+	Check_pizarra.sh
     CloneMac.sh
     Descargar.sh 
     Get_info.sh 
