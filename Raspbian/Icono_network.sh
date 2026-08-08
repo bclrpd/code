@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+#Se ejecuta desde el script Ping.sh
 Icono_Conexion(){
 	yad --notification \
   --image="$1" \
