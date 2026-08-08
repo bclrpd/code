@@ -20,7 +20,7 @@ if [[ "$blk" != *"Instalado"* ]]; then
 	cd ../
 	rm -rf bleak
     rm bleak.tar.gz
-	sed -i '7,24d' ./Descargar.sh
+	sed -i '8,25d' ./Descargar.sh
 fi
 #-----------------------------------------------
 
