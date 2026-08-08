@@ -1,5 +1,5 @@
 #! /bin/sh
-
+#Se ejecuta desde rc.local
 MAC=$(nmcli d show eth0 | grep GENERAL.HWADDR: | awk '{print $2}')
 CLONEMAC=$(nmcli c show 'Conexión cableada 1' | grep cloned-mac-address:| awk '{print $2}')
 if [ ! $MAC = $CLONEMAC ] ; then	
