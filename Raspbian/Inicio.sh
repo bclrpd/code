@@ -1,4 +1,5 @@
 #!/bin/sh
+#Se ejecuta desde el script Ping.sh
 cd "$(dirname "$0")"
 numlockx on
 
