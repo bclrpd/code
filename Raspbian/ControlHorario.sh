@@ -1,4 +1,5 @@
 #! /bin/bash
+#Se ejecuta desde el script Ping.sh
 cd "$(dirname "$0")"
 mkdir msg
 FECHA=1094993008
