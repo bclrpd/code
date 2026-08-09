@@ -13,7 +13,7 @@ banca="${Banca}"
 tipo="${Tipo}"
 pizarra=false
 for i in {1..20}; do
-    if ! command -v arp-scan & > /dev/null; then
+    if ! command -v arp-scan > /dev/null; then
         echo "arp-scan No Instalado...Esperando Instalacion"
         sleep 180
         continue
