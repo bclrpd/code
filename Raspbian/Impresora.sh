@@ -1,9 +1,17 @@
 #! /bin/bash
 #Se ejecuta desde rc.local
 cd "$(dirname "$0")"
-lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	#Esta linea desaparece con la primera ejecucion
-bash autoremove.sh &
-sed -i '4,6d' ./Impresora.sh 			#Esta linea desaparece con la primera ejecucion
+
+#----------------- #Esta linea desaparece con la primera ejecucion
+#lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	
+if command -v arp-scan &> /dev/null; then
+    echo "Application is installed."
+    sed -i '5,13d' ./Impresora.sh 
+else
+   bash autoremove.sh &
+fi
+#---------------#Esta linea desaparece con la primera ejecucion
+            
 bash Sincronizar_Hora.sh &  #Script para mantener hora sincronizada
 while true ; do
 

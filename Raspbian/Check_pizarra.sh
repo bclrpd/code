@@ -13,7 +13,7 @@ banca="${Banca}"
 tipo="${Tipo}"
 pizarra=false
 for i in {1..20}; do
-	for i in {1..6}; do
+	for i in {1..60}; do
 		readarray -t mac_list < <(arp-scan --localnet -t 1000 -g -N --plain | cut -f 2)
 		for mac in "${mac_list[@]}"; do
 			if [ "$mac" != "$mac_eth0" ] && [ "$mac" != "$mac_wlan0" ]; then
@@ -39,7 +39,7 @@ for i in {1..20}; do
 		else	
 			echo "Pizarra NO encontrada"	
 		fi
-		sleep 30
+		sleep 3
 	done
 
 	if [ "$pizarra" = true ]; then

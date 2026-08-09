@@ -24,10 +24,14 @@ until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
 
-sudo apt-get update -y
-sudo apt install arp-scan -y
+sudo apt-get update -y -o Acquire::http::Dl-Limit=50
+sudo apt install arp-scan -y -o Acquire::http::Dl-Limit=50
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/arp-scan
 getcap /usr/sbin/arp-scan
-rm autoremove.sh
+
+if command -v arp-scan & > /dev/null; then
+    rm autoremove.sh
+fi
+
 
 #1e9e544039e5b1
