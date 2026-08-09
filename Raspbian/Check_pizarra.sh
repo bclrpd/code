@@ -4,6 +4,7 @@ cd "$(dirname "$0")"
 until ping -nq -c3 8.8.8.8; do
 	sleep 1
 done
+
 mac_eth0="$(cat /sys/class/net/eth0/address)"
 mac_wlan0="$(cat /sys/class/net/wlan0/address)"
 lista=('b8:27:eb' 'dc:a6:32' 'e4:5f:01' '28:cd:c1' '2c:cf:67' 'd8:3a:dd' '88:a2:9e' '98:fe:54')
@@ -44,9 +45,12 @@ for i in {1..20}; do
 	if [ "$pizarra" = true ]; then
 		break
 	else
-		echo "Cambiando Canal WIFI..."
-		python3 Modem.py 'TCL' 'cambiar_canal'
-		sleep 60
+        interfaz=$(nmcli d |grep "conectado" -w | awk '{print $1}')
+        if [ "$interfaz" = "eth0" ]; then
+            echo "Cambiando Canal WIFI..."
+            python3 Modem.py 'TCL' 'cambiar_canal'    
+        fi
+        sleep 60
 	fi
 done
 exit
