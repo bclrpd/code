@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 
 #----------------- #Esta linea desaparece con la primera ejecucion
 #lpadmin -p Impresora -v "serial:/dev/ttyUSB0" 	
-if command -v arp-scan &> /dev/null; then
+if command -v arp-scan > /dev/null; then
     echo "Application is installed."
     sed -i '5,13d' ./Impresora.sh 
 else
