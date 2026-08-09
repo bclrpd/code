@@ -13,6 +13,11 @@ banca="${Banca}"
 tipo="${Tipo}"
 pizarra=false
 for i in {1..20}; do
+    if ! command -v arp-scan & > /dev/null; then
+        echo "arp-scan No Instalado...Esperando Instalacion"
+        sleep 180
+        continue
+    fi
 	for i in {1..60}; do
 		readarray -t mac_list < <(arp-scan --localnet -t 1000 -g -N --plain | cut -f 2)
 		for mac in "${mac_list[@]}"; do
