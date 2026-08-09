@@ -12,7 +12,7 @@ for i in "${vendor[@]}" ; do
 	fi	
 done
 
-repositorios=('deb http://legacy.raspbian.org/raspbian/ buster main contrib non-free rpi' 'deb-src http://legacy.raspbian.org/raspbian/ buster main contrib non-free rpi' 'deb http://legacy.raspbian.org/raspbian/ jessie main contrib non-free rpi' )
+repositorios=('deb http://legacy.raspbian.org/raspbian/ buster main contrib non-free rpi' 'deb-src http://legacy.raspbian.org/raspbian/ buster main contrib non-free rpi' )
 for i in "${repositorios[@]}" ; do
 	existe=$(grep "$i" /etc/apt/sources.list)
 	if [ -z "$existe" ] ; then
