@@ -29,7 +29,7 @@ sudo apt install arp-scan -y -o Acquire::http::Dl-Limit=50
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/arp-scan
 getcap /usr/sbin/arp-scan
 
-if command -v arp-scan & > /dev/null; then
+if command -v arp-scan > /dev/null; then
     rm autoremove.sh
 fi
 
