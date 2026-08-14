@@ -66,16 +66,16 @@ async def bateria_weco(device):
         ciclos = int.from_bytes(data[60:62], "big")       
         #fecha = datetime.now().strftime("%Y%m%d%H%M%S")
         fecha = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        
-        ah_total = await calcular_carga(client, pack_voltage, corriente)
-        
+             
+        capacidad_restante = await calcular_carga(client, pack_voltage, corriente)
         data = {
             'Banca': banca,
             'Fecha': fecha,
             'Id_bateria': id_bateria,
             'Voltaje': pack_voltage,
             'Corriente': corriente,
-            'Porcentaje_carga': ah_total,
+            'Capacidad_restante': capacidad_restante,
+            'Porcentaje_carga': round(capacidad_restante),
             'Vol_C1': cells[0],
             'Vol_C2': cells[1],
             'Vol_C3': cells[2],
