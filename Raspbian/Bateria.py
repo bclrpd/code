@@ -56,7 +56,7 @@ async def bateria_weco(device):
         except asyncio.TimeoutError:
             return None
      
-    def decodificar_status(data):
+    async def decodificar_status(client, data):
         corriente_raw = int.from_bytes(data[4:6], "big")
         corriente = signed16_status(corriente_raw) / 100.0
         cells = [int.from_bytes(data[pos:pos + 2], "big") / 1000.0 for pos in range(6, 14, 2)]
@@ -67,13 +67,15 @@ async def bateria_weco(device):
         #fecha = datetime.now().strftime("%Y%m%d%H%M%S")
         fecha = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         
-        #return (banca, fecha, id_bateria, pack_voltage, corriente, cells[0], cells[1], cells[2], cells[3], temps[0], temps[1], temps[2], temps[3], resistencia, ciclos)
+        ah_total = await calcular_carga(client, pack_voltage, corriente)
+        
         data = {
             'Banca': banca,
             'Fecha': fecha,
             'Id_bateria': id_bateria,
             'Voltaje': pack_voltage,
             'Corriente': corriente,
+            'Porcentaje_carga': ah_total,
             'Vol_C1': cells[0],
             'Vol_C2': cells[1],
             'Vol_C3': cells[2],
@@ -85,8 +87,34 @@ async def bateria_weco(device):
             'Resistencia': resistencia,
             }
         return data
+    
+    async def calcular_carga(client, voltaje, corriente):
+        capacidad = 100
+        if voltaje >= 13.40 and corriente == 0:
+            return capacidad
         
-        
+        try:
+            x = 144
+            informacion = []
+            for index in range(1, x, 2):
+                cmd = crrear_cmd_historial(index)
+                try:
+                    data = await enviar_commando(client, cmd)
+                    if not data or len(data) < 50: break
+                    informacion.extend(extraer_info_historial(data))
+                except Exception:
+                    traceback.print_exc()
+                    pass
+            for item in informacion:  
+                capacidad += float(item['Corriente']) / 6 
+                if item['Voltaje'] > 13.40 and item['Corriente'] == 0:
+                    break    
+            capacidad = max(0.0, min(100, capacidad))  # asegurar que este entre 0 y 100  
+                    
+        except Exception as e:
+            traceback.print_exc()
+        return round(capacidad, 2)
+          
     def decodificar_historial(data):
         cells = [int.from_bytes(data[pos:pos+2], "big") / 1000 for pos in range(4, 12, 2)]
         pack_voltage = int.from_bytes(data[36:38], "big") / 100
@@ -156,70 +184,62 @@ async def bateria_weco(device):
             pass
         return {'total': 144, 'fecha': datetime.now() - timedelta(days=2)}
 
-    async def get_status(device):
-        global response_queue, id_bateria
-        response_queue = asyncio.Queue()
+    async def get_status(client):
         try:
-            if device.name and any(item in device.name for item in BATERIAS_WECO):
-                id_bateria = device.name
-                print(f"\nConectando a {device.name}...\n")
-                async with BleakClient(device) as client:
-                    await client.start_notify(CHAR_UUID, notification_handler)
-                    await asyncio.sleep(0.2)
-                    status = await enviar_commando(client, CMD_STATUS)
-                    if status:
-                        estado = decodificar_status(status)
-                        guardar_estado(estado)
-                        return estado
+            status = await enviar_commando(client, CMD_STATUS)
+            if status:
+                estado = await decodificar_status(client, status)
+                guardar_estado(estado)
+                return estado
             return None
         except Exception:
             return None
 
-    async def get_historial(device): 
-        global ult_ejec_historial, response_queue, id_bateria
-        response_queue = asyncio.Queue()
+    async def get_historial(client): 
+        informacion = []
+        x = calcular_cantidad_registros(id_bateria)
+        if x.get('total', ''):
+            for index in range(1, x.get('total'), 2):
+                cmd = crrear_cmd_historial(index)
+                try:
+                    data = await enviar_commando(client, cmd)
+                    if not data or len(data) < 50: break
+                    informacion.extend(extraer_info_historial(data))
+                except Exception:
+                    pass
+            f = x.get('fecha').strftime("%Y%m%d%H%M%S")
+            #datos_filtrados = [item for item in informacion if int(item[1]) >= int(f)]
+            datos_filtrados = [item for item in informacion if int(datetime.strptime(item['Fecha'], "%d-%m-%Y %H:%M:%S").strftime("%Y%m%d%H%M%S")) >= int(f)]
+            guardar_historial(datos_filtrados)
+        ult_ejec_historial = datetime.now()
 
-        if device.name and any(item in device.name for item in BATERIAS_WECO):
-            informacion = []
-            id_bateria = device.name
-            async with BleakClient(device) as client:
-                await client.start_notify(CHAR_UUID, notification_handler)
-                x = calcular_cantidad_registros(id_bateria)
-                if x.get('total', ''):
-                    for index in range(1, x.get('total'), 2):
-                        cmd = crrear_cmd_historial(index)
-                        try:
-                            data = await enviar_commando(client, cmd)
-                            if not data or len(data) < 50: break
-                            informacion.extend(extraer_info_historial(data))
-                        except Exception:
-                            pass
-                    f = x.get('fecha').strftime("%Y%m%d%H%M%S")
-                    #datos_filtrados = [item for item in informacion if int(item[1]) >= int(f)]
-                    datos_filtrados = [item for item in informacion if int(datetime.strptime(item['Fecha'], "%d-%m-%Y %H:%M:%S").strftime("%Y%m%d%H%M%S")) >= int(f)]
-                    guardar_historial(datos_filtrados)
-            ult_ejec_historial = datetime.now()
-
-    global primera_ejecucion, ult_ejec_historial, intervalo
     
-    # CAMBIO AQUÍ: Usamos await en lugar de asyncio.run()
-    estado = await get_status(device)
-    if estado:
-        if primera_ejecucion:
-            print('buscando Historial')
-            await get_historial(device)
-            primera_ejecucion = False
-        elif abs(estado['Corriente']) > 1:
-            if ult_ejec_historial < (datetime.now() - timedelta(minutes=15)):
+    global primera_ejecucion, ult_ejec_historial, intervalo, response_queue, id_bateria
+    response_queue = asyncio.Queue()
+    id_bateria = device.name
+    print(f"\nConectando a {device.name}...\n")
+    async with BleakClient(device) as client:
+        await client.start_notify(CHAR_UUID, notification_handler)
+        await asyncio.sleep(0.2)
+        estado = await get_status(client)
+        if estado:
+            if primera_ejecucion:
                 print('buscando Historial')
-                await get_historial(device)
-            intervalo = 300
+                await get_historial(client)
+                primera_ejecucion = False
+            elif abs(estado['Corriente']) > 1:
+                if ult_ejec_historial < (datetime.now() - timedelta(minutes=15)):
+                    print('buscando Historial')
+                    await get_historial(client)
+                intervalo = 300
+            else:
+                intervalo = 600
         else:
-            intervalo = 600
-    else:
-        intervalo = 300
-        
-# Convertimos bateria_wltraton en async def
+            intervalo = 300
+    await asyncio.sleep(2)    
+
+
+
 async def bateria_wltraton(device):
     UUID_NOTIFICACION = "0000ff01-0000-1000-8000-00805f9b34fb"
     UUID_ESCRITURA    = "0000ff02-0000-1000-8000-00805f9b34fb"
