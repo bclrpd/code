@@ -608,14 +608,19 @@ def Tcl(accion, parametro = ""):
                     }
                 canales = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                 canal_actual = AP2G["CurChannel"]
-                canales.remove(canal_actual)
+                if canal_actual > 0:
+                    canales.remove(canal_actual)
                 canal_nuevo = random.choice(canales)
                 payload["params"]['AP2G']['Channel'] = canal_nuevo   
                 print("configurando WIFI, si todo sale bien la señal wifi deberia reiniciarse  ")
                 response = requests.post('http://192.168.1.1/jrd/webapi', params=paramsSet, headers=headers, json=payload, allow_redirects=False)
                 if response.status_code == 200:
                     print("WIFI configurado con exito")
-                    print(response.text)            
+                    print(response.text) 
+
+                if canal_actual == 0:
+                    ejecutar("reiniciar")
+                    print("Reiniciando Modem")
         except Exception as e:
             print(f"Error fatal: {str(e)}")
             return
