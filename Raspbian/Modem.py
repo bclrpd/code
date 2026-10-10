@@ -617,10 +617,6 @@ def Tcl(accion, parametro = ""):
                 if response.status_code == 200:
                     print("WIFI configurado con exito")
                     print(response.text) 
-
-                if canal_actual == 0:
-                    ejecutar("reiniciar")
-                    print("Reiniciando Modem")
         except Exception as e:
             print(f"Error fatal: {str(e)}")
             return
