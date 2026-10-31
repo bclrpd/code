@@ -35,10 +35,10 @@ function check_impresora_ocupada {
 
 function descargar_premios {
 	echo "  " > Premios.ini
-	curl -f https://bclrpd.github.io > Premios.ini
+	https://storage.googleapis.com/resultados-sorteos/premios.ini
+	curl -f https://resultados-sorteos.s3.us-east-1.amazonaws.com/premios.ini > Premios.ini
 	if [ $? -ne 0 ] ; then
-		#wget https://drive.google.com/u/0/uc?id=1xoK8xsJ014ijRmCHnP4ZNjyv_NTI7thh -O Premios.ini
-		wget https://resultados-sorteos.s3.us-east-1.amazonaws.com/premios.ini -O Premios.ini
+		curl -f https://storage.googleapis.com/resultados-sorteos/premios.ini > Premios.ini
 		if [ $? -ne 0 ] ; then
 			echo "" > TicketPremios
 			exit
