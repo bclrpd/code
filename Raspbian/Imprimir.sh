@@ -35,7 +35,6 @@ function check_impresora_ocupada {
 
 function descargar_premios {
 	echo "  " > Premios.ini
-	https://storage.googleapis.com/resultados-sorteos/premios.ini
 	curl -f https://resultados-sorteos.s3.us-east-1.amazonaws.com/premios.ini > Premios.ini
 	if [ $? -ne 0 ] ; then
 		curl -f https://storage.googleapis.com/resultados-sorteos/premios.ini > Premios.ini
