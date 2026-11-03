@@ -99,7 +99,7 @@ Loterias=(
 Array=()
 
 for i in "${Loterias[@]}"; do	
-	Q="$(echo "$Premios" | grep "$Fecha" | grep -i "$i" | awk -F"= " '{print $NF}')"
+	Q="$(echo "$Premios" | grep "$Fecha" | grep -i -w "$i" | awk -F"= " '{print $NF}')"
 	if [ ! -z "$Q" ] ; then
 		x=$((16 - ${#i}))
 		f=$(eval printf '_%.0s' {1..$x}) #Puntos a imprimir	
